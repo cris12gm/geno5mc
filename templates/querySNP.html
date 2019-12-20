@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block content %}
+
+    <div id="page-wrapper">
+
+        <div class="row">
+            <div class="col-lg-12">
+                <br>
+                <h1>Query SNP</h1>
+                <p>Introduce your data: (eg: rs2845392)</p>
+                <form action="{% url 'querySNP' %}" method="post">
+                    {% csrf_token %}
+                    {% for field in query_form %}
+                        <div class='form-group'>
+                            <label for="{{ field.name }}">{{ field.label }}</label>
+                            {{ field }}
+                        </div>
+                    {% endfor %}
+                    <button type="submit" class="btn btn-success btn-sm">Submit</button>
+                </form>
+            </div>
+        </div>
+        <br>
+        
+        {%if valueSNP and chrom != "None" and chrom != "NoSNP" %}
+
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" id="summary-tab" data-toggle="tab" href="#summary" role="tab" aria-controls="summary" aria-selected="true"><h5>Summary</h5></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="genes-tab" data-toggle="tab" href="#genes" role="tab" aria-controls="genes" aria-selected="false"><h5>Genes</h5></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="regulatory-tab" data-toggle="tab" href="#regulatory" role="tab" aria-controls="regulatory" aria-selected="false"><h5>Regulatory Elements</h5></a>
+            </li>
+        </ul>
+
+        <div class="tab-content" id="myTabContent">
+            <div class="tab-pane fade show active" id="summary" role="tabpanel" aria-labelledby="summary-tab">
+                <br>
+                {% include "querySNP/summary.html" %}
+            </div>
+            <div class="tab-pane fade" id="genes" role="tabpanel" aria-labelledby="genes-tab">
+                <br>
+                {% include "querySNP/genes.html" %}
+            </div>
+            <div class="tab-pane fade" id="regulatory" role="tabpanel" aria-labelledby="regulatory-tab">
+                <br>
+                {% include "querySNP/regulatory.html" %}
+            </div>
+        </div>
+          
+ 
+        {% endif %}
+
+        {%if chrom == "None" %}
+            The SNP {{ valueSNP }} is not associated, try a new one.
+        {% endif %}
+        {%if chrom == "NoSNP" %}
+            The introduced value {{ valueSNP }} is not a correct SNP id, try a new one.
+        {% endif %}
+
+    </div>
+{% endblock %}
+{% block js %}
+  <!-- Demo scripts for this page-->
+  <script src="{% static 'js/demo/datatables-demo.js'%}"></script>
+  <script src="{% static 'vendor/datatables/jquery.dataTables.js'%}"></script>
+  <script src="{% static 'vendor/datatables/dataTables.bootstrap4.js'%}"></script>
+{% endblock %}
+
