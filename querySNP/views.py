@@ -8,3 +8,14 @@ from django.views.generic.edit import CreateView
 from django.views.generic import FormView, DetailView
 from django.http import JsonResponse
 from django.urls import reverse_lazy
+
+import pymysql
+
+from .forms import QuerySNP
+
+def querySNP(request):
+    responseSQL = []
+    responseSQLGenes = []
+    responseSQLEnhancers = []
+
+    return render(request, 'querySNP.html', {})

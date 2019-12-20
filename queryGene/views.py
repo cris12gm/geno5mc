@@ -8,5 +8,14 @@ from django.views.generic.edit import CreateView
 from django.views.generic import FormView, DetailView
 from django.http import JsonResponse
 from django.urls import reverse_lazy
+
 import pymysql
+
 from .forms import QueryGene
+
+def queryGene(request):
+    
+    if request.method == "POST":
+        query_form = QueryGene(request.POST)
+ 
+    return render(request, 'queryGene.html', {})
