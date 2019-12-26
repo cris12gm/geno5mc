@@ -10,7 +10,7 @@
                 <br>
                 <h1>Query SNP</h1>
                 <p>Introduce your data: (eg: rs2845392)</p>
-                <form action="{% url 'querySNP' %}" method="post">
+                <form action="{% url 'querySNP' %}" method="POST">
                     {% csrf_token %}
                     {% for field in query_form %}
                         <div class='form-group'>
@@ -23,8 +23,12 @@
             </div>
         </div>
         <br>
+
+        {% if error %}
+            {{ error }}
+        {% endif %}
         
-        {%if valueSNP and chrom != "None" and chrom != "NoSNP" %}
+        {% if associations %}
 
         <ul class="nav nav-tabs" id="myTab" role="tablist">
             <li class="nav-item">

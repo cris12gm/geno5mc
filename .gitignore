@@ -1,0 +1,11 @@
+*.pyc
+*~
+__pycache__
+envAssociated
+db.sqlite3
+/static
+.DS_Store
+config.py
+.vscode
+snpsAssociated/settings.py
+migrations/
