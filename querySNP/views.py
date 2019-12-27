@@ -11,7 +11,7 @@ from django.http import JsonResponse
 from django.urls import reverse_lazy
 
 from .forms import QuerySNP
-from .models import snpsAssociated_FDR_chrom, snpsAssociated_FDR_chr_table, snpsAssociated_FDR_promotersEPD
+from .models import snpsAssociated_FDR_chrom, snpsAssociated_FDR_chr_table, snpsAssociated_FDR_promotersEPD, snpsAssociated_FDR_enhancers
 
 class Errors(Enum):
     NO_ERROR = 0
@@ -33,6 +33,7 @@ class SNPAssociated(TemplateView):
         snpInfo = {}
         associations = []
         genes = []
+        enhancers = []
 
         if form.is_valid():
             snpId = form.cleaned_data.get('SNPid')
@@ -44,6 +45,25 @@ class SNPAssociated(TemplateView):
                 else:
                     associations = snpsAssociated_FDR_chr_table(snpInfo.chrom).get_Associated(snpInfo.snpID)
                     genes = snpsAssociated_FDR_promotersEPD.get_Promoters(snpId)
+                    # Añado a genes el count
+                    genesNew = []
+                    for gene in genes:
+                        info = {
+                            'data': gene[1],
+                            'count': gene[0]
+                        }
+                        genesNew.append(info)
+                    genes = genesNew
+                    
+                    enhancers = snpsAssociated_FDR_enhancers.get_Enhancers(snpId)
+                    enhancersNew = []
+                    for enhancer in enhancers:
+                        info = {
+                            'data': enhancer[1],
+                            'count': enhancer[0]
+                        }
+                        enhancersNew.append(info)
+                    enhancers = enhancersNew
         else:
             error = Errors.NOT_VALID
 
@@ -51,6 +71,7 @@ class SNPAssociated(TemplateView):
             'snpInfo': snpInfo,
             'associations': associations,
             'genes': genes,
+            'enhancers':enhancers,
             'query_form': form,
             'error': error,
             'reference': associations[0].refBase if len(associations) > 0 else None,

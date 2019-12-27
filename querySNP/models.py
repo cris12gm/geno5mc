@@ -5,6 +5,7 @@ import sqlalchemy
 from sqlalchemy import create_engine, MetaData, Table, Column, String, Integer, Float
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
+from sqlalchemy import func
 from config import KEY_snpsAssociated_FDR, KEY_snpsAssociated_annotation
 
 Base = declarative_base()
@@ -75,5 +76,20 @@ class snpsAssociated_FDR_promotersEPD(Base):
     promoterID = sqlalchemy.Column(String(200), primary_key=True)
 
     def get_Promoters(_id):
-        data = session_snpsAssociated_FDR_annotation.query(snpsAssociated_FDR_promotersEPD).filter_by(snpID=_id).all()
-        return data if len(data)> 1 else None
+        data = session_snpsAssociated_FDR_annotation.query(func.count(snpsAssociated_FDR_promotersEPD.geneID), snpsAssociated_FDR_promotersEPD).filter_by(snpID=_id).group_by(snpsAssociated_FDR_promotersEPD.geneID).all()
+        return data if len(data) > 1 else None
+
+class snpsAssociated_FDR_enhancers(Base):
+    __tablename__ = "snpsAssociated_FDR_enhancers"
+
+    chrom = sqlalchemy.Column(String(200))
+    chromStartEnhancer = sqlalchemy.Column(Integer)
+    chromEndEnhancer = sqlalchemy.Column(Integer)
+    nameEnhancer = sqlalchemy.Column(String(100), primary_key=True)
+    genesEnhancer = sqlalchemy.Column(String(1000), primary_key=True)
+    chromStartCpG = sqlalchemy.Column(Integer)
+    snpID = sqlalchemy.Column(String(200), primary_key=True)
+
+    def get_Enhancers(_id):
+        data = session_snpsAssociated_FDR_annotation.query(func.count(snpsAssociated_FDR_enhancers.nameEnhancer), snpsAssociated_FDR_enhancers).filter_by(snpID=_id).group_by(snpsAssociated_FDR_enhancers.nameEnhancer).all()
+        return data if len(data) > 1 else None

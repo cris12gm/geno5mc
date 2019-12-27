@@ -17,10 +17,10 @@
                     </tr>
                 </tfoot>
                 <tbody>
-                    {% for field in mysqlResponseEnhancers %}
+                    {% for field in enhancers %}
                     <tr>
-                        <td>{{ field.enhancerID}}</td>
-                        <td>{{ field.numCpGs}}</td>
+                        <td>{{ field.data.nameEnhancer}}</td>
+                        <td>{{ field.count}}</td>
                     </tr>
                     {% endfor %}
                 </tbody>

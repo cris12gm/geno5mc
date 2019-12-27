@@ -39,9 +39,11 @@
                 <a class="nav-link" id="genes-tab" data-toggle="tab" href="#genes" role="tab" aria-controls="genes" aria-selected="false"><h5>Genes</h5></a>
             </li>
             {% endif %}
+            {% if enhancers %}
             <li class="nav-item">
                 <a class="nav-link" id="regulatory-tab" data-toggle="tab" href="#regulatory" role="tab" aria-controls="regulatory" aria-selected="false"><h5>Regulatory Elements</h5></a>
             </li>
+            {% endif %}
         </ul>
 
         <div class="tab-content" id="myTabContent">
