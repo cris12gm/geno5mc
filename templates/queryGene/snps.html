@@ -3,26 +3,26 @@
         In this table...
         <hr>
         <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                <thead>
-                    <tr>
-                        <th>SNP ID</th>
-                        <th>Num. Associated CpGs in Promoter Region</th>
-                    </tr>
-                </thead>
-                <tfoot>
-                    <tr>
-                        <th>SNP ID</th>
-                        <th>Num. Associated CpGs in Promoter Region</th>
-                    </tr>
-                </tfoot>
-                <tbody>
-                    {% for field in mysqlResponseGenes %}
-                    <tr>
-                        <td>{{ field.snpID}}</td>
-                        <td>{{ field.numCpGs}}</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
+            <thead>
+                <tr>
+                    <th>SNP ID</th>
+                    <th>Num. Associated CpGs in Promoter Region</th>
+                </tr>
+            </thead>
+            <tfoot>
+                <tr>
+                    <th>SNP ID</th>
+                    <th>Num. Associated CpGs in Promoter Region</th>
+                </tr>
+            </tfoot>
+            <tbody>
+                {% for field in genesAssociated %}
+                <tr>
+                    <td>{{ field.data.snpID}}</td>
+                    <td>{{ field.count}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
         </table>
     </div>
 </div>
