@@ -27,16 +27,18 @@
         {% if error %}
             {{ error }}
         {% endif %}
-        
+
         {% if associations %}
 
         <ul class="nav nav-tabs" id="myTab" role="tablist">
             <li class="nav-item">
                 <a class="nav-link active" id="summary-tab" data-toggle="tab" href="#summary" role="tab" aria-controls="summary" aria-selected="true"><h5>Summary</h5></a>
             </li>
+            {% if genes %}
             <li class="nav-item">
                 <a class="nav-link" id="genes-tab" data-toggle="tab" href="#genes" role="tab" aria-controls="genes" aria-selected="false"><h5>Genes</h5></a>
             </li>
+            {% endif %}
             <li class="nav-item">
                 <a class="nav-link" id="regulatory-tab" data-toggle="tab" href="#regulatory" role="tab" aria-controls="regulatory" aria-selected="false"><h5>Regulatory Elements</h5></a>
             </li>
@@ -57,7 +59,6 @@
             </div>
         </div>
           
- 
         {% endif %}
 
         {%if chrom == "None" %}

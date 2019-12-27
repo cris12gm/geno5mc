@@ -5,21 +5,22 @@ import sqlalchemy
 from sqlalchemy import create_engine, MetaData, Table, Column, String, Integer, Float
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
-from config import KEY_snpsAssociated_FDR
+from config import KEY_snpsAssociated_FDR, KEY_snpsAssociated_annotation
 
-engine = create_engine(KEY_snpsAssociated_FDR)
-Sesion = sessionmaker(bind=engine)
 Base = declarative_base()
-session = Sesion()
 
+engine_snpsAssociated_FDR = create_engine(KEY_snpsAssociated_FDR)
+Sesion_snpsAssociated_FDR = sessionmaker(bind=engine_snpsAssociated_FDR)
+session_snpsAssociated_FDR = Sesion_snpsAssociated_FDR()
 
 class snpsAssociated_FDR_chrom(Base):
     __tablename__ = "snpsAssociated_FDR_chrom"
+
     snpID = sqlalchemy.Column(String(200), primary_key=True)
     chrom = sqlalchemy.Column(String(200))
 
     def get_SNP_chrom(_id):
-        data = session.query(snpsAssociated_FDR_chrom).filter_by(snpID=_id).all()
+        data = session_snpsAssociated_FDR.query(snpsAssociated_FDR_chrom).filter_by(snpID=_id).all()
         return data[0] if len(data) is 1 else None
 
 
@@ -50,8 +51,29 @@ def snpsAssociated_FDR_chr_table(chrID):
         qValue = sqlalchemy.Column(Float)
 
         def get_Associated(snpID):
-            data = session.query(snpsAssociated_FDR_chr).filter_by(snpID=snpID).all()
+            data = session_snpsAssociated_FDR.query(snpsAssociated_FDR_chr).filter_by(snpID=snpID).all()
             snpsAssociated_FDR_chr.metadata.clear()
             return data
 
     return snpsAssociated_FDR_chr
+
+##################################
+
+engine_snpsAssociated_FDR_annotation = create_engine(KEY_snpsAssociated_annotation)
+Sesion_snpsAssociated_FDR_annotation = sessionmaker(bind=engine_snpsAssociated_FDR_annotation)
+session_snpsAssociated_FDR_annotation = Sesion_snpsAssociated_FDR_annotation()
+
+class snpsAssociated_FDR_promotersEPD(Base):
+    __tablename__ = "snpsAssociated_FDR_promotersEPD"
+
+    geneID = sqlalchemy.Column(String(200), primary_key=True)
+    chrom = sqlalchemy.Column(String(200))
+    chromStartPromoter = sqlalchemy.Column(Integer)
+    chromEndPromoter = sqlalchemy.Column(Integer)
+    chromStartCpG = sqlalchemy.Column(Integer)
+    snpID = sqlalchemy.Column(String(200), primary_key=True)
+    promoterID = sqlalchemy.Column(String(200), primary_key=True)
+
+    def get_Promoters(_id):
+        data = session_snpsAssociated_FDR_annotation.query(snpsAssociated_FDR_promotersEPD).filter_by(snpID=_id).all()
+        return data if len(data)> 1 else None

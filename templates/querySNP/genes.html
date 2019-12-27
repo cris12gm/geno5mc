@@ -6,20 +6,17 @@
             <thead>
                 <tr>
                     <th>Gene ID</th>
-                    <th>Num. Associated CpGs in Promoter Region</th>
                 </tr>
             </thead>
             <tfoot>
                 <tr>
                     <th>Gene ID</th>
-                    <th>Num. Associated CpGs in Promoter Region</th>
                 </tr>
             </tfoot>
             <tbody>
-                {% for field in mysqlResponseGenes %}
+                {% for field in genes %}
                 <tr>
                     <td>{{ field.geneID}}</td>
-                    <td>{{ field.numCpGs}}</td>
                 </tr>
                 {% endfor %}
             </tbody>

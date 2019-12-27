@@ -11,13 +11,12 @@ from django.http import JsonResponse
 from django.urls import reverse_lazy
 
 from .forms import QuerySNP
-from .models import snpsAssociated_FDR_chrom, snpsAssociated_FDR_chr_table
+from .models import snpsAssociated_FDR_chrom, snpsAssociated_FDR_chr_table, snpsAssociated_FDR_promotersEPD
 
 class Errors(Enum):
     NO_ERROR = 0
     NOT_VALID = 1
     NOT_ASSOCIATED = 2
-
 
 class SNPAssociated(TemplateView):
     template = 'querySNP.html'
@@ -33,6 +32,7 @@ class SNPAssociated(TemplateView):
         error = None
         snpInfo = {}
         associations = []
+        genes = []
 
         if form.is_valid():
             snpId = form.cleaned_data.get('SNPid')
@@ -43,13 +43,14 @@ class SNPAssociated(TemplateView):
                     error = Errors.NOT_ASSOCIATED
                 else:
                     associations = snpsAssociated_FDR_chr_table(snpInfo.chrom).get_Associated(snpInfo.snpID)
-
+                    genes = snpsAssociated_FDR_promotersEPD.get_Promoters(snpId)
         else:
             error = Errors.NOT_VALID
 
         return render(request, self.template, {
             'snpInfo': snpInfo,
             'associations': associations,
+            'genes': genes,
             'query_form': form,
             'error': error,
             'reference': associations[0].refBase if len(associations) > 0 else None,
