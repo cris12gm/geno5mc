@@ -82,9 +82,9 @@
         var div = document.createElement('div');
         var img = document.createElement('img');
         img.src = "{% static 'images/wait.svg'%}";
-        div.innerHTML = "Wait for the results";
-        div.style.cssText = 'position: fixed; top: 10%; left: 40%; z-index: 5000; width: 422px; text-align: center; background: #FFFFFF; border: 1px solid #000';
-        
+        div.innerHTML = "<b><font color='#194a90'>Loading results</font></b>";
+        div.style.cssText = 'position: fixed; top: 20%; left: 40%; z-index: 5000; width: 422px; text-align: center; background: #FFFFFF;';
+
         div.appendChild(img);
         document.body.appendChild(div);
         return true;
