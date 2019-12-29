@@ -10,7 +10,8 @@
                 <br>
                 <h1>Query SNP</h1>
                 <p>Introduce your data: (eg: rs2845392)</p>
-                <form action="{% url 'querySNP' %}" method="POST" onsubmit="myFunction()">
+
+                <form action="{% url 'querySNP' %}" method="POST" onsubmit="ShowLoading()" id="formSNP">
                     {% csrf_token %}
                     {% for field in query_form %}
                         <div class='form-group'>
@@ -18,7 +19,7 @@
                             {{ field }}
                         </div>
                     {% endfor %}
-                    <button type="submit" class="btn btn-success btn-sm">Submit</button>
+                    <button type="submit" id='submit_btn' class="btn btn-success btn-sm" >Submit</button>
                 </form>
             </div>
         </div>
@@ -74,10 +75,33 @@
 {% endblock %}
 {% block js %}
   <!-- Demo scripts for this page-->
-  <script>
-    function myFunction() {
-      alert("The form was submitted");
+  <script type="text/javascript">
+    function ShowLoading(e) {
+        var div = document.createElement('div');
+        var img = document.createElement('img');
+        img.src = "{% static 'images/wait.svg'%}";
+        div.innerHTML = "Wait for the results";
+        div.style.cssText = 'position: fixed; top: 10%; left: 40%; z-index: 5000; width: 422px; text-align: center; background: #FFFFFF; border: 1px solid #000';
+        
+        div.appendChild(img);
+        document.body.appendChild(div);
+        return true;
+        // These 2 lines cancel form submission, so only use if needed.
+        //window.event.cancelBubble = true;
+        //e.stopPropagation();
     }
+  </script>
+
+  <script>
+    $(document).ready(function () {
+        $("#formSNP").submit(function (e) {
+
+            //disable the submit button
+            $("#submit_btn").attr("disabled", true);
+
+            return true;
+        });
+    });
   </script>
   <script src="{% static 'js/demo/datatables-demo.js'%}"></script>
   <script src="{% static 'vendor/datatables/jquery.dataTables.js'%}"></script>
