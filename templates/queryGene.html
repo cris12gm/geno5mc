@@ -8,7 +8,7 @@
             <br>
             <h1>Query Gene</h1>
             <p>Introduce your data:</p>
-            <form action="{% url 'queryGene' %}" method="post">
+            <form action="{% url 'queryGene' %}" method="post" onsubmit="ShowLoading()" id="formGene">
                 {% csrf_token %}
                 {% for field in query_form %}
                     <div class='form-group'>
@@ -52,9 +52,36 @@
     
 {% endblock %}
 {% block js %}
-  <!-- Demo scripts for this page-->
-  <script src="{% static 'js/demo/datatables-demo.js'%}"></script>
-  <script src="{% static 'vendor/datatables/jquery.dataTables.js'%}"></script>
-  <script src="{% static 'vendor/datatables/dataTables.bootstrap4.js'%}"></script>
+<!-- Demo scripts for this page-->
+
+<!-- This script show an image when is loading-->
+<script type="text/javascript">
+    function ShowLoading(e) {
+        var div = document.createElement('div');
+        var img = document.createElement('img');
+        img.src = "{% static 'images/wait.svg'%}";
+        div.innerHTML = "Wait for the results";
+        div.style.cssText = 'position: fixed; top: 10%; left: 40%; z-index: 5000; width: 422px; text-align: center; background: #FFFFFF; border: 1px solid #000';
+         
+        div.appendChild(img);
+        document.body.appendChild(div);
+        return true;
+    }
+</script>
+      
+<!-- This script cancel submit button when the form is loading-->
+<script>
+    $(document).ready(function () {
+        $("#formGene").submit(function (e) {
+            //disable the submit button
+            $("#submit_btn").attr("disabled", true);
+            return true;
+        });
+    });
+</script>
+
+<script src="{% static 'js/demo/datatables-demo.js'%}"></script>
+<script src="{% static 'vendor/datatables/jquery.dataTables.js'%}"></script>
+<script src="{% static 'vendor/datatables/dataTables.bootstrap4.js'%}"></script>
 {% endblock %}
 

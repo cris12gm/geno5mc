@@ -34,10 +34,9 @@ class GenesAssociated(TemplateView):
 
         if form.is_valid():
             geneId = form.cleaned_data.get('GeneId')
-
             genesAssociated = snpsAssociated_FDR_promotersEPD.get_SNPs_Promoters(geneId)
             if geneId is not '':
-                if geneId is None:
+                if genesAssociated is None:
                     error = Errors.NOT_ASSOCIATED
                 else:
                     # Añado a genes el count
@@ -51,7 +50,6 @@ class GenesAssociated(TemplateView):
                     genesAssociated = genesAssociatedNew
         else:
             error = Errors.NOT_VALID
-
         return render(request, self.template, {
             'geneId': geneId,
             'genesAssociated': genesAssociated,
