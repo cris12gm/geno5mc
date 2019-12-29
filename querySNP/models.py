@@ -54,6 +54,7 @@ def snpsAssociated_FDR_chr_table(chrID):
         def get_Associated(snpID):
             data = session_snpsAssociated_FDR.query(snpsAssociated_FDR_chr).filter_by(snpID=snpID).all()
             snpsAssociated_FDR_chr.metadata.clear()
+            
             return data
 
     return snpsAssociated_FDR_chr
