@@ -1,33 +1,39 @@
 /*!Button success
 */
+
+.btn-success {
+  color: #fff;
+  background-color: #246cd1;
+  border-color: #194a90;
+}
 .btn-success:hover {
     color: #fff;
-    background-color: #218838;
-    border-color: #1e7e34;
+    background-color: #246cd1;
+    border-color: #194a90;
   }
   
   .btn-success:focus, .btn-success.focus {
-    -webkit-box-shadow: 0 0 0 0.2rem rgba(72, 180, 97, 0.5);
-    box-shadow: 0 0 0 0.2rem rgba(72, 180, 97, 0.5);
+    -webkit-box-shadow: 0 0 0 0.2rem #194a90;
+    box-shadow: 0 0 0 0.2rem #194a90;
   }
   
   .btn-success.disabled, .btn-success:disabled {
     color: #fff;
-    background-color: #28a745;
-    border-color: #28a745;
+    background-color:  #246cd1;
+    border-color:  #246cd1;
   }
   
   .btn-success:not(:disabled):not(.disabled):active, .btn-success:not(:disabled):not(.disabled).active,
   .show > .btn-success.dropdown-toggle {
     color: #fff;
-    background-color: #1e7e34;
-    border-color: #1c7430;
+    background-color: #194a90;
+    border-color: #0e294f;
   }
   
   .btn-success:not(:disabled):not(.disabled):active:focus, .btn-success:not(:disabled):not(.disabled).active:focus,
   .show > .btn-success.dropdown-toggle:focus {
-    -webkit-box-shadow: 0 0 0 0.2rem rgba(72, 180, 97, 0.5);
-    box-shadow: 0 0 0 0.2rem rgba(72, 180, 97, 0.5);
+    -webkit-box-shadow: 0 0 0 0.2rem #194a90;
+    box-shadow: 0 0 0 0.2rem #194a90);
   }
 
   .preloader {
@@ -43,4 +49,11 @@
     width: 100%;
     z-index: 9999;
   }
-  
+
+  /* Color de las pestañas cuando están activas (el link) */
+.nav-tabs .nav-link.active,
+.nav-tabs .nav-item.show .nav-link {
+  color: #495057;
+  background-color: #fff;
+  border-color: #dee2e6 #dee2e6 #fff;
+}
