@@ -10,7 +10,7 @@ from django.views.generic import FormView, DetailView, TemplateView
 from django.http import JsonResponse
 from django.urls import reverse_lazy
 
-from .forms import QuerySNP
+from .forms import MultipleQuerySNP
 from .models import snpsAssociated_FDR_chrom, snpsAssociated_FDR_chr_table, snpsAssociated_FDR_promotersEPD, snpsAssociated_FDR_enhancers
 
 class Errors(Enum):
@@ -19,16 +19,16 @@ class Errors(Enum):
     NOT_ASSOCIATED = 2
 
 class SNPAssociated(TemplateView):
-    template = 'multipleQuerySNPs.html'
+    template = 'multipleQuerySNP.html'
 
     def get(self, request):  
-        form = QuerySNP()
+        form = MultipleQuerySNP()
         return render(request, self.template, {
             'query_form': form
         })
 
     def post(self, request):
-        form = QuerySNP(request.POST)
+        form = MultipleQuerySNP(request.POST)
         error = None
         snpInfo = {}
         associations = []
@@ -79,6 +79,3 @@ class SNPAssociated(TemplateView):
             'reference': associations[0].refBase if len(associations) > 0 else None,
             'alternative': associations[0].altBase if len(associations) > 0 else None,
         })   
-from django.shortcuts import render
-
-# Create your views here.

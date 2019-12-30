@@ -10,5 +10,5 @@ urlpatterns = [
     url(r'^$', views.index, name='home'),
     url(r'^querySNP/', include('querySNP.urls')),
     url(r'^queryGene/', include ('queryGene.urls')),
-    url(r'^multipleQuerySNPs/', include ('multipleQuerySNPs.urls')),
+    url(r'^multipleQuerySNP/', include ('multipleQuerySNP.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

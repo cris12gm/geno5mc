@@ -7,5 +7,5 @@ from .views import SNPAssociated
 
 
 urlpatterns = [
-    url('', SNPAssociated.as_view(), name='multipleQuerySNPs'),
+    url('', SNPAssociated.as_view(), name='multipleQuerySNP'),
     ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
