@@ -20,7 +20,9 @@ class snpsAssociated_FDR_chrom(Base):
     snpID = sqlalchemy.Column(String(200), primary_key=True)
     chrom = sqlalchemy.Column(String(200))
     chromStart = sqlalchemy.Column(Integer)
-
+    reference = sqlalchemy.Column(String(1))
+    alternative = sqlalchemy.Column(String(1))
+    hetero = sqlalchemy.Column(String(1))
 
     def get_SNP_chrom(_id):
         data = session_snpsAssociated_FDR.query(snpsAssociated_FDR_chrom).filter_by(snpID=_id).all()

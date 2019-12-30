@@ -75,7 +75,5 @@ class SNPAssociated(TemplateView):
             'genes': genes,
             'enhancers':enhancers,
             'query_form': form,
-            'error': error,
-            'reference': associations[0].refBase if len(associations) > 0 else None,
-            'alternative': associations[0].altBase if len(associations) > 0 else None,
+            'error': error
         })   

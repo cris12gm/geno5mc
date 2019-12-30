@@ -1,0 +1,20 @@
+{% for info in snpInfo%}
+    <div class="card mb-3">             
+        <div class="card-body">
+            <!-- <ul>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+            </ul> -->
+            <b>ID: </b><a href="https://www.ncbi.nlm.nih.gov/snp/{{info.snpID}}" target="_blank">{{info.snpID}}</a>
+            <br>
+            <b>Position:</b> {{ info.chrom }}:{{ info.chromStart }}
+            <br>
+            <b>Reference Allele: </b> {{ info.reference }}
+            <br>
+            <b>Alternative Allele: </b> {{ info.alternative }}
+            
+        </div>
+    </div>
+{% endfor %}

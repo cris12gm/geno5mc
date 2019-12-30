@@ -28,7 +28,7 @@
             {{ error }}
         {% endif %}
 
-        {% if associations %}
+        {% if genes or enhancers %}
 
         <div class="menu-hide">
             <ul class="nav nav-tabs" id="myTab" role="tablist">
@@ -50,15 +50,15 @@
             <div class="tab-content" id="myTabContent">
                 <div class="tab-pane fade show active" id="summary" role="tabpanel" aria-labelledby="summary-tab">
                     <br>
-                    {% include "querySNP/summary.html" %}
+                    {% include "multipleQuerySNP/summary.html" %}
                 </div>
                 <div class="tab-pane fade" id="genes" role="tabpanel" aria-labelledby="genes-tab">
                     <br>
-                    {% include "querySNP/genes.html" %}
+                    {% include "multipleQuerySNP/genes.html" %}
                 </div>
                 <div class="tab-pane fade" id="regulatory" role="tabpanel" aria-labelledby="regulatory-tab">
                     <br>
-                    {% include "querySNP/regulatory.html" %}
+                    {% include "multipleQuerySNP/regulatory.html" %}
                 </div>
             </div>
         </div>
