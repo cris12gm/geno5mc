@@ -8,19 +8,15 @@
                     <tr>
                         <th>Enhancer ID</th>
                         <th>Num. Associated CpGs</th>
+                        <th>Distance SNP - Enhancer (pb)</th>
                     </tr>
                 </thead>
-                <tfoot>
-                    <tr>
-                        <th>Enhancer ID</th>
-                        <th>Num. Associated CpGs</th>
-                    </tr>
-                </tfoot>
                 <tbody>
                     {% for field in enhancers %}
                     <tr>
                         <td>{{ field.data.nameEnhancer}}</td>
                         <td>{{ field.count}}</td>
+                        <td>{{ field.distance}}</td>
                     </tr>
                     {% endfor %}
                 </tbody>

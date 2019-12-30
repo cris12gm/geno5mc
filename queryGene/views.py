@@ -11,7 +11,7 @@ from django.http import JsonResponse
 from django.urls import reverse_lazy
 
 from .forms import QueryGene
-from .models import snpsAssociated_FDR_promotersEPD
+from .models import snpsAssociated_FDR_promotersEPD, snpsAssociated_FDR_chrom
 
 class Errors(Enum):
     NO_ERROR = 0
@@ -42,9 +42,11 @@ class GenesAssociated(TemplateView):
                     # Añado a genes el count
                     genesAssociatedNew = []
                     for gene in genesAssociated:
+                        chromStart = snpsAssociated_FDR_chrom.get_SNP_chrom(gene[1].snpID).chromStart
                         info = {
                             'data': gene[1],
-                            'count': gene[0]
+                            'count': gene[0],
+                            'distance': abs((gene[1].chromStartPromoter)-(chromStart))
                         }
                         genesAssociatedNew.append(info)
                     genesAssociated = genesAssociatedNew

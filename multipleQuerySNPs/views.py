@@ -19,7 +19,7 @@ class Errors(Enum):
     NOT_ASSOCIATED = 2
 
 class SNPAssociated(TemplateView):
-    template = 'querySNP.html'
+    template = 'multipleQuerySNPs.html'
 
     def get(self, request):  
         form = QuerySNP()
@@ -79,3 +79,6 @@ class SNPAssociated(TemplateView):
             'reference': associations[0].refBase if len(associations) > 0 else None,
             'alternative': associations[0].altBase if len(associations) > 0 else None,
         })   
+from django.shortcuts import render
+
+# Create your views here.

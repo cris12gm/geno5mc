@@ -8,19 +8,15 @@
                     <tr>
                         <th>SNP ID</th>
                         <th>Num. Associated CpGs in Promoter Region</th>
+                        <th>Distance Gene - SNP (pb)</th>
                     </tr>
                 </thead>
-                <tfoot>
-                    <tr>
-                        <th>SNP ID</th>
-                        <th>Num. Associated CpGs in Promoter Region</th>
-                    </tr>
-                </tfoot>
                 <tbody>
                     {% for field in genesAssociated %}
                     <tr>
                         <td>{{ field.data.snpID}}</td>
                         <td>{{ field.count}}</td>
+                        <td>{{ field.distance}}</td>
                     </tr>
                     {% endfor %}
                 </tbody>
