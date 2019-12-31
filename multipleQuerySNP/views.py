@@ -86,4 +86,4 @@ class SNPAssociated(TemplateView):
             'enhancers':enhancers,
             'query_form': form,
             'error': error
-        })   
+        }) 

@@ -18,6 +18,36 @@ class Errors(Enum):
     NOT_VALID = 1
     NOT_ASSOCIATED = 2
 
+def getAllFromSNP(snpId,associations,genes,enhancers,snpInfo,error):
+    snpInfo = snpsAssociated_FDR_chrom.get_SNP_chrom(snpId)
+    if snpInfo is None:
+        error = Errors.NOT_ASSOCIATED
+    else:
+        associations = snpsAssociated_FDR_chr_table(snpInfo.chrom).get_Associated(snpInfo.snpID)
+        genes = snpsAssociated_FDR_promotersEPD.get_Promoters(snpId)
+        # Añado a genes el count
+        genesNew = []
+        for gene in genes:
+            info = {
+                'data': gene[1],
+                'count': gene[0],
+                'distance':abs(gene[1].chromStartPromoter-snpInfo.chromStart)
+            }
+            genesNew.append(info)
+        genes = genesNew
+        enhancers = snpsAssociated_FDR_enhancers.get_Enhancers(snpId)
+        enhancersNew = []
+        for enhancer in enhancers:
+            info = {
+                'data': enhancer[1],
+                'count': enhancer[0],
+                'distance':abs(enhancer[1].chromStartEnhancer-snpInfo.chromStart)
+            }
+            enhancersNew.append(info)
+        enhancers = enhancersNew
+
+    return snpInfo,associations,genes,enhancers,error
+
 class SNPAssociated(TemplateView):
     template = 'querySNP.html'
 
@@ -34,38 +64,40 @@ class SNPAssociated(TemplateView):
         associations = []
         genes = []
         enhancers = []
+        error = ""
 
         if form.is_valid():
             snpId = form.cleaned_data.get('SNPid')
             if snpId is not '':
-                snpInfo = snpsAssociated_FDR_chrom.get_SNP_chrom(snpId)
+                snpInfo,associations,genes,enhancers,error=getAllFromSNP(snpId,associations,genes,enhancers,snpInfo,error)
+        else:
+            error = Errors.NOT_VALID
 
-                if snpInfo is None:
-                    error = Errors.NOT_ASSOCIATED
-                else:
-                    associations = snpsAssociated_FDR_chr_table(snpInfo.chrom).get_Associated(snpInfo.snpID)
-                    genes = snpsAssociated_FDR_promotersEPD.get_Promoters(snpId)
-                    # Añado a genes el count
-                    genesNew = []
-                    for gene in genes:
-                        info = {
-                            'data': gene[1],
-                            'count': gene[0],
-                            'distance':abs(gene[1].chromStartPromoter-snpInfo.chromStart)
-                        }
-                        genesNew.append(info)
-                    genes = genesNew
-                    
-                    enhancers = snpsAssociated_FDR_enhancers.get_Enhancers(snpId)
-                    enhancersNew = []
-                    for enhancer in enhancers:
-                        info = {
-                            'data': enhancer[1],
-                            'count': enhancer[0],
-                            'distance':abs(enhancer[1].chromStartEnhancer-snpInfo.chromStart)
-                        }
-                        enhancersNew.append(info)
-                    enhancers = enhancersNew
+        return render(request, self.template, {
+            'snpInfo': snpInfo,
+            'associations': associations,
+            'genes': genes,
+            'enhancers':enhancers,
+            'query_form': form,
+            'error': error
+        })   
+
+class SNPAssociatedGET(TemplateView):
+    template = 'querySNP.html'
+
+    def get(self, request, id_=""):
+
+        form = QuerySNP(request.GET)
+        error = None
+        snpInfo = {}
+        associations = []
+        genes = []
+        enhancers = []
+
+        if form.is_valid():
+            snpId = form.cleaned_data.get('SNPid')
+            if snpId is not '':
+                snpInfo,associations,genes,enhancers,error=getAllFromSNP(snpId,associations,genes,enhancers,snpInfo,error)
         else:
             error = Errors.NOT_VALID
 
