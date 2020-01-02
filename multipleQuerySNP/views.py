@@ -37,7 +37,7 @@ class SNPAssociated(TemplateView):
 
         snpsQueried = {}
         if form.is_valid():
-            snpIds = form.cleaned_data.get('SNPids').replace("\r","").replace("\s","").split("\n")
+            snpIds = form.cleaned_data.get('SNPids').replace("\r","").replace(" ","").split("\n")
             if snpIds is not '':
                 for snpId in snpIds:
                     if snpId:
