@@ -41,16 +41,18 @@ class SNPAssociated(TemplateView):
             if snpIds is not '':
                 for snpId in snpIds:
                     if snpId:
+                        if not 'rs' in snpId:
+                            error = Errors.NOT_VALID
                         snpInfoSNP = snpsAssociated_FDR_chrom.get_SNP_chrom(snpId)
                         try:
                             snpsQueried[snpId]
                             continue
                         except:
-                            snpsQueried[snpId] = True
+                            snpsQueried[snpId] = True,error
                             snpInfo.append(snpInfoSNP)
                         if snpInfoSNP is None:
                             error = Errors.NOT_ASSOCIATED
-                            snpsQueried[snpId]=False
+                            snpsQueried[snpId]=False,error
                         else:  
                             #associationsSNP = snpsAssociated_FDR_chr_table(snpInfoSNP.chrom).get_Associated(snpInfoSNP.snpID)
                             #associations.append(associationsSNP)
