@@ -25,9 +25,9 @@
         <br>
 
         {% if error %}
-            {{ error }}
+            {% include "querySNP/error.html" %}
         {% endif %}
-
+        
         {% if associations %}
 
         <div class="menu-hide">
@@ -62,13 +62,6 @@
                 </div>
             </div>
         </div>
-        {% endif %}
-
-        {%if chrom == "None" %}
-            The SNP {{ valueSNP }} is not associated, try a new one.
-        {% endif %}
-        {%if chrom == "NoSNP" %}
-            The introduced value {{ valueSNP }} is not a correct SNP id, try a new one.
         {% endif %}
 
     </div>

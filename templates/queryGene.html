@@ -23,7 +23,7 @@
     <br>
 
     {% if error %}
-        {{ error}}
+        {% include "queryGene/error.html" %}
     {% endif %}
 
     {%if genesAssociated %}
