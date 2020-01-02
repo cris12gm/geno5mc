@@ -1,7 +1,9 @@
 {% load errorGestionMultipleQuery %}
-
-<div class="card mb-3">             
+<div class="card mb-3">
+    <div class="card-header">
+        <b>Important info</b>
+    </div>     
     <div class="card-body">
-        {{ error | errorGestionMultipleQuery}}
+        {{ errors | errorGestionMultipleQuery | linebreaks}}
     </div>
 </div>

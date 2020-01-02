@@ -34,6 +34,7 @@ class SNPAssociated(TemplateView):
         associations = []
         genes = []
         enhancers = []
+        errors={}
 
         snpsQueried = {}
         if form.is_valid():
@@ -43,16 +44,19 @@ class SNPAssociated(TemplateView):
                     if snpId:
                         if not 'rs' in snpId:
                             error = Errors.NOT_VALID
+                            errors[snpId] = error
+                            continue
                         snpInfoSNP = snpsAssociated_FDR_chrom.get_SNP_chrom(snpId)
                         try:
                             snpsQueried[snpId]
                             continue
                         except:
-                            snpsQueried[snpId] = True,error
+                            snpsQueried[snpId] = True
                             snpInfo.append(snpInfoSNP)
                         if snpInfoSNP is None:
                             error = Errors.NOT_ASSOCIATED
-                            snpsQueried[snpId]=False,error
+                            errors[snpId] = error
+                            snpsQueried[snpId]=False
                         else:  
                             #associationsSNP = snpsAssociated_FDR_chr_table(snpInfoSNP.chrom).get_Associated(snpInfoSNP.snpID)
                             #associations.append(associationsSNP)
@@ -80,6 +84,7 @@ class SNPAssociated(TemplateView):
                             enhancers.append(enhancersNew)
             else:
                 error = Errors.NOT_VALID
+                errors[snpId] = error
 
         return render(request, self.template, {
             'snpInfo': snpInfo,
@@ -87,5 +92,5 @@ class SNPAssociated(TemplateView):
             'genes': genes,
             'enhancers':enhancers,
             'query_form': form,
-            'error': error
+            'errors': errors
         }) 
