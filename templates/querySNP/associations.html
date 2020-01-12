@@ -1,0 +1,26 @@
+<div class="card mb-3">             
+    <div class="card-body">
+        <div class="table-responsive">
+            In this table...
+            <hr>
+            <table class="table table-bordered" id="dataTable2" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>ChromStartCpG</th>
+                        <th>qValue</th>
+                        <th>methRatio distribution</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for field in associations %}
+                    <tr>
+                        <td>{{ field.chromStart}}</td>
+                        <td>{{ field.qValue }}</td>
+                        <td><button type="submit" onclick="getMethGraph()">View meth</button></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

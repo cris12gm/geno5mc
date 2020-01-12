@@ -11,14 +11,14 @@ from django.http import JsonResponse
 from django.urls import reverse_lazy
 
 from .forms import QuerySNP
-from .models import snpsAssociated_FDR_chrom, snpsAssociated_FDR_chr_table, snpsAssociated_FDR_promotersEPD, snpsAssociated_FDR_enhancers
+from .models import snpsAssociated_FDR_chrom, snpsAssociated_FDR_chr_table, snpsAssociated_FDR_promotersEPD, snpsAssociated_FDR_enhancers, snpsAssociated_FDR_trafficLights
 
 class Errors(Enum):
     NO_ERROR = 0
     NOT_VALID = 1
     NOT_ASSOCIATED = 2
 
-def getAllFromSNP(snpId,associations,genes,enhancers,snpInfo,error):
+def getAllFromSNP(snpId,associations,genes,enhancers,tLights,snpInfo,error):
     snpInfo = snpsAssociated_FDR_chrom.get_SNP_chrom(snpId)
     if snpInfo is None:
         error = Errors.NOT_ASSOCIATED
@@ -35,18 +35,20 @@ def getAllFromSNP(snpId,associations,genes,enhancers,snpInfo,error):
             }
             genesNew.append(info)
         genes = genesNew
-        enhancers = snpsAssociated_FDR_enhancers.get_Enhancers(snpId)
-        enhancersNew = []
-        for enhancer in enhancers:
-            info = {
-                'data': enhancer[1],
-                'count': enhancer[0],
-                'distance':abs(enhancer[1].chromStartEnhancer-snpInfo.chromStart)
-            }
-            enhancersNew.append(info)
-        enhancers = enhancersNew
 
-    return snpInfo,associations,genes,enhancers,error
+        enhancers = snpsAssociated_FDR_enhancers.get_Enhancers(snpId)
+
+        #Añado a tlights el count
+        tLights = snpsAssociated_FDR_trafficLights.get_trafficLights(snpInfo.snpID)
+        tLightsNew = []
+        for tLight in tLights:
+            info = {
+                'data': tLight[1],
+                'count': tLight[0],
+            }
+            tLightsNew.append(info)
+        tLights = tLightsNew
+    return snpInfo,associations,genes,enhancers,tLights,error
 
 class SNPAssociated(TemplateView):
     template = 'querySNP.html'
@@ -64,12 +66,13 @@ class SNPAssociated(TemplateView):
         associations = []
         genes = []
         enhancers = []
+        tLights=[]
         error = ""
 
         if form.is_valid():
             snpId = form.cleaned_data.get('SNPid')
             if snpId is not '':
-                snpInfo,associations,genes,enhancers,error=getAllFromSNP(snpId,associations,genes,enhancers,snpInfo,error)
+                snpInfo,associations,genes,enhancers,tLights,error=getAllFromSNP(snpId,associations,genes,enhancers,tLights,snpInfo,error)
         else:
             error = Errors.NOT_VALID
 
@@ -78,6 +81,7 @@ class SNPAssociated(TemplateView):
             'associations': associations,
             'genes': genes,
             'enhancers':enhancers,
+            'tLights':tLights,
             'query_form': form,
             'error': error
         })   
