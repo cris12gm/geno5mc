@@ -1,12 +1,15 @@
 // Call the dataTables jQuery plugin
 $(document).ready(function() {
-  $('#dataTable').DataTable({
+  $('#dataTableGenes').DataTable({
     "order":[[1, "desc"]]
   });
-  $('#dataTable1').DataTable();
-  $('#dataTable2').DataTable(
-    {
+  $('#dataTableRegulation').DataTable({
       "order":[[1,"desc"]]
-    }
-  );
-});
+  });
+  $('#dataTableTL').DataTable({
+      "order":[[1,"desc"]]
+  });
+  $('#dataTableSNPs').DataTable({
+      "order":[[2,"asc"]]
+  });
+}); 
