@@ -40,14 +40,7 @@ def getAllFromSNP(snpId,associations,genes,enhancers,tLights,snpInfo,error):
 
         #Añado a tlights el count
         tLights = snpsAssociated_FDR_trafficLights.get_trafficLights(snpInfo.snpID)
-        tLightsNew = []
-        for tLight in tLights:
-            info = {
-                'data': tLight[1],
-                'count': tLight[0],
-            }
-            tLightsNew.append(info)
-        tLights = tLightsNew
+        
     return snpInfo,associations,genes,enhancers,tLights,error
 
 class SNPAssociated(TemplateView):

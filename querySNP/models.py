@@ -97,13 +97,12 @@ class snpsAssociated_FDR_enhancers(Base):
 
 
 class snpsAssociated_FDR_trafficLights(Base):
-    __tablename__ = "snpsAssociated_FDR_trafficLights"
+    __tablename__ = "snpsAssociated_FDR_trafficLights_filtered"
 
-    chrom = sqlalchemy.Column(String(200))
-    chromStartTL = sqlalchemy.Column(Integer)
-    gene = sqlalchemy.Column(String(1000), primary_key=True)
-    snpID = sqlalchemy.Column(String(200), primary_key=True)
+    snpID = sqlalchemy.Column(String(20), primary_key=True)
+    gene = sqlalchemy.Column(String(20), primary_key=True)
+    numOverlaps = sqlalchemy.Column(String(20))
 
     def get_trafficLights(_id):
-        data = session_snpsAssociated_FDR_annotation.query(func.count(snpsAssociated_FDR_trafficLights.gene),snpsAssociated_FDR_trafficLights).filter_by(snpID=_id).group_by(snpsAssociated_FDR_trafficLights.gene).all()
+        data = session_snpsAssociated_FDR_annotation.query(snpsAssociated_FDR_trafficLights).filter_by(snpID=_id).all()
         return data if len(data) > 1 else None
