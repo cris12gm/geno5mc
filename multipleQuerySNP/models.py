@@ -86,16 +86,23 @@ class snpsAssociated_FDR_promotersEPD(Base):
         return data if len(data) > 1 else None
 
 class snpsAssociated_FDR_enhancers(Base):
-    __tablename__ = "snpsAssociated_FDR_enhancers"
+    __tablename__ = "snpsAssociated_FDR_enhancers_filtered"
 
-    chrom = sqlalchemy.Column(String(200))
-    chromStartEnhancer = sqlalchemy.Column(Integer)
-    chromEndEnhancer = sqlalchemy.Column(Integer)
-    nameEnhancer = sqlalchemy.Column(String(100), primary_key=True)
-    genesEnhancer = sqlalchemy.Column(String(1000), primary_key=True)
-    chromStartCpG = sqlalchemy.Column(Integer)
-    snpID = sqlalchemy.Column(String(200), primary_key=True)
+    snpID = sqlalchemy.Column(String(20), primary_key=True)
+    geneID = sqlalchemy.Column(String(20), primary_key=True)
+    numOverlaps = sqlalchemy.Column(String(20))
 
     def get_Enhancers(_id):
-        data = session_snpsAssociated_FDR_annotation.query(func.count(snpsAssociated_FDR_enhancers.nameEnhancer), snpsAssociated_FDR_enhancers).filter_by(snpID=_id).group_by(snpsAssociated_FDR_enhancers.nameEnhancer).all()
+        data = session_snpsAssociated_FDR_annotation.query(snpsAssociated_FDR_enhancers).filter_by(snpID=_id).order_by(snpsAssociated_FDR_enhancers.numOverlaps.desc()).limit(20).all()
+        return data if len(data) > 1 else None
+
+class snpsAssociated_FDR_trafficLights(Base):
+    __tablename__ = "snpsAssociated_FDR_trafficLights_filtered"
+
+    snpID = sqlalchemy.Column(String(20), primary_key=True)
+    gene = sqlalchemy.Column(String(20), primary_key=True)
+    numOverlaps = sqlalchemy.Column(String(20))
+
+    def get_trafficLights(_id):
+        data = session_snpsAssociated_FDR_annotation.query(snpsAssociated_FDR_trafficLights).filter_by(snpID=_id).all()
         return data if len(data) > 1 else None

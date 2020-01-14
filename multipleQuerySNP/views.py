@@ -11,7 +11,7 @@ from django.http import JsonResponse
 from django.urls import reverse_lazy
 
 from .forms import MultipleQuerySNP
-from .models import snpsAssociated_FDR_chrom, snpsAssociated_FDR_chr_table, snpsAssociated_FDR_promotersEPD, snpsAssociated_FDR_enhancers
+from .models import snpsAssociated_FDR_chrom, snpsAssociated_FDR_chr_table, snpsAssociated_FDR_promotersEPD, snpsAssociated_FDR_enhancers, snpsAssociated_FDR_trafficLights
 
 class Errors(Enum):
     NO_ERROR = 0
@@ -34,6 +34,7 @@ class SNPAssociated(TemplateView):
         associations = []
         genes = []
         enhancers = []
+        tLights = []
         errors={}
 
         snpsQueried = {}
@@ -73,15 +74,10 @@ class SNPAssociated(TemplateView):
                             genes.append(genesNew)
                         
                             enhancersSNP = snpsAssociated_FDR_enhancers.get_Enhancers(snpId)
-                            enhancersNew = []
-                            for enhancer in enhancersSNP:
-                                info = {
-                                    'data': enhancer[1],
-                                    'count': enhancer[0],
-                                    'distance':abs(enhancer[1].chromStartEnhancer-snpInfoSNP.chromStart)
-                                }
-                                enhancersNew.append(info)
-                            enhancers.append(enhancersNew)
+                            enhancers.append(enhancersSNP)
+
+                            tLightsSNP = snpsAssociated_FDR_trafficLights.get_trafficLights(snpId)
+                            tLights.append(tLightsSNP)
             else:
                 error = Errors.NOT_VALID
                 errors[snpId] = error
@@ -91,6 +87,7 @@ class SNPAssociated(TemplateView):
             'associations': associations,
             'genes': genes,
             'enhancers':enhancers,
+            'tLights':tLights,
             'query_form': form,
             'errors': errors
         }) 

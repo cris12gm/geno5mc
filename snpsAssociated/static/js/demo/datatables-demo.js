@@ -12,4 +12,13 @@ $(document).ready(function() {
   $('#dataTableSNPs').DataTable({
       "order":[[2,"asc"]]
   });
+  $('#dataTableGenesMQ').DataTable({
+    "order":[[3,"asc"]]
+  });
+  $('#dataTableTLMQ').DataTable({
+    "order":[[2,"desc"]]
+  });
+  $('#dataTableRegulationMQ').DataTable({
+    "order":[[2,"desc"]]
+  });
 }); 
