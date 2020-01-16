@@ -1,24 +1,86 @@
-<div class="card mb-3"> 
-    <div class="card-body">
-        <div class="table-responsive">
-            In this table...
-            <hr>
-            <table class="table table-bordered" id="dataTableGenes" width="100%" cellspacing="0">
-                <thead>
-                    <tr>
-                        <th>Gene ID</th>
-                        <th>Num CpGs</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for field in genes %}
-                    <tr>
-                        <td><a href="{{ field.link }}">{{ field.data.geneID }}</a></td>
-                        <td>{{ field.count }}</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+<div class="accordion" id="accordionGenes">
+    <div class="card">
+        <div class="card-header" id="summary">
+            <h5 class="mb-0">
+                <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseSummary" aria-expanded="true" aria-controls="collapseSummary">
+                <b><h5>Summary</h5></b>
+              </button>
+            </h5>
         </div>
+      
+        <div id="collapseSummary" class="collapse show" aria-labelledby="headingSummary" data-parent="#accordionGenes">
+            <div class="card-body">
+                Summary of genes info
+            </div>
+        </div>
+
     </div>
+    {% if genes %}
+        <div class="card">
+        <div class="card-header" id="promoters">
+            <h5 class="mb-0">
+                <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapsePromoters" aria-expanded="false" aria-controls="collapsePromoters">
+                    <b><h5>Promoters</h5></b>
+                </button>
+            </h5>
+        </div>
+        <div id="collapsePromoters" class="collapse" aria-labelledby="headingPromoters" data-parent="#accordionGenes">
+            <div class="card-body">
+                <div class="table-responsive">
+                    In this table...
+                    <hr>
+                    <table class="table table-bordered" id="dataTableGenes" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>Gene ID</th>
+                                <th>Num CpGs</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for field in genes %}
+                            <tr>
+                                <td><a href="{{ field.link }}">{{ field.data.geneID }}</a></td>
+                                <td>{{ field.count }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>    
+            </div>
+        </div>
+        </div>
+    {% endif %}
+    {% if enhancers %}
+        <div class="card">
+        <div class="card-header" id="enhancers">
+            <h5 class="mb-0">
+                <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseEnhancers" aria-expanded="false" aria-controls="collapseEnhancers">
+                    <b><h5>Enhancers</h5></b>
+                </button>
+            </h5>
+        </div>
+        <div id="collapseEnhancers" class="collapse" aria-labelledby="headingEnhancers" data-parent="#accordionGenes">
+            <div class="card-body">
+                {% include "querySNP/regulatory.html" %}
+            </div>
+        </div>
+        </div> 
+    {% endif %}   
+    {% if tLights %}
+        <div class="card">
+        <div class="card-header" id="tLights">
+            <h5 class="mb-0">
+                <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapsetLights" aria-expanded="false" aria-controls="collapsetLights">
+                    <b><h5>Traffic Lights</h5></b>
+                </button>
+            </h5>
+        </div>
+        <div id="collapsetLights" class="collapse" aria-labelledby="headingtLights" data-parent="#accordionGenes">
+            <div class="card-body">
+                {% include "querySNP/trafficLights.html" %}
+            </div>
+        </div>
+        </div>
+    {% endif %}
 </div>
+
