@@ -82,27 +82,29 @@ class SNPAssociated(TemplateView):
 class SNPAssociatedGET(TemplateView):
     template = 'querySNP.html'
 
-    def get(self, request, id_=""):
+    def get(self, request, snp):
 
-        form = QuerySNP(request.GET)
+        form = QuerySNP()
         error = None
         snpInfo = {}
         associations = []
         genes = []
         enhancers = []
+        tLights=[]
 
-        if form.is_valid():
-            snpId = form.cleaned_data.get('SNPid')
-            if snpId is not '':
-                snpInfo,associations,genes,enhancers,error=getAllFromSNP(snpId,associations,genes,enhancers,snpInfo,error)
+        snpId = snp
+        if snpId is not '':
+            snpInfo,associations,genes,enhancers,tLights,error=getAllFromSNP(snpId,associations,genes,enhancers,tLights,snpInfo,error)
         else:
             error = Errors.NOT_VALID
+
 
         return render(request, self.template, {
             'snpInfo': snpInfo,
             'associations': associations,
             'genes': genes,
             'enhancers':enhancers,
+            'tLights':tLights,
             'query_form': form,
             'error': error
         })   

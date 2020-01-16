@@ -1,3 +1,4 @@
+{% load staticfiles %}
 <div class="card mb-3"> 
     <div class="card-body">
         <div class="table-responsive">
@@ -14,7 +15,7 @@
                 <tbody>
                     {% for field in genesAssociated %}
                     <tr>
-                        <td>{{ field.data.snpID}}</td>
+                        <td><a href="/querySNP/snp/{{ field.data.snpID}}">{{ field.data.snpID}}</a></td>
                         <td>{{ field.count}}</td>
                         <td>{{ field.distance}}</td>
                     </tr>
