@@ -22,7 +22,6 @@ def getAllFromSNP(snpId,associations,genes,enhancers,tLights,snpInfo,error):
     snpInfo = snpsAssociated_FDR_chrom.get_SNP_chrom(snpId)
     if snpInfo is None:
         checkid = getSNPID.get_SNP(snpId)
-        print (checkid)
         if checkid!=None:
             error = Errors.NOT_ASSOCIATED
         else:
