@@ -13,7 +13,7 @@
                 <tbody>
                     {% for field in genes %}
                     <tr>
-                        <td><a href="/queryGene/gene/{{ field.data.geneID }}">{{ field.data.geneID }}</a></td>
+                        <td><a href="{{ field.link }}">{{ field.data.geneID }}</a></td>
                         <td>{{ field.count }}</td>
                     </tr>
                     {% endfor %}

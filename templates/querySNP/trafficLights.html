@@ -13,7 +13,7 @@
                 <tbody>
                     {% for field in tLights %}
                     <tr>
-                        <td><a href="/queryGene/gene/{{ field.gene }}">{{ field.gene }}</a></td>
+                        <td><a href="{{ baseLink }}{{ field.gene }}">{{ field.gene }}</a></td>
                         <td>{{ field.numOverlaps}}</td>
                     </tr>
                     {% endfor %}

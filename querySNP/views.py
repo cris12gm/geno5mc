@@ -30,6 +30,7 @@ def getAllFromSNP(snpId,associations,genes,enhancers,tLights,snpInfo,error):
         for gene in genes:
             info = {
                 'data': gene[1],
+                'link': settings.SUB_SITE+"/queryGene/gene/"+gene[1].geneID,
                 'count': gene[0],
                 'distance':abs(gene[1].chromStartPromoter-snpInfo.chromStart)
             }
@@ -40,11 +41,10 @@ def getAllFromSNP(snpId,associations,genes,enhancers,tLights,snpInfo,error):
 
         #Añado a tlights el count
         tLights = snpsAssociated_FDR_trafficLights.get_trafficLights(snpInfo.snpID)
-        
     return snpInfo,associations,genes,enhancers,tLights,error
 
 class SNPAssociated(TemplateView):
-    template = 'querySNP.html'
+    template = 'querySNP.html'    
 
     def get(self, request):  
         form = QuerySNP()
@@ -54,6 +54,7 @@ class SNPAssociated(TemplateView):
 
     def post(self, request):
         form = QuerySNP(request.POST)
+        baseLink = settings.SUB_SITE+"/queryGene/gene/"
         error = None
         snpInfo = {}
         associations = []
@@ -76,17 +77,20 @@ class SNPAssociated(TemplateView):
             'enhancers':enhancers,
             'tLights':tLights,
             'query_form': form,
+            'baseLink':baseLink,
             'error': error
         })   
 
 class SNPAssociatedGET(TemplateView):
     template = 'querySNPWF.html'
+        
 
     def get(self, request, snp):
 
         form = QuerySNP()
         error = None
         snpInfo = {}
+        baseLink = settings.SUB_SITE+"/queryGene/gene/" 
         associations = []
         genes = []
         enhancers = []
@@ -106,5 +110,6 @@ class SNPAssociatedGET(TemplateView):
             'enhancers':enhancers,
             'tLights':tLights,
             'query_form': form,
+            'baseLink':baseLink,
             'error': error
         })   
