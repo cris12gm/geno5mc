@@ -50,6 +50,7 @@ class GenesAssociated(TemplateView):
                         info = {
                             'data': gene[1],
                             'count': gene[0],
+                            'link': settings.SUB_SITE+"/querySNP/snp/"+gene[1].snpID,
                             'distance': abs((gene[1].chromStartPromoter)-(chromStart))
                         }
                         genesAssociatedNew.append(info)
@@ -89,6 +90,7 @@ class GenesAssociatedGET(TemplateView):
                     info = {
                         'data': gene[1],
                         'count': gene[0],
+                        'link': settings.SUB_SITE+"/querySNP/snp/"+gene[1].snpID,
                         'distance': abs((gene[1].chromStartPromoter)-(chromStart))
                     }
                     genesAssociatedNew.append(info)

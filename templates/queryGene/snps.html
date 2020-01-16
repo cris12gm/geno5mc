@@ -15,7 +15,7 @@
                 <tbody>
                     {% for field in genesAssociated %}
                     <tr>
-                        <td><a href="/querySNP/snp/{{ field.data.snpID}}">{{ field.data.snpID}}</a></td>
+                        <td><a href="{{ field.link}}">{{ field.data.snpID}}</a></td>
                         <td>{{ field.count}}</td>
                         <td>{{ field.distance}}</td>
                     </tr>
