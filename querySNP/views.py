@@ -11,7 +11,7 @@ from django.http import JsonResponse
 from django.urls import reverse_lazy
 
 from .forms import QuerySNP
-from .models import snpsAssociated_FDR_chrom, snpsAssociated_FDR_chr_table, snpsAssociated_FDR_promotersEPD, snpsAssociated_FDR_enhancers, snpsAssociated_FDR_trafficLights
+from .models import snpsAssociated_FDR_chrom, snpsAssociated_FDR_chr_table, snpsAssociated_FDR_promotersEPD, snpsAssociated_FDR_enhancers, snpsAssociated_FDR_trafficLights,getSNPID
 
 class Errors(Enum):
     NO_ERROR = 0
@@ -21,7 +21,12 @@ class Errors(Enum):
 def getAllFromSNP(snpId,associations,genes,enhancers,tLights,snpInfo,error):
     snpInfo = snpsAssociated_FDR_chrom.get_SNP_chrom(snpId)
     if snpInfo is None:
-        error = Errors.NOT_ASSOCIATED
+        checkid = getSNPID.get_SNP(snpId)
+        print (checkid)
+        if checkid!=None:
+            error = Errors.NOT_ASSOCIATED
+        else:
+            error = Errors.NOT_VALID
     else:
         associations = snpsAssociated_FDR_chr_table(snpInfo.chrom).get_Associated(snpInfo.snpID)
         genes = snpsAssociated_FDR_promotersEPD.get_Promoters(snpId)

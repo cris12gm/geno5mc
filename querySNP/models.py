@@ -26,7 +26,7 @@ class snpsAssociated_FDR_chrom(Base):
 
     def get_SNP_chrom(_id):
         data = session_snpsAssociated_FDR.query(snpsAssociated_FDR_chrom).filter_by(snpID=_id).all()
-        return data[0] if len(data) is 1 else None
+        return data[0] if len(data) is 0 else None
 
 
 def snpsAssociated_FDR_chr_table(chrID):
@@ -82,7 +82,7 @@ class snpsAssociated_FDR_promotersEPD(Base):
 
     def get_Promoters(_id):
         data = session_snpsAssociated_FDR_annotation.query(func.count(snpsAssociated_FDR_promotersEPD.geneID), snpsAssociated_FDR_promotersEPD).filter_by(snpID=_id).group_by(snpsAssociated_FDR_promotersEPD.geneID).all()
-        return data if len(data) > 1 else None
+        return data if len(data) > 0 else None
 
 class snpsAssociated_FDR_enhancers(Base):
     __tablename__ = "snpsAssociated_FDR_enhancers_filtered"
@@ -93,7 +93,7 @@ class snpsAssociated_FDR_enhancers(Base):
 
     def get_Enhancers(_id):
         data = session_snpsAssociated_FDR_annotation.query(snpsAssociated_FDR_enhancers).filter_by(snpID=_id).order_by(snpsAssociated_FDR_enhancers.numOverlaps.desc()).limit(20).all()
-        return data if len(data) > 1 else None
+        return data if len(data) > 0 else None
 
 
 class snpsAssociated_FDR_trafficLights(Base):
@@ -105,4 +105,13 @@ class snpsAssociated_FDR_trafficLights(Base):
 
     def get_trafficLights(_id):
         data = session_snpsAssociated_FDR_annotation.query(snpsAssociated_FDR_trafficLights).filter_by(snpID=_id).all()
-        return data if len(data) > 1 else None
+        return data if len(data) > 0 else None
+
+class getSNPID(Base):
+    __tablename__ = "snpsID"
+
+    snpID = sqlalchemy.Column(String(20), primary_key=True)
+
+    def get_SNP(_id):
+        data = session_snpsAssociated_FDR_annotation.query(getSNPID).filter_by(snpID=_id).all()
+        return data if len(data) > 0 else None
