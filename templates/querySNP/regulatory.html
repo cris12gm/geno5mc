@@ -13,7 +13,7 @@
                 <tbody>
                     {% for field in enhancers %}
                     <tr>
-                        <td>{{ field.geneID}}</td>
+                        <td><a href="/queryGene/gene/{{ field.geneID }}">{{ field.geneID }}</a></td>
                         <td>{{ field.numOverlaps}}</td>
                     </tr>
                     {% endfor %}

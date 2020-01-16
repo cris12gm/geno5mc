@@ -80,7 +80,7 @@ class SNPAssociated(TemplateView):
         })   
 
 class SNPAssociatedGET(TemplateView):
-    template = 'querySNP.html'
+    template = 'querySNPWF.html'
 
     def get(self, request, snp):
 

@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block content %}
+<div id="page-wrapper">
+    
+    {% if error %}
+        {% include "queryGene/error.html" %}
+    {% endif %}
+
+    {%if genesAssociated %}
+    <div class="menu-hide">
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" id="summary-tab" data-toggle="tab" href="#summary" role="tab" aria-controls="summary" aria-selected="true"><h5>Summary</h5></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="snps-tab" data-toggle="tab" href="#snps" role="tab" aria-controls="snps" aria-selected="false"><h5>Associated SNPs</h5></a>
+            </li>
+        </ul>
+
+        <div class="tab-content" id="myTabContent">
+            <div class="tab-pane fade show active" id="summary" role="tabpanel" aria-labelledby="summary-tab">
+                <br>
+                {% include "queryGene/summary.html" %}
+            </div>
+            <div class="tab-pane fade" id="snps" role="tabpanel" aria-labelledby="snps-tab">
+                <br>
+                {% include "queryGene/snps.html" %}
+            </div>
+        </div>
+    </div>
+    {% endif %}
+    
+</div>
+    
+{% endblock %}
+{% block js %}
+<!-- Demo scripts for this page-->
+
+<!-- This script show an image when is loading-->
+<script type="text/javascript">
+    function ShowLoading(e) {
+        var div = document.createElement('div');
+        var img = document.createElement('img');
+        img.src = "{% static 'images/wait.svg'%}";
+        div.innerHTML = "<b><font color='#194a90'>Loading results</font></b>";
+        div.style.cssText = 'position: fixed; top: 20%; left: 40%; z-index: 5000; width: 422px; text-align: center; background: #FFFFFF;';
+      
+        div.appendChild(img);
+        document.body.appendChild(div);
+        return true;
+    }
+</script>
+      
+<!-- This script cancel submit button when the form is loading-->
+<script>
+    $(document).ready(function () {
+        $("#formGene").submit(function (e) {
+
+            //disable the submit button
+            $("#submit_btn").attr("disabled", true);
+            $("div.menu-hide").hide()
+            //
+            return true;
+        });
+    });
+
+</script>
+
+<script src="{% static 'js/demo/datatables-demo.js'%}"></script>
+<script src="{% static 'vendor/datatables/jquery.dataTables.js'%}"></script>
+<script src="{% static 'vendor/datatables/dataTables.bootstrap4.js'%}"></script>
+{% endblock %}
+

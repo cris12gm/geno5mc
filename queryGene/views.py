@@ -62,3 +62,42 @@ class GenesAssociated(TemplateView):
             'query_form': form,
             'error': error
         })   
+
+class GenesAssociatedGET(TemplateView):
+    template = 'queryGeneWF.html'
+
+    def get(self, request, gene):
+
+        form = QueryGene()
+        error = None
+        genesAssociated = []
+
+        geneId = gene
+        genesAssociated = snpsAssociated_FDR_promotersEPD.get_SNPs_Promoters(geneId)
+        if geneId is not '':
+            if genesAssociated is None:
+                geneInDB = getGeneID.get_Genes(geneId)
+                if geneInDB!=None:
+                    error = Errors.NOT_ASSOCIATED
+                else:
+                    error = Errors.NOT_VALID
+            else:
+                # Añado a genes el count
+                genesAssociatedNew = []
+                for gene in genesAssociated:
+                    chromStart = snpsAssociated_FDR_chrom.get_SNP_chrom(gene[1].snpID).chromStart
+                    info = {
+                        'data': gene[1],
+                        'count': gene[0],
+                        'distance': abs((gene[1].chromStartPromoter)-(chromStart))
+                    }
+                    genesAssociatedNew.append(info)
+                genesAssociated = genesAssociatedNew
+        else:
+            error = Errors.NOT_VALID
+        return render(request, self.template, {
+            'geneId': geneId,
+            'genesAssociated': genesAssociated,
+            'query_form': form,
+            'error': error
+        })   
