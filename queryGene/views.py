@@ -11,7 +11,7 @@ from django.http import JsonResponse
 from django.urls import reverse_lazy
 
 from .forms import QueryGene
-from .models import snpsAssociated_FDR_promotersEPD, snpsAssociated_FDR_chrom
+from .models import snpsAssociated_FDR_promotersEPD, snpsAssociated_FDR_chrom, getGeneID
 
 class Errors(Enum):
     NO_ERROR = 0
@@ -37,7 +37,11 @@ class GenesAssociated(TemplateView):
             genesAssociated = snpsAssociated_FDR_promotersEPD.get_SNPs_Promoters(geneId)
             if geneId is not '':
                 if genesAssociated is None:
-                    error = Errors.NOT_ASSOCIATED
+                    geneInDB = getGeneID.get_Genes(geneId)
+                    if geneInDB!=None:
+                        error = Errors.NOT_ASSOCIATED
+                    else:
+                        error = Errors.NOT_VALID
                 else:
                     # Añado a genes el count
                     genesAssociatedNew = []
