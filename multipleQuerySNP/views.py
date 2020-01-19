@@ -11,7 +11,7 @@ from django.http import JsonResponse
 from django.urls import reverse_lazy
 
 from .forms import MultipleQuerySNP
-from .models import snpsAssociated_FDR_chrom, snpsAssociated_FDR_chr_table, snpsAssociated_FDR_promotersEPD, snpsAssociated_FDR_enhancers, snpsAssociated_FDR_trafficLights
+from .models import snpsAssociated_FDR_chrom, snpsAssociated_FDR_chr_table, snpsAssociated_FDR_promotersEPD, snpsAssociated_FDR_enhancers, snpsAssociated_FDR_trafficLights, getSNPID
 
 class Errors(Enum):
     NO_ERROR = 0
@@ -55,9 +55,13 @@ class SNPAssociated(TemplateView):
                             snpsQueried[snpId] = True
                             snpInfo.append(snpInfoSNP)
                         if snpInfoSNP is None:
-                            error = Errors.NOT_ASSOCIATED
-                            errors[snpId] = error
-                            snpsQueried[snpId]=False
+                            checkid = getSNPID.get_SNP(snpId)
+                            if checkid!=None:
+                                error = Errors.NOT_ASSOCIATED
+                                errors[snpId] = error
+                                snpsQueried[snpId]=False
+                            else:
+                                error = Errors.NOT_VALID
                         else:  
                             #associationsSNP = snpsAssociated_FDR_chr_table(snpInfoSNP.chrom).get_Associated(snpInfoSNP.snpID)
                             #associations.append(associationsSNP)

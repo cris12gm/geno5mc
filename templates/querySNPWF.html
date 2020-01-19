@@ -10,25 +10,16 @@
         {% endif %}
         
         {% if associations %}
-
         <div class="menu-hide">
             <ul class="nav nav-tabs" id="myTab" role="tablist">
                 <li class="nav-item">
                     <a class="nav-link active" id="summary-tab" data-toggle="tab" href="#summary" role="tab" aria-controls="summary" aria-selected="true"><h5>Summary</h5></a>
                 </li>
-                {% if genes %}
+                {% if genes or enhancers or tLights %}
                 <li class="nav-item">
                     <a class="nav-link" id="genes-tab" data-toggle="tab" href="#genes" role="tab" aria-controls="genes" aria-selected="false"><h5>Genes</h5></a>
                 </li>
                 {% endif %}
-                {% if enhancers %}
-                <li class="nav-item">
-                    <a class="nav-link" id="regulatory-tab" data-toggle="tab" href="#regulatory" role="tab" aria-controls="regulatory" aria-selected="false"><h5>Regulatory Elements</h5></a>
-                </li>
-                {% endif %}
-                <li class="nav-item">
-                    <a class="nav-link" id="trafficLights-tab" data-toggle="tab" href="#trafficLights" role="tab" aria-controls="trafficLights" aria-selected="false"><h5>Traffic Lights</h5></a>
-                </li>
             </ul>
 
             <div class="tab-content" id="myTabContent">
@@ -39,14 +30,6 @@
                 <div class="tab-pane fade" id="genes" role="tabpanel" aria-labelledby="genes-tab">
                     <br>
                     {% include "querySNP/genes.html" %}
-                </div>
-                <div class="tab-pane fade" id="regulatory" role="tabpanel" aria-labelledby="regulatory-tab">
-                    <br>
-                    {% include "querySNP/regulatory.html" %}
-                </div>
-                <div class="tab-pane fade" id="trafficLights" role="tabpanel" aria-labelledby="trafficLights-tab">
-                    <br>
-                    {% include "querySNP/trafficLights.html" %}
                 </div>
 
             </div>

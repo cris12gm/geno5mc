@@ -34,19 +34,9 @@
             <li class="nav-item">
                 <a class="nav-link active" id="summary-tab" data-toggle="tab" href="#summary" role="tab" aria-controls="summary" aria-selected="true"><h5>Summary</h5></a>
             </li>
-            {% if genes %}
+            {% if genes or enhancers or tLights%}
             <li class="nav-item">
                 <a class="nav-link" id="genes-tab" data-toggle="tab" href="#genes" role="tab" aria-controls="genes" aria-selected="false"><h5>Genes</h5></a>
-            </li>
-            {% endif %}
-            {% if enhancers %}
-            <li class="nav-item">
-                <a class="nav-link" id="regulatory-tab" data-toggle="tab" href="#regulatory" role="tab" aria-controls="regulatory" aria-selected="false"><h5>Regulatory Elements</h5></a>
-            </li>
-            {% endif %}
-            {% if tLights %}
-            <li class="nav-item">
-                <a class="nav-link" id="tLights-tab" data-toggle="tab" href="#tLights" role="tab" aria-controls="regulatory" aria-selected="false"><h5>Traffic Lights</h5></a>
             </li>
             {% endif %}
         </ul>
@@ -59,14 +49,6 @@
             <div class="tab-pane fade" id="genes" role="tabpanel" aria-labelledby="genes-tab">
                 <br>
                 {% include "multipleQuerySNP/genes.html" %}
-            </div>
-            <div class="tab-pane fade" id="regulatory" role="tabpanel" aria-labelledby="regulatory-tab">
-                <br>
-                {% include "multipleQuerySNP/regulatory.html" %}
-            </div>
-            <div class="tab-pane fade" id="tLights" role="tabpanel" aria-labelledby="tLights-tab">
-                <br>
-                {% include "multipleQuerySNP/trafficLights.html" %}
             </div>
         </div>
     </div>
