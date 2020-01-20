@@ -11,4 +11,5 @@ from django.urls import reverse_lazy
 
 
 def index(request):
-    return render(request, 'index.html', {})
+    baseLink = settings.SUB_SITE
+    return render(request, 'index.html', {'baseLink':baseLink})
