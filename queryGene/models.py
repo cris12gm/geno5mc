@@ -36,6 +36,7 @@ class getGeneID(Base):
 
     def get_Genes(_id):
         data = session_snpsAssociated_FDR_annotation.query(getGeneID).filter_by(geneID=_id).all()
+        session_snpsAssociated_FDR_annotation.close()
         return data[0] if len(data) is 1 else None
 
 engine_snpsAssociated_FDR = create_engine(KEY_snpsAssociated_FDR)
@@ -51,4 +52,5 @@ class snpsAssociated_FDR_chrom(Base):
 
     def get_SNP_chrom(_id):
         data = session_snpsAssociated_FDR.query(snpsAssociated_FDR_chrom).filter_by(snpID=_id).all()
+        session_snpsAssociated_FDR.close()
         return data[0] if len(data) is 1 else None

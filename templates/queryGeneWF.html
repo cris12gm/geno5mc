@@ -3,12 +3,14 @@
 
 {% block content %}
 <div id="page-wrapper">
-    
+    <br>
+    <button class="btn btn-success btn-sm" onclick="goBack()" >Go Back</button>
+    <br><br>
     {% if error %}
         {% include "queryGene/error.html" %}
     {% endif %}
 
-    {%if genesAssociated %}
+    {%if promotersAssociated %}
     <div class="menu-hide">
         <ul class="nav nav-tabs" id="myTab" role="tablist">
             <li class="nav-item">
@@ -66,6 +68,15 @@
         });
     });
 
+</script>
+
+
+<!-- This script takes to the back page -->
+
+<script>
+    function goBack() {
+      window.history.back();
+    }
 </script>
 
 <script src="{% static 'js/demo/datatables-demo.js'%}"></script>

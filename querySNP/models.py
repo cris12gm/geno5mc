@@ -57,6 +57,7 @@ def snpsAssociated_FDR_chr_table(chrID):
 
         def get_Associated(snpID):
             data = session_snpsAssociated_FDR.query(snpsAssociated_FDR_chr).filter_by(snpID=snpID).all()
+            session_snpsAssociated_FDR.close()
             snpsAssociated_FDR_chr.metadata.clear()
             
             return data
@@ -105,7 +106,12 @@ class snpsAssociated_FDR_trafficLights(Base):
 
     def get_trafficLights(_id):
         data = session_snpsAssociated_FDR_annotation.query(snpsAssociated_FDR_trafficLights).filter_by(snpID=_id).all()
+        session_snpsAssociated_FDR_annotation.close()
         return data if len(data) > 0 else None
+
+engine_snpsAssociated_FDR_annotation = create_engine(KEY_snpsAssociated_annotation)
+Sesion_snpsAssociated_FDR_annotation = sessionmaker(bind=engine_snpsAssociated_FDR_annotation)
+session_snpsAssociated_FDR_annotation = Sesion_snpsAssociated_FDR_annotation()
 
 class getSNPID(Base):
     __tablename__ = "snpsID"
@@ -114,4 +120,5 @@ class getSNPID(Base):
 
     def get_SNP(_id):
         data = session_snpsAssociated_FDR_annotation.query(getSNPID).filter_by(snpID=_id).all()
+        session_snpsAssociated_FDR_annotation.close()
         return data if len(data) > 0 else None
