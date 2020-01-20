@@ -6,7 +6,7 @@ from sqlalchemy import create_engine, MetaData, Table, Column, String, Integer, 
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy import func
-from config import KEY_snpsAssociated_annotation, KEY_snpsAssociated_FDR
+from config import KEY_snpsAssociated_annotation, KEY_snpsAssociated_FDR, KEY_hg38
 
 Base = declarative_base()
 
@@ -81,3 +81,19 @@ class snpsAssociated_FDR_chrom(Base):
         data = session_snpsAssociated_FDR.query(snpsAssociated_FDR_chrom).filter_by(snpID=_id).all()
         session_snpsAssociated_FDR.close()
         return data[0] if len(data) is 1 else None
+
+engine_hg38 = create_engine(KEY_hg38)
+Sesion_hg38 = sessionmaker(bind=engine_hg38)
+session_hg38 = Sesion_hg38()
+
+class getGencode(Base):
+    __tablename__ = "gencodeToGeneName"
+
+    gencodeID = sqlalchemy.Column(String(255), primary_key=True)
+    geneName = sqlalchemy.Column(String(255))
+
+    def getGencodeID(_id):
+        data = session_hg38.query(getGencode).filter_by(geneName=_id).all()
+        session_hg38.close()
+        data = data[0].gencodeID
+        return data if len(data)>0 else None
