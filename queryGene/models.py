@@ -29,6 +29,33 @@ class snpsAssociated_FDR_promotersEPD(Base):
         data = session_snpsAssociated_FDR_annotation.query(func.count(snpsAssociated_FDR_promotersEPD.snpID), snpsAssociated_FDR_promotersEPD).filter_by(geneID=_id).group_by(snpsAssociated_FDR_promotersEPD.snpID).all()
         return data if len(data) > 1 else None
 
+class snpsAssociated_FDR_enhancers(Base):
+    __tablename__ = "snpsAssociated_FDR_enhancers_filtered"
+
+    snpID = sqlalchemy.Column(String(20), primary_key=True)
+    geneID = sqlalchemy.Column(String(20), primary_key=True)
+    numOverlaps = sqlalchemy.Column(String(20))
+
+    def get_Enhancers(_id):
+        data = session_snpsAssociated_FDR_annotation.query(snpsAssociated_FDR_enhancers).filter_by(geneID=_id).order_by(snpsAssociated_FDR_enhancers.numOverlaps.desc()).limit(20).all()
+        return data if len(data) > 0 else None
+
+class snpsAssociated_FDR_trafficLights(Base):
+    __tablename__ = "snpsAssociated_FDR_trafficLights_filtered"
+
+    snpID = sqlalchemy.Column(String(20), primary_key=True)
+    gene = sqlalchemy.Column(String(20), primary_key=True)
+    numOverlaps = sqlalchemy.Column(String(20))
+
+    def get_trafficLights(_id):
+        data = session_snpsAssociated_FDR_annotation.query(snpsAssociated_FDR_trafficLights).filter_by(gene=_id).all()
+        session_snpsAssociated_FDR_annotation.close()
+        return data if len(data) > 0 else None
+
+engine_snpsAssociated_FDR_annotation = create_engine(KEY_snpsAssociated_annotation)
+Sesion_snpsAssociated_FDR_annotation = sessionmaker(bind=engine_snpsAssociated_FDR_annotation)
+session_snpsAssociated_FDR_annotation = Sesion_snpsAssociated_FDR_annotation()
+
 class getGeneID(Base):
     __tablename__ = "geneID"
 

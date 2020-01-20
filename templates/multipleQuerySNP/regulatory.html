@@ -15,8 +15,8 @@
                     {% for snp in enhancers %}
                         {% for field in snp %}
                         <tr>
-                            <td>{{ field.snpID}}</td>
-                            <td>{{ field.geneID}}</td>
+                            <td><a href="{{ baseLinkSNP }}{{ field.snpID }}">{{ field.snpID }}</a></td>
+                            <td><a href="{{ baseLinkGene }}{{ field.geneID }}">{{ field.geneID }}</a></td>
                             <td>{{ field.numOverlaps}}</td>
                         </tr>
                         {% endfor %}

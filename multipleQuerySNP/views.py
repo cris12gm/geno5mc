@@ -36,6 +36,8 @@ class SNPAssociated(TemplateView):
         enhancers = []
         tLights = []
         errors={}
+        baseLinkGene = settings.SUB_SITE+"/queryGene/gene/"
+        baseLinkSNP = settings.SUB_SITE+"/querySNP/snp/"
 
         snpsQueried = {}
         if form.is_valid():
@@ -92,6 +94,8 @@ class SNPAssociated(TemplateView):
             'genes': genes,
             'enhancers':enhancers,
             'tLights':tLights,
+            'baseLinkSNP':baseLinkSNP,
+            'baseLinkGene':baseLinkGene,
             'query_form': form,
             'errors': errors
         }) 

@@ -15,8 +15,8 @@
                     {% for snp in tLights %}
                         {% for field in snp %}
                         <tr>
-                            <td>{{ field.snpID}}</td>
-                            <td>{{ field.gene}}</td>
+                            <td><a href="{{ baseLinkSNP }}{{ field.snpID }}">{{ field.snpID }}</a></td>
+                            <td><a href="{{ baseLinkGene }}{{ field.gene }}">{{ field.gene }}</a></td>
                             <td>{{ field.numOverlaps}}</td>
                         </tr>
                         {% endfor %}

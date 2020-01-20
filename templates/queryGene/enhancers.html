@@ -1,0 +1,21 @@
+{% load staticfiles %}
+<div class="table-responsive">
+    In this table...
+    <hr>
+    <table class="table table-bordered" id="dataTableRegulation" width="100%" cellspacing="0">
+        <thead>
+            <tr>
+                <th>SNP ID</th>
+                <th>Num. Associated CpGs in its enhancers</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for field in enhancersAssociated %}
+            <tr>
+                <td><a href="{{ baseLink }}{{ field.snpID }}">{{ field.snpID}}</a></td>
+                <td>{{ field.numOverlaps}}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>

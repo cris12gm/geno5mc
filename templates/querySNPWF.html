@@ -4,6 +4,9 @@
 {% block content %}
 
     <div id="page-wrapper">
+        <br>
+        <button class="btn btn-success btn-sm" onclick="goBack()" >Go Back</button>
+        <br><br>
 
         {% if error %}
             {% include "querySNP/error.html" %}
@@ -77,6 +80,14 @@
 <script>
     function getMethGraph() {
         alert("Test")
+    }
+</script>
+
+<!-- This script takes to the back page -->
+
+<script>
+    function goBack() {
+      window.history.back();
     }
 </script>
 
