@@ -6,7 +6,7 @@ def plotExpression(inputDic):
     valuesPlot = []    
     for element in inputDic:
         datosSample = go.Box(y=element['data'] ,boxpoints='outliers',
-                name =  element['tissueSiteDetailId'],
+                name =  element['tissueSiteDetailId'].replace("_"," "),
                 showlegend=False)
         valuesPlot.append(datosSample)
 

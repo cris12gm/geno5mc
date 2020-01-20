@@ -1,7 +1,9 @@
 <div class="card mb-3">             
     <div class="card-body">
         <h2>{{geneId}}</h2>
+        {% if gTEX %}
         <p><b>Expression on gTEX</b></p>
         {{gTEX|safe}}
+        {% endif %}
     </div>
 </div>
