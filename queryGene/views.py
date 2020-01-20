@@ -30,13 +30,13 @@ class GenesAssociated(TemplateView):
     def post(self, request):
         form = QueryGene(request.POST)
         error = None
-        genesAssociated = []
+        promotersAssociated = []
 
         if form.is_valid():
             geneId = form.cleaned_data.get('GeneId')
-            genesAssociated = snpsAssociated_FDR_promotersEPD.get_SNPs_Promoters(geneId)
+            promotersAssociated = snpsAssociated_FDR_promotersEPD.get_SNPs_Promoters(geneId)
             if geneId is not '':
-                if genesAssociated is None:
+                if promotersAssociated is None:
                     geneInDB = getGeneID.get_Genes(geneId)
                     if geneInDB!=None:
                         error = Errors.NOT_ASSOCIATED
@@ -44,8 +44,8 @@ class GenesAssociated(TemplateView):
                         error = Errors.NOT_VALID
                 else:
                     # Añado a genes el count
-                    genesAssociatedNew = []
-                    for gene in genesAssociated:
+                    promotersAssociatedNew = []
+                    for gene in promotersAssociated:
                         chromStart = snpsAssociated_FDR_chrom.get_SNP_chrom(gene[1].snpID).chromStart
                         info = {
                             'data': gene[1],
@@ -53,13 +53,13 @@ class GenesAssociated(TemplateView):
                             'link': settings.SUB_SITE+"/querySNP/snp/"+gene[1].snpID,
                             'distance': abs((gene[1].chromStartPromoter)-(chromStart))
                         }
-                        genesAssociatedNew.append(info)
-                    genesAssociated = genesAssociatedNew
+                        promotersAssociatedNew.append(info)
+                    promotersAssociated = promotersAssociatedNew
         else:
             error = Errors.NOT_VALID
         return render(request, self.template, {
             'geneId': geneId,
-            'genesAssociated': genesAssociated,
+            'promotersAssociated': promotersAssociated,
             'query_form': form,
             'error': error
         })   
@@ -71,12 +71,12 @@ class GenesAssociatedGET(TemplateView):
 
         form = QueryGene()
         error = None
-        genesAssociated = []
+        promotersAssociated = []
 
         geneId = gene
-        genesAssociated = snpsAssociated_FDR_promotersEPD.get_SNPs_Promoters(geneId)
+        promotersAssociated = snpsAssociated_FDR_promotersEPD.get_SNPs_Promoters(geneId)
         if geneId is not '':
-            if genesAssociated is None:
+            if promotersAssociated is None:
                 geneInDB = getGeneID.get_Genes(geneId)
                 if geneInDB!=None:
                     error = Errors.NOT_ASSOCIATED
@@ -84,8 +84,8 @@ class GenesAssociatedGET(TemplateView):
                     error = Errors.NOT_VALID
             else:
                 # Añado a genes el count
-                genesAssociatedNew = []
-                for gene in genesAssociated:
+                promotersAssociatedNew = []
+                for gene in promotersAssociated:
                     chromStart = snpsAssociated_FDR_chrom.get_SNP_chrom(gene[1].snpID).chromStart
                     info = {
                         'data': gene[1],
@@ -93,13 +93,13 @@ class GenesAssociatedGET(TemplateView):
                         'link': settings.SUB_SITE+"/querySNP/snp/"+gene[1].snpID,
                         'distance': abs((gene[1].chromStartPromoter)-(chromStart))
                     }
-                    genesAssociatedNew.append(info)
-                genesAssociated = genesAssociatedNew
+                    promotersAssociatedNew.append(info)
+                promotersAssociated = promotersAssociatedNew
         else:
             error = Errors.NOT_VALID
         return render(request, self.template, {
             'geneId': geneId,
-            'genesAssociated': genesAssociated,
+            'promotersAssociated': promotersAssociated,
             'query_form': form,
             'error': error
         })   
