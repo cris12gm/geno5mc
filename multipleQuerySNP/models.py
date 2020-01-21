@@ -10,9 +10,12 @@ from config import KEY_snpsAssociated_FDR, KEY_snpsAssociated_annotation
 
 Base = declarative_base()
 
-engine_snpsAssociated_FDR = create_engine(KEY_snpsAssociated_FDR)
-Sesion_snpsAssociated_FDR = sessionmaker(bind=engine_snpsAssociated_FDR)
-session_snpsAssociated_FDR = Sesion_snpsAssociated_FDR()
+def createSessionSQL (keyFile):
+    engineSQL = create_engine(keyFile, pool_pre_ping=True)
+    Sesion = sessionmaker(bind=engineSQL)
+    session = Sesion()
+    return session
+
 
 class snpsAssociated_FDR_chrom(Base):
     __tablename__ = "snpsAssociated_FDR_chrom"
@@ -26,7 +29,9 @@ class snpsAssociated_FDR_chrom(Base):
 
 
     def get_SNP_chrom(_id):
-        data = session_snpsAssociated_FDR.query(snpsAssociated_FDR_chrom).filter_by(snpID=_id).all()
+        session = createSessionSQL(KEY_snpsAssociated_FDR)
+        data = session.query(snpsAssociated_FDR_chrom).filter_by(snpID=_id).all()
+        session.close()
         return data[0] if len(data) is 1 else None
 
 
@@ -57,18 +62,15 @@ def snpsAssociated_FDR_chr_table(chrID):
         qValue = sqlalchemy.Column(Float)
 
         def get_Associated(snpID):
-            data = session_snpsAssociated_FDR.query(snpsAssociated_FDR_chr).filter_by(snpID=snpID).all()
+            session = createSessionSQL(KEY_snpsAssociated_FDR)
+            data = session.query(snpsAssociated_FDR_chr).filter_by(snpID=snpID).all()
             snpsAssociated_FDR_chr.metadata.clear()
-            session_snpsAssociated_FDR.close()
+            session.close()
             
             return data
     return snpsAssociated_FDR_chr
 
 ##################################
-
-engine_snpsAssociated_FDR_annotation = create_engine(KEY_snpsAssociated_annotation)
-Sesion_snpsAssociated_FDR_annotation = sessionmaker(bind=engine_snpsAssociated_FDR_annotation)
-session_snpsAssociated_FDR_annotation = Sesion_snpsAssociated_FDR_annotation()
 
 class snpsAssociated_FDR_promotersEPD(Base):
     __tablename__ = "snpsAssociated_FDR_promotersEPD"
@@ -82,7 +84,9 @@ class snpsAssociated_FDR_promotersEPD(Base):
     promoterID = sqlalchemy.Column(String(200), primary_key=True)
 
     def get_Promoters(_id):
-        data = session_snpsAssociated_FDR_annotation.query(func.count(snpsAssociated_FDR_promotersEPD.geneID), snpsAssociated_FDR_promotersEPD).filter_by(snpID=_id).group_by(snpsAssociated_FDR_promotersEPD.geneID).all()
+        session = createSessionSQL(KEY_snpsAssociated_annotation)
+        data = session.query(func.count(snpsAssociated_FDR_promotersEPD.geneID), snpsAssociated_FDR_promotersEPD).filter_by(snpID=_id).group_by(snpsAssociated_FDR_promotersEPD.geneID).all()
+        session.close()
         return data if len(data) > 1 else None
 
 class snpsAssociated_FDR_enhancers(Base):
@@ -93,7 +97,9 @@ class snpsAssociated_FDR_enhancers(Base):
     numOverlaps = sqlalchemy.Column(String(20))
 
     def get_Enhancers(_id):
-        data = session_snpsAssociated_FDR_annotation.query(snpsAssociated_FDR_enhancers).filter_by(snpID=_id).order_by(snpsAssociated_FDR_enhancers.numOverlaps.desc()).limit(20).all()
+        session = createSessionSQL(KEY_snpsAssociated_annotation)
+        data = session.query(snpsAssociated_FDR_enhancers).filter_by(snpID=_id).order_by(snpsAssociated_FDR_enhancers.numOverlaps.desc()).limit(20).all()
+        session.close()
         return data if len(data) > 1 else None
 
 class snpsAssociated_FDR_trafficLights(Base):
@@ -104,14 +110,10 @@ class snpsAssociated_FDR_trafficLights(Base):
     numOverlaps = sqlalchemy.Column(String(20))
 
     def get_trafficLights(_id):
-        data = session_snpsAssociated_FDR_annotation.query(snpsAssociated_FDR_trafficLights).filter_by(snpID=_id).all()
-        session_snpsAssociated_FDR_annotation.close()
+        session = createSessionSQL(KEY_snpsAssociated_annotation)
+        data = session.query(snpsAssociated_FDR_trafficLights).filter_by(snpID=_id).all()
+        session.close()
         return data if len(data) > 1 else None
-
-
-engine_snpsAssociated_FDR_annotation = create_engine(KEY_snpsAssociated_annotation)
-Sesion_snpsAssociated_FDR_annotation = sessionmaker(bind=engine_snpsAssociated_FDR_annotation)
-session_snpsAssociated_FDR_annotation = Sesion_snpsAssociated_FDR_annotation()
 
 class getSNPID(Base):
     __tablename__ = "snpsID"
@@ -119,6 +121,7 @@ class getSNPID(Base):
     snpID = sqlalchemy.Column(String(20), primary_key=True)
 
     def get_SNP(_id):
-        data = session_snpsAssociated_FDR_annotation.query(getSNPID).filter_by(snpID=_id).all()
-        session_snpsAssociated_FDR_annotation.close()
+        session = createSessionSQL(KEY_snpsAssociated_annotation)
+        data = session.query(getSNPID).filter_by(snpID=_id).all()
+        session.close()
         return data if len(data) > 0 else None

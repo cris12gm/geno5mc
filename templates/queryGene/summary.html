@@ -2,8 +2,9 @@
     <div class="card-body">
         <h2>{{geneId}}</h2>
         {% if gTEX %}
-        <p><b>Expression on gTEX</b></p>
-        {{gTEX|safe}}
+        <div><b>Expression on gTEX</b>
+        {{gTEX|safe}}</div>
         {% endif %}
+        <div>Methylation</div>
     </div>
 </div>

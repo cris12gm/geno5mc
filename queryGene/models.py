@@ -10,9 +10,11 @@ from config import KEY_snpsAssociated_annotation, KEY_snpsAssociated_FDR, KEY_hg
 
 Base = declarative_base()
 
-engine_snpsAssociated_FDR_annotation = create_engine(KEY_snpsAssociated_annotation)
-Sesion_snpsAssociated_FDR_annotation = sessionmaker(bind=engine_snpsAssociated_FDR_annotation)
-session_snpsAssociated_FDR_annotation = Sesion_snpsAssociated_FDR_annotation()
+def createSessionSQL (keyFile):
+    engineSQL = create_engine(keyFile, pool_pre_ping=True)
+    Sesion = sessionmaker(bind=engineSQL)
+    session = Sesion()
+    return session
 
 class snpsAssociated_FDR_promotersEPD(Base):
     __tablename__ = "snpsAssociated_FDR_promotersEPD"
@@ -26,7 +28,9 @@ class snpsAssociated_FDR_promotersEPD(Base):
     promoterID = sqlalchemy.Column(String(200), primary_key=True)
 
     def get_SNPs_Promoters(_id):
-        data = session_snpsAssociated_FDR_annotation.query(func.count(snpsAssociated_FDR_promotersEPD.snpID), snpsAssociated_FDR_promotersEPD).filter_by(geneID=_id).group_by(snpsAssociated_FDR_promotersEPD.snpID).all()
+        session = createSessionSQL(KEY_snpsAssociated_annotation)
+        data = session.query(func.count(snpsAssociated_FDR_promotersEPD.snpID), snpsAssociated_FDR_promotersEPD).filter_by(geneID=_id).group_by(snpsAssociated_FDR_promotersEPD.snpID).all()
+        session.close()
         return data if len(data) > 1 else None
 
 class snpsAssociated_FDR_enhancers(Base):
@@ -37,7 +41,9 @@ class snpsAssociated_FDR_enhancers(Base):
     numOverlaps = sqlalchemy.Column(String(20))
 
     def get_Enhancers(_id):
-        data = session_snpsAssociated_FDR_annotation.query(snpsAssociated_FDR_enhancers).filter_by(geneID=_id).order_by(snpsAssociated_FDR_enhancers.numOverlaps.desc()).limit(20).all()
+        session = createSessionSQL(KEY_snpsAssociated_annotation)
+        data = session.query(snpsAssociated_FDR_enhancers).filter_by(geneID=_id).order_by(snpsAssociated_FDR_enhancers.numOverlaps.desc()).limit(20).all()
+        session.close()
         return data if len(data) > 0 else None
 
 class snpsAssociated_FDR_trafficLights(Base):
@@ -48,13 +54,10 @@ class snpsAssociated_FDR_trafficLights(Base):
     numOverlaps = sqlalchemy.Column(String(20))
 
     def get_trafficLights(_id):
-        data = session_snpsAssociated_FDR_annotation.query(snpsAssociated_FDR_trafficLights).filter_by(gene=_id).all()
-        session_snpsAssociated_FDR_annotation.close()
+        session = createSessionSQL(KEY_snpsAssociated_annotation)
+        data = session.query(snpsAssociated_FDR_trafficLights).filter_by(gene=_id).all()
+        session.close()
         return data if len(data) > 0 else None
-
-engine_snpsAssociated_FDR_annotation = create_engine(KEY_snpsAssociated_annotation)
-Sesion_snpsAssociated_FDR_annotation = sessionmaker(bind=engine_snpsAssociated_FDR_annotation)
-session_snpsAssociated_FDR_annotation = Sesion_snpsAssociated_FDR_annotation()
 
 class getGeneID(Base):
     __tablename__ = "geneID"
@@ -62,13 +65,10 @@ class getGeneID(Base):
     geneID = sqlalchemy.Column(String(200), primary_key=True)
 
     def get_Genes(_id):
-        data = session_snpsAssociated_FDR_annotation.query(getGeneID).filter_by(geneID=_id).all()
-        session_snpsAssociated_FDR_annotation.close()
+        session = createSessionSQL(KEY_snpsAssociated_annotation)
+        data = session.query(getGeneID).filter_by(geneID=_id).all()
+        session.close()
         return data[0] if len(data) is 1 else None
-
-engine_snpsAssociated_FDR = create_engine(KEY_snpsAssociated_FDR)
-Sesion_snpsAssociated_FDR = sessionmaker(bind=engine_snpsAssociated_FDR)
-session_snpsAssociated_FDR = Sesion_snpsAssociated_FDR()
 
 class snpsAssociated_FDR_chrom(Base):
     __tablename__ = "snpsAssociated_FDR_chrom"
@@ -78,13 +78,10 @@ class snpsAssociated_FDR_chrom(Base):
     chromStart = sqlalchemy.Column(Integer)
 
     def get_SNP_chrom(_id):
-        data = session_snpsAssociated_FDR.query(snpsAssociated_FDR_chrom).filter_by(snpID=_id).all()
-        session_snpsAssociated_FDR.close()
+        session = createSessionSQL(KEY_snpsAssociated_FDR)
+        data = session.query(snpsAssociated_FDR_chrom).filter_by(snpID=_id).all()
+        session.close()
         return data[0] if len(data) is 1 else None
-
-engine_hg38 = create_engine(KEY_hg38)
-Sesion_hg38 = sessionmaker(bind=engine_hg38)
-session_hg38 = Sesion_hg38()
 
 class getGencode(Base):
     __tablename__ = "gencodeToGeneName"
@@ -93,7 +90,9 @@ class getGencode(Base):
     geneName = sqlalchemy.Column(String(255))
 
     def getGencodeID(_id):
-        data = session_hg38.query(getGencode).filter_by(geneName=_id).all()
-        session_hg38.close()
-        data = data[0].gencodeID
+        session = createSessionSQL(KEY_hg38)
+        data = session.query(getGencode).filter_by(geneName=_id).all()
+        session.close()
+        if len(data)>0:
+            data = data[0].gencodeID
         return data if len(data)>0 else None
