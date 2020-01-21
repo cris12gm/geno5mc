@@ -1,6 +1,6 @@
 // Call the dataTables jQuery plugin
 $(document).ready(function() {
-  $('#dataTableGenes').DataTable({
+  $('#dataTablePromoters').DataTable({
     "order":[[1, "desc"]]
   });
   $('#dataTableRegulation').DataTable({

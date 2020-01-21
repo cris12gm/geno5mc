@@ -11,4 +11,7 @@ urlpatterns = [
     url(r'^querySNP/', include('querySNP.urls')),
     url(r'^queryGene/', include ('queryGene.urls')),
     url(r'^multipleQuerySNP/', include ('multipleQuerySNP.urls')),
+    url(r'^plotElement/', include ('plotElement.urls')),
+    url(r'^stats/', include ('stats.urls')),
+    url(r'^primaryData/', include ('primaryData.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

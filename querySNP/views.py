@@ -18,7 +18,7 @@ class Errors(Enum):
     NOT_VALID = 1
     NOT_ASSOCIATED = 2
 
-def getAllFromSNP(snpId,associations,genes,enhancers,tLights,snpInfo,error):
+def getAllFromSNP(snpId,associations,promoters,enhancers,tLights,snpInfo,error):
     snpInfo = snpsAssociated_FDR_chrom.get_SNP_chrom(snpId)
     if snpInfo is None:
         checkid = getSNPID.get_SNP(snpId)
@@ -28,24 +28,24 @@ def getAllFromSNP(snpId,associations,genes,enhancers,tLights,snpInfo,error):
             error = Errors.NOT_VALID
     else:
         associations = snpsAssociated_FDR_chr_table(snpInfo.chrom).get_Associated(snpInfo.snpID)
-        genes = snpsAssociated_FDR_promotersEPD.get_Promoters(snpId)
-        # Añado a genes el count
-        genesNew = []
-        for gene in genes:
+        promoters = snpsAssociated_FDR_promotersEPD.get_Promoters(snpId)
+        # Añado a promoters el count
+        promotersNew = []
+        for gene in promoters:
             info = {
                 'data': gene[1],
                 'link': settings.SUB_SITE+"/queryGene/gene/"+gene[1].geneID,
                 'count': gene[0],
                 'distance':abs(gene[1].chromStartPromoter-snpInfo.chromStart)
             }
-            genesNew.append(info)
-        genes = genesNew
+            promotersNew.append(info)
+        promoters = promotersNew
 
         enhancers = snpsAssociated_FDR_enhancers.get_Enhancers(snpId)
 
         #Añado a tlights el count
         tLights = snpsAssociated_FDR_trafficLights.get_trafficLights(snpInfo.snpID)
-    return snpInfo,associations,genes,enhancers,tLights,error
+    return snpInfo,associations,promoters,enhancers,tLights,error
 
 class SNPAssociated(TemplateView):
     template = 'querySNP.html'    
@@ -62,7 +62,7 @@ class SNPAssociated(TemplateView):
         error = None
         snpInfo = {}
         associations = []
-        genes = []
+        promoters = []
         enhancers = []
         tLights=[]
         error = ""
@@ -70,14 +70,14 @@ class SNPAssociated(TemplateView):
         if form.is_valid():
             snpId = form.cleaned_data.get('SNPid')
             if snpId is not '':
-                snpInfo,associations,genes,enhancers,tLights,error=getAllFromSNP(snpId,associations,genes,enhancers,tLights,snpInfo,error)
+                snpInfo,associations,promoters,enhancers,tLights,error=getAllFromSNP(snpId,associations,promoters,enhancers,tLights,snpInfo,error)
         else:
             error = Errors.NOT_VALID
 
         return render(request, self.template, {
             'snpInfo': snpInfo,
             'associations': associations,
-            'genes': genes,
+            'promoters': promoters,
             'enhancers':enhancers,
             'tLights':tLights,
             'query_form': form,
@@ -96,13 +96,13 @@ class SNPAssociatedGET(TemplateView):
         snpInfo = {}
         baseLink = settings.SUB_SITE+"/queryGene/gene/" 
         associations = []
-        genes = []
+        promoters = []
         enhancers = []
         tLights=[]
 
         snpId = snp
         if snpId is not '':
-            snpInfo,associations,genes,enhancers,tLights,error=getAllFromSNP(snpId,associations,genes,enhancers,tLights,snpInfo,error)
+            snpInfo,associations,promoters,enhancers,tLights,error=getAllFromSNP(snpId,associations,promoters,enhancers,tLights,snpInfo,error)
         else:
             error = Errors.NOT_VALID
 
@@ -110,7 +110,7 @@ class SNPAssociatedGET(TemplateView):
         return render(request, self.template, {
             'snpInfo': snpInfo,
             'associations': associations,
-            'genes': genes,
+            'promoters': promoters,
             'enhancers':enhancers,
             'tLights':tLights,
             'query_form': form,
