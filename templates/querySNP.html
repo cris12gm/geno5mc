@@ -50,6 +50,11 @@
                     <a class="nav-link" id="enhancers-tab" data-toggle="tab" href="#enhancers" role="tab" aria-controls="enhancers" aria-selected="false"><h5>Enhancers</h5></a>
                 </li>
                 {% endif %}
+                {% if tLights %}
+                <li class="nav-item">
+                    <a class="nav-link" id="tLights-tab" data-toggle="tab" href="#tLights" role="tab" aria-controls="tLights" aria-selected="false"><h5>Traffic Lights</h5></a>
+                </li>
+                {% endif %}
 
             </ul>
 
@@ -70,7 +75,10 @@
                     <br>
                     {% include "querySNP/enhancers.html" %}
                 </div>
-
+                <div class="tab-pane fade" id="tLights" role="tabpanel" aria-labelledby="tLights-tab">
+                    <br>
+                    {% include "querySNP/trafficLights.html" %}
+                </div>
             </div>
         </div>
         {% endif %}
