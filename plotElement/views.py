@@ -19,6 +19,8 @@ class plotEnhancers(TemplateView):
         pass
         return render(request, self.template, {})
     def get(self,request):
+        valoresGet = request.GET
+        print (valoresGet)
         return render(request, self.template, {})
 
 class plotEnhancers2(TemplateView):

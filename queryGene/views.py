@@ -66,19 +66,21 @@ class GenesAssociated(TemplateView):
                     expression = requests.get("https://gtexportal.org/rest/v1/expression/geneExpression?datasetId=gtex_v7&gencodeId="+geneCode+"&format=json").json()['geneExpression']
                     gTEX = plotExpression(expression)
                     # Añado a genes el count
-                    promotersAssociatedNew = []
-                    for gene in promotersAssociated:
-                        chromStart = snpsAssociated_FDR_chrom.get_SNP_chrom(gene[1].snpID).chromStart
-                        info = {
-                            'data': gene[1],
-                            'count': gene[0],
-                            'link': settings.SUB_SITE+"/querySNP/snp/"+gene[1].snpID,
-                            'distance': abs((gene[1].chromStartPromoter)-(chromStart))
-                        }
-                        promotersAssociatedNew.append(info)
-                    promotersAssociated = promotersAssociatedNew
+                    if promotersAssociated is not None:
+                        promotersAssociatedNew = []
+                        for gene in promotersAssociated:
+                            chromStart = snpsAssociated_FDR_chrom.get_SNP_chrom(gene[1].snpID).chromStart
+                            info = {
+                                'data': gene[1],
+                                'count': gene[0],
+                                'link': settings.SUB_SITE+"/querySNP/snp/"+gene[1].snpID,
+                                'distance': abs((gene[1].chromStartPromoter)-(chromStart))
+                            }
+                            promotersAssociatedNew.append(info)
+                        promotersAssociated = promotersAssociatedNew
         else:
             error = Errors.NOT_VALID
+
         return render(request, self.template, {
             'geneId': geneId,
             'promotersAssociated': promotersAssociated,
