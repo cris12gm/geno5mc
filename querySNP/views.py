@@ -12,6 +12,7 @@ from django.urls import reverse_lazy
 
 from .forms import QuerySNP
 from .models import snpsAssociated_FDR_chrom, snpsAssociated_FDR_chr_table, snpsAssociated_FDR_promotersEPD, snpsAssociated_FDR_enhancers, snpsAssociated_FDR_trafficLights,getSNPID
+from querySNP.plotElements import plotElement
 
 class Errors(Enum):
     NO_ERROR = 0
@@ -71,6 +72,10 @@ class SNPAssociated(TemplateView):
             snpId = form.cleaned_data.get('SNPid')
             if snpId is not '':
                 snpInfo,associations,promoters,enhancers,tLights,error=getAllFromSNP(snpId,associations,promoters,enhancers,tLights,snpInfo,error)
+                inputDict = {}
+                inputDict['test1']=10
+                inputDict['test2']=20
+                barPlotPromoters = plotElement(promoters)
         else:
             error = Errors.NOT_VALID
 
@@ -82,7 +87,8 @@ class SNPAssociated(TemplateView):
             'tLights':tLights,
             'query_form': form,
             'baseLink':baseLink,
-            'error': error
+            'error': error,
+            'barPlotPromoters':barPlotPromoters
         })   
 
 class SNPAssociatedGET(TemplateView):
