@@ -24,9 +24,9 @@ def PlotPromoters(snpID,geneID,start,end):
     genotypes = getGenotype.getGenotypeCpG(snpID)
 
     valuesPlot = {}
-    valuesPlot["meth"]=[]
-    valuesPlot["genotype"]=[]
-    valuesPlot["CpGID"]=[]
+    valuesPlot["methRatio"]=[]
+    valuesPlot["Genotype"]=[]
+    valuesPlot["CpG ID"]=[]
 
     for element in cpgs:
 
@@ -40,14 +40,14 @@ def PlotPromoters(snpID,geneID,start,end):
         for att in attr_names:
             valueMeth = getattr(methylationCpG,att)
             if valueMeth and not "_" in str(valueMeth):
-                valueGenotype = getattr(genotypes,att)
-                valuesPlot["meth"].append(valueMeth)
-                valuesPlot["genotype"].append(valueGenotype)
-                valuesPlot["CpGID"].append(idCpG)
+                valueGenotype = str(getattr(genotypes,att)).replace("0","Ref").replace("1","Het").replace("2","Alt")
+                valuesPlot["methRatio"].append(valueMeth)
+                valuesPlot["Genotype"].append(valueGenotype)
+                valuesPlot["CpG ID"].append(idCpG)
         
     df = pd.DataFrame(data=valuesPlot)
 
-    fig = px.strip(df, 'CpGID', 'meth', 'genotype', stripmode='overlay')
+    fig = px.strip(df, 'CpG ID', 'methRatio', 'Genotype', stripmode='overlay')
 
     div_obj = plot(fig, show_link=False, auto_open=False, output_type = 'div')
     return div_obj
