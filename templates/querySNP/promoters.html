@@ -1,5 +1,30 @@
-<div class="card">             
+<div class="card mb-3" >             
     <div class="card-body">
-        {{barPlotPromoters|safe}}
+        <div id="plotPromoters" style='width:80%'>
+            {{ barPlotPromoters | safe}}
+        </div>
     </div>
 </div>
+
+<!--    <div class="table-responsive">
+            In this table...
+            <hr>
+            <table class="table table-bordered" id="dataTablePromoter" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>Gene ID</th>
+                        <th>Num CpGs</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for field in promoters %}
+                    <tr>
+                        <td><a href="{{ field.link }}">{{ field.data.geneID }}</a></td>
+                        <td>{{ field.count }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>    
+    </div>
+</div>-->

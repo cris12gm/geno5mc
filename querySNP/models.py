@@ -76,11 +76,11 @@ def snpsAssociated_FDR_chr_table(chrID):
 class snpsAssociated_FDR_promotersEPD(Base):
     __tablename__ = "snpsAssociated_FDR_promotersEPD"
 
-    geneID = sqlalchemy.Column(String(200), primary_key=True)
+    geneID = sqlalchemy.Column(String(200))
     chrom = sqlalchemy.Column(String(200))
     chromStartPromoter = sqlalchemy.Column(Integer)
     chromEndPromoter = sqlalchemy.Column(Integer)
-    chromStartCpG = sqlalchemy.Column(Integer)
+    chromStartCpG = sqlalchemy.Column(Integer, primary_key=True)
     snpID = sqlalchemy.Column(String(200), primary_key=True)
     promoterID = sqlalchemy.Column(String(200), primary_key=True)
 

@@ -1,11 +1,5 @@
 <div class="card mb-3" >             
     <div class="card-body">
-        <!-- <ul>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-        </ul> -->
         <b>ID: </b><a href="https://www.ncbi.nlm.nih.gov/snp/{{snpInfo.snpID}}" target="_blank">{{snpInfo.snpID}}</a>
         <br>
         <b>Position:</b> {{ snpInfo.chrom }}:{{ snpInfo.chromStart }}
@@ -13,10 +7,5 @@
         <b>Reference Allele: </b> {{ snpInfo.reference }}
         <br>
         <b>Alternative Allele: </b> {{ snpInfo.alternative }}
-        <br>
-        <div>
-            <button class="btn btn-success btn-sm"> Download all associations</button>
-        </div>
     </div>
-
 </div>
