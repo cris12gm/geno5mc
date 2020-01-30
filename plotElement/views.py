@@ -24,9 +24,10 @@ def PlotPromoters(snpID,geneID,start,end):
     genotypes = getGenotype.getGenotypeCpG(snpID)
 
     valuesPlot = {}
-    valuesPlot["methRatio"]=[]
-    valuesPlot["Genotype"]=[]
-    valuesPlot["CpG ID"]=[]
+    valuesPlot["methRatio"] = []
+    valuesPlot["Genotype"] = []
+    valuesPlot["CpG ID"] = []
+    valuesPlot["Sample"] = []
 
     for element in cpgs:
 
@@ -44,15 +45,16 @@ def PlotPromoters(snpID,geneID,start,end):
                 valuesPlot["methRatio"].append(valueMeth)
                 valuesPlot["Genotype"].append(valueGenotype)
                 valuesPlot["CpG ID"].append(idCpG)
+                valuesPlot["Sample"].append(att)
         
     df = pd.DataFrame(data=valuesPlot)
 
-    fig = px.strip(df, 'CpG ID', 'methRatio', 'Genotype', stripmode='overlay')
+    fig = px.strip(df, 'CpG ID', 'methRatio', 'Genotype', stripmode='overlay', hover_data=["Sample"])
 
     div_obj = plot(fig, show_link=False, auto_open=False, output_type = 'div')
     return div_obj
 
-class plotEnhancers(TemplateView):
+class plotElements(TemplateView):
     template = "plotElement.html"
 
     def post(self,request):
@@ -63,8 +65,8 @@ class plotEnhancers(TemplateView):
         valoresGet = request.GET
         element = valoresGet['element']
         if element == 'promoter':
-            plotPromoter = PlotPromoters(valoresGet['snp'],valoresGet['name'],valoresGet['start'],valoresGet['end'])
+            plotElement = PlotPromoters(valoresGet['snp'],valoresGet['name'],valoresGet['start'],valoresGet['end'])
         
         return render(request, self.template, {
-            'plotPromoter':plotPromoter
+            'plotElement':plotElement
             })
