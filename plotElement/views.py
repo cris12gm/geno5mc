@@ -23,6 +23,10 @@ def PlotPromoters(snpID,geneID,start,end):
     cpgs = snpsAssociated_FDR_promotersEPD.get_SNPs_Promoters(snpID,geneID)
     genotypes = getGenotype.getGenotypeCpG(snpID)
 
+    ref = str(getattr(genotypes,"reference"))+str(getattr(genotypes,"reference"))
+    alt = str(getattr(genotypes,"alternative"))+str(getattr(genotypes,"alternative"))
+    het = str(getattr(genotypes,"reference"))+str(getattr(genotypes,"alternative"))
+
     valuesPlot = {}
     valuesPlot["methRatio"] = []
     valuesPlot["Genotype"] = []
@@ -37,11 +41,11 @@ def PlotPromoters(snpID,geneID,start,end):
         ##Get names of columns
         inst = inspect(methylationCpG)
         attr_names = [c_attr.key for c_attr in inst.mapper.column_attrs]
-
+        
         for att in attr_names:
             valueMeth = getattr(methylationCpG,att)
             if valueMeth and not "_" in str(valueMeth):
-                valueGenotype = str(getattr(genotypes,att)).replace("0","Ref").replace("1","Het").replace("2","Alt")
+                valueGenotype = str(int(getattr(genotypes,att))).replace("0",ref).replace("1",het).replace("2",alt)
                 valuesPlot["methRatio"].append(valueMeth)
                 valuesPlot["Genotype"].append(valueGenotype)
                 valuesPlot["CpG ID"].append(idCpG)

@@ -31,16 +31,17 @@ def getAllFromSNP(snpId,associations,promoters,enhancers,tLights,snpInfo,error):
         associations = snpsAssociated_FDR_chr_table(snpInfo.chrom).get_Associated(snpInfo.snpID)
         promoters = snpsAssociated_FDR_promotersEPD.get_Promoters(snpId)
         # Añado a promoters el count
-        promotersNew = []
-        for gene in promoters:
-            info = {
-                'data': gene[1],
-                'link': settings.SUB_SITE+"/queryGene/gene/"+gene[1].geneID,
-                'count': gene[0],
-                'distance':abs(gene[1].chromStartPromoter-snpInfo.chromStart)
-            }
-            promotersNew.append(info)
-        promoters = promotersNew
+        if promoters:
+            promotersNew = []
+            for gene in promoters:
+                info = {
+                    'data': gene[1],
+                    'link': settings.SUB_SITE+"/queryGene/gene/"+gene[1].geneID,
+                    'count': gene[0],
+                    'distance':abs(gene[1].chromStartPromoter-snpInfo.chromStart)
+                }
+                promotersNew.append(info)
+            promoters = promotersNew
 
         enhancers = snpsAssociated_FDR_enhancers.get_Enhancers(snpId)
 
@@ -66,17 +67,17 @@ class SNPAssociated(TemplateView):
         promoters = []
         enhancers = []
         tLights=[]
+        barPlotPromoters = []
         error = ""
+
 
         if form.is_valid():
             snpId = form.cleaned_data.get('SNPid')
+            print (snpId)
             if snpId is not '':
                 snpInfo,associations,promoters,enhancers,tLights,error=getAllFromSNP(snpId,associations,promoters,enhancers,tLights,snpInfo,error)
-                inputDict = {}
-                inputDict['test1']=10
-                inputDict['test2']=20
-                barPlotPromoters = plotPromoters(promoters)
-                barPlotPromoters2 = plotPromoters(promoters)
+                if promoters:
+                    barPlotPromoters = plotPromoters(promoters)
         else:
             error = Errors.NOT_VALID
 
@@ -89,8 +90,7 @@ class SNPAssociated(TemplateView):
             'query_form': form,
             'baseLink':baseLink,
             'error': error,
-            'barPlotPromoters':barPlotPromoters,
-            'barPlotPromoters2':barPlotPromoters2
+            'barPlotPromoters':barPlotPromoters
         })   
 
 class SNPAssociatedGET(TemplateView):

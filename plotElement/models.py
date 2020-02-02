@@ -107,6 +107,8 @@ class getGenotype(Base):
     __tablename__ = "genotypes"
 
     id = sqlalchemy.Column(String(30), primary_key=True)
+    reference = sqlalchemy.Column(String(3))
+    alternative = sqlalchemy.Column(String(3))
     UMB616_brain = sqlalchemy.Column(Integer)
     UMB1158_brain = sqlalchemy.Column(Integer)
     UMB1829_brain = sqlalchemy.Column(Integer)
