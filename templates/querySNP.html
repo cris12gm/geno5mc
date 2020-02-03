@@ -68,6 +68,28 @@
 
   <!-- Demo scripts for this page-->
 
+<!-- This script enables link to tabs-->
+<script>
+
+    // Javascript to enable link to tab
+    var url = document.location.toString();
+    if (url.match('#')) {
+        $('.nav-tabs a[href="#' + url.split('#')[1] + '"]').tab('show');
+    }
+    
+    // Change hash for page-reload
+    $('.nav-tabs a').on('shown.bs.tab', function (e) {
+        window.location.hash = e.target.hash;
+    })
+
+    $(document).ready(function()
+    {
+        $("#loadpage").hide();
+        $('#divPageContent').css("visibility", "visible");
+    });
+  
+</script>
+
 <!-- Plotly - relayout -->
 <script>
     $('a[data-toggle="tab"]').on('shown.bs.tab', function(e){

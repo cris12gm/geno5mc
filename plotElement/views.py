@@ -72,5 +72,7 @@ class plotElements(TemplateView):
             plotElement = PlotPromoters(valoresGet['snp'],valoresGet['name'],valoresGet['start'],valoresGet['end'])
         
         return render(request, self.template, {
-            'plotElement':plotElement
+            'plotElement':plotElement,
+            'snpID':valoresGet['snp'],
+            'name':valoresGet['name']
             })

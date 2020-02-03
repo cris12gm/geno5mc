@@ -2,7 +2,10 @@
 {% load staticfiles %}
 
 {% block content %}
-    PLOT AN ELEMENT
+    <button class="btn btn-success btn-sm" onclick="goBack()" >Go Back</button>
+    <br>
+    <center><b>{{ name }}</b></center>
+    
     {{ plotElement | safe}}
 {% endblock %}
 {% block js %}
@@ -44,6 +47,12 @@
 <script>
     function getMethGraph() {
         alert("Test")
+    }
+</script>
+
+<script>
+    function goBack() {
+      window.history.back();
     }
 </script>
 
