@@ -5,8 +5,9 @@
     <button class="btn btn-success btn-sm" onclick="goBack()" >Go Back</button>
     <br>
     <center><b>{{ name }}</b></center>
-    
-    {{ plotElement | safe}}
+    <div name="plotElement" style="overflow-x: auto;">
+        {{ plotElement | safe}}
+    </div>    
 {% endblock %}
 {% block js %}
   <!-- Demo scripts for this page-->

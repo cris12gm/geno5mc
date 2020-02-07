@@ -18,11 +18,6 @@
                 <li class="nav-item">
                     <a class="nav-link active" id="summary-tab" data-toggle="tab" href="#summary" role="tab" aria-controls="summary" aria-selected="true"><h5>Summary</h5></a>
                 </li>
-                {% if promoters or enhancers or tLights %}
-                <li class="nav-item">
-                    <a class="nav-link" id="topresults-tab" data-toggle="tab" href="#topresults" role="tab" aria-controls="topresults" aria-selected="false"><h5>Top Results</h5></a>
-                </li>
-                {% endif %}
                 {% if promoters %}
                 <li class="nav-item">
                     <a class="nav-link" id="promoters-tab" data-toggle="tab" href="#promoters" role="tab" aria-controls="promoters" aria-selected="false"><h5>Promoters</h5></a>
@@ -33,22 +28,12 @@
                     <a class="nav-link" id="enhancers-tab" data-toggle="tab" href="#enhancers" role="tab" aria-controls="enhancers" aria-selected="false"><h5>Enhancers</h5></a>
                 </li>
                 {% endif %}
-                {% if tLights %}
-                <li class="nav-item">
-                    <a class="nav-link" id="tLights-tab" data-toggle="tab" href="#tLights" role="tab" aria-controls="tLights" aria-selected="false"><h5>Traffic Lights</h5></a>
-                </li>
-                {% endif %}
-
             </ul>
-
+    
             <div class="tab-content" id="myTabContent">
                 <div class="tab-pane fade show active" id="summary" role="tabpanel" aria-labelledby="summary-tab">
                     <br>
                     {% include "querySNP/summary.html" %}
-                </div>
-                <div class="tab-pane fade" id="topresults" role="tabpanel" aria-labelledby="topresults-tab">
-                    <br>
-                    {% include "querySNP/topResults.html" %}
                 </div>
                 <div class="tab-pane fade" id="promoters" role="tabpanel" aria-labelledby="promoters-tab">
                     <br>
@@ -58,20 +43,49 @@
                     <br>
                     {% include "querySNP/enhancers.html" %}
                 </div>
-                <div class="tab-pane fade" id="tLights" role="tabpanel" aria-labelledby="tLights-tab">
-                    <br>
-                    {% include "querySNP/trafficLights.html" %}
-                </div>
             </div>
         </div>
         {% endif %}
-
     </div>
 {% endblock %}
 {% block js %}
+
   <!-- Demo scripts for this page-->
 
-  <!-- This script show an image when is loading-->
+<!-- This script enables link to tabs-->
+<script>
+
+    // Javascript to enable link to tab
+    var url = document.location.toString();
+    if (url.match('#')) {
+        $('.nav-tabs a[href="#' + url.split('#')[1] + '"]').tab('show');
+    }
+    
+    // Change hash for page-reload
+    $('.nav-tabs a').on('shown.bs.tab', function (e) {
+        window.location.hash = e.target.hash;
+    })
+
+    $(document).ready(function()
+    {
+        $("#loadpage").hide();
+        $('#divPageContent').css("visibility", "visible");
+    });
+  
+</script>
+
+<!-- Plotly - relayout -->
+<script>
+    $('a[data-toggle="tab"]').on('shown.bs.tab', function(e){
+    //  alert("before");
+        $('.plotly-graph-div').each(function(i, obj) {
+     //alert("in");
+        Plotly.relayout( obj.id, { 'xaxis.autorange': true, 'yaxis.autorange': true });
+        });
+    })
+</script>
+
+<!-- This script show an image when is loading-->
 <script type="text/javascript">
     function ShowLoading(e) {
         var div = document.createElement('div');
@@ -110,17 +124,9 @@
     }
 </script>
 
-<!-- This script takes to the back page -->
-
-<script>
-    function goBack() {
-      window.history.back();
-    }
-</script>
-
 <script src="{% static 'js/demo/datatables-demo.js'%}"></script>
 <script src="{% static 'vendor/datatables/jquery.dataTables.js'%}"></script>
 <script src="{% static 'vendor/datatables/dataTables.bootstrap4.js'%}"></script>
 
-{% endblock %}
 
+{% endblock %}

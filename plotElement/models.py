@@ -32,6 +32,24 @@ class snpsAssociated_FDR_promotersEPD(Base):
         session.close()
         return data if len(data) > 0 else None
 
+
+class snpsAssociated_FDR_enhancers(Base):
+    __tablename__ = "snpsAssociated_FDR_enhancersAll"
+
+    chrom = sqlalchemy.Column(String(255))
+    chromStart = sqlalchemy.Column(Integer)
+    chromEnd = sqlalchemy.Column(Integer)
+    enhancerID = sqlalchemy.Column(String(20), primary_key=True)
+    genesID = sqlalchemy.Column(String(500))
+    chromStartCpG = sqlalchemy.Column((Integer), primary_key=True)
+    snpID = sqlalchemy.Column(String(20), primary_key=True)
+
+    def get_Enhancers(_id,_enhancerId):
+        session = createSessionSQL(KEY_snpsAssociated_annotation)
+        data = session.query(snpsAssociated_FDR_enhancers).filter_by(enhancerID = _enhancerId).filter_by(snpID=_id).all()
+        session.close()
+        return data if len(data) > 0 else None
+
         
 class getMethylation(Base):
     __tablename__ = "methRatio"

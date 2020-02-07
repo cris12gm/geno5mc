@@ -12,7 +12,7 @@ from django.urls import reverse_lazy
 
 from .forms import QuerySNP
 from .models import snpsAssociated_FDR_chrom, snpsAssociated_FDR_chr_table, snpsAssociated_FDR_promotersEPD, snpsAssociated_FDR_enhancers, snpsAssociated_FDR_trafficLights,getSNPID
-from querySNP.plotElements import plotPromoters
+from querySNP.plotElements import plotPromoters, plotEnhancers
 
 class Errors(Enum):
     NO_ERROR = 0
@@ -73,11 +73,12 @@ class SNPAssociated(TemplateView):
 
         if form.is_valid():
             snpId = form.cleaned_data.get('SNPid')
-            print (snpId)
             if snpId is not '':
                 snpInfo,associations,promoters,enhancers,tLights,error=getAllFromSNP(snpId,associations,promoters,enhancers,tLights,snpInfo,error)
                 if promoters:
                     barPlotPromoters = plotPromoters(promoters)
+                if enhancers:
+                    barPlotEnhancers = plotEnhancers(enhancers)
         else:
             error = Errors.NOT_VALID
 
@@ -89,8 +90,9 @@ class SNPAssociated(TemplateView):
             'tLights':tLights,
             'query_form': form,
             'baseLink':baseLink,
+            'barPlotPromoters':barPlotPromoters,
+            'barPlotEnhancers':barPlotEnhancers,
             'error': error,
-            'barPlotPromoters':barPlotPromoters
         })   
 
 class SNPAssociatedGET(TemplateView):
@@ -107,10 +109,13 @@ class SNPAssociatedGET(TemplateView):
         promoters = []
         enhancers = []
         tLights=[]
+        barPlotPromoters = []
 
         snpId = snp
         if snpId is not '':
             snpInfo,associations,promoters,enhancers,tLights,error=getAllFromSNP(snpId,associations,promoters,enhancers,tLights,snpInfo,error)
+            if promoters:
+                barPlotPromoters = plotPromoters(promoters)
         else:
             error = Errors.NOT_VALID
 
@@ -123,5 +128,6 @@ class SNPAssociatedGET(TemplateView):
             'tLights':tLights,
             'query_form': form,
             'baseLink':baseLink,
+            'barPlotPromoters':barPlotPromoters,
             'error': error
         })   

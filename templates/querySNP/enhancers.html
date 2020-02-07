@@ -1,6 +1,9 @@
 <div class="card mb-3">             
     <div class="card-body">
-        <div class="table-responsive">
+        <div style="overflow-x: auto;">
+            {{ barPlotEnhancers | safe}}
+        </div>
+<!--        <div class="table-responsive">
             In this table...
 
             IMP -> LIMITADO A 20
@@ -21,6 +24,6 @@
                     {% endfor %}
                 </tbody>
             </table>
-        </div>
+        </div>-->
     </div>
 </div>

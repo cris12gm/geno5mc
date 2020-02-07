@@ -6,6 +6,7 @@ from sqlalchemy import create_engine, MetaData, Table, Column, String, Integer, 
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy import func
+from sqlalchemy import desc
 from config import KEY_snpsAssociated_FDR, KEY_snpsAssociated_annotation
 
 Base = declarative_base()
@@ -86,20 +87,25 @@ class snpsAssociated_FDR_promotersEPD(Base):
 
     def get_Promoters(_id):
         session = createSessionSQL(KEY_snpsAssociated_annotation)
-        data = session.query(func.count(snpsAssociated_FDR_promotersEPD.geneID), snpsAssociated_FDR_promotersEPD).filter_by(snpID=_id).group_by(snpsAssociated_FDR_promotersEPD.geneID).all()
+        data = session.query(func.count(snpsAssociated_FDR_promotersEPD.geneID).label('total'), snpsAssociated_FDR_promotersEPD).filter_by(snpID=_id).group_by(snpsAssociated_FDR_promotersEPD.geneID).order_by(desc('total')).all()
         session.close()
         return data if len(data) > 0 else None
 
 class snpsAssociated_FDR_enhancers(Base):
-    __tablename__ = "snpsAssociated_FDR_enhancers_filtered"
+    __tablename__ = "snpsAssociated_FDR_enhancersAll"
 
+    chrom = sqlalchemy.Column(String(255))
+    chromStart = sqlalchemy.Column(Integer)
+    chromEnd = sqlalchemy.Column(Integer)
+    enhancerID = sqlalchemy.Column(String(20), primary_key=True)
+    genesID = sqlalchemy.Column(String(500))
+    chromStartCpG = sqlalchemy.Column((Integer), primary_key=True)
     snpID = sqlalchemy.Column(String(20), primary_key=True)
-    geneID = sqlalchemy.Column(String(20), primary_key=True)
-    numOverlaps = sqlalchemy.Column(String(20))
 
     def get_Enhancers(_id):
         session = createSessionSQL(KEY_snpsAssociated_annotation)
-        data = session.query(snpsAssociated_FDR_enhancers).filter_by(snpID=_id).order_by(snpsAssociated_FDR_enhancers.numOverlaps.desc()).limit(20).all()
+        data = session.query(func.count(snpsAssociated_FDR_enhancers.enhancerID).label('total'),snpsAssociated_FDR_enhancers).filter_by(snpID=_id).group_by(snpsAssociated_FDR_enhancers.enhancerID).order_by(desc('total')).all()
+        
         session.close()
         return data if len(data) > 0 else None
 
