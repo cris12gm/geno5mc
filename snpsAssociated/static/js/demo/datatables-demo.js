@@ -21,4 +21,5 @@ $(document).ready(function() {
   $('#dataTableRegulationMQ').DataTable({
     "order":[[2,"desc"]]
   });
+  $('#dataTableSamples').DataTable({});
 }); 

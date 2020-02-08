@@ -10,14 +10,24 @@ from django.views.generic import FormView, DetailView, TemplateView
 from django.http import JsonResponse
 from django.urls import reverse_lazy
 
+from .models import samples
+
 # Create your views here.
 
 class primaryData(TemplateView):
     template = "primaryData.html"
 
     def post(self,request):
-        pass
-        return render(request, self.template, {})
+        tableSamples = samples.get_all_samples()
+
+        return render(request, self.template, {
+            'tableSamples':tableSamples
+        })
     def get(self,request):
-        return render(request, self.template, {})
+
+        tableSamples = samples.get_all_samples()
+        
+        return render(request, self.template, {
+            'tableSamples':tableSamples
+            })
 

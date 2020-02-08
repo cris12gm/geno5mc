@@ -2,7 +2,41 @@
 {% load staticfiles %}
 
 {% block content %}
-    PRIMARY DATA
+    <h1>PRIMARY DATA</h1>
+    <hr>
+
+    <div class="card mb-3">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTableSamples" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>SRX</th>
+                            <th>SRP</th>
+                            <th>BioSample</th>
+                            <th>Tissue type</th>
+                            <th>% methylated CpGs</th>
+                            <th>% unMethylated CpGs</th>
+                            <th>Positions with variation</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for field in tableSamples %}
+                        <tr>
+                            <td><a href='https://www.ncbi.nlm.nih.gov/sra?term={{ field.SRX }}'>{{ field.SRX }}</a></td>
+                            <td><a href='https://trace.ncbi.nlm.nih.gov/Traces/sra/?study={{ field.SRP }}'> {{ field.SRP }}</a></td>
+                            <td><a href='https://www.ncbi.nlm.nih.gov/biosample/{{ field.bioSample }}'> {{ field.bioSample }} </a></td>
+                            <td>{{ field.tissueType }}</td>
+                            <td><center>{{ field.percentageMethylatedCpG }}</center></td>
+                            <td><center>{{ field.percentageUnMethylatedCpG }}</center></td>
+                            <td><center>{{ field.positionsVariation }}</center></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>    
+        </div>
+    </div>
 
 {% endblock %}
 {% block js %}
