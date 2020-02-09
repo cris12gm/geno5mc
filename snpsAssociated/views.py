@@ -8,8 +8,16 @@ from django.views.generic.edit import CreateView
 from django.views.generic import FormView, DetailView
 from django.http import JsonResponse
 from django.urls import reverse_lazy
+from .forms import QuerySNP,QueryGene
 
 
 def index(request):
     baseLink = settings.SUB_SITE
-    return render(request, 'index.html', {'baseLink':baseLink})
+    form = QuerySNP()
+    formGene = QueryGene()
+
+    return render(request, 'index.html', {
+        'baseLink':baseLink,
+        'query_form': form,
+        'query_formGene':formGene
+        })

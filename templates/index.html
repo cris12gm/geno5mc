@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load staticfiles %}
 
 {% block content %}
     <div id="page-wrapper">
@@ -13,16 +14,69 @@
                 </p>
             </div>
         </div>
-        <div>
-            <form action="{{ baseLink }}/querySNP">
-                <input class="btn btn-success btn-sm" type="submit" value="Query SNP" />
-            </form>
-            <form action="{{ baseLink }}/queryGene">
-                <input class="btn btn-success btn-sm" type="submit" value="Query Gene" />
-            </form>
-            <form action="{{ baseLink }}/multipleQuerySNP">
-                <input class="btn btn-success btn-sm" type="submit" value="Multiple Query SNP" />
-            </form>
+        <div class = "row">
+            <div class="col-sm-3" align="center">
+                <div class="card" style="width: 18rem;">
+                        <div class="card-body">
+                            <h5 class="card-title">Query a SNP</h5>
+                            <form action="{% url 'querySNP' %}" method="POST" onsubmit="ShowLoading()" id="formSNP">
+                                {% csrf_token %}
+                                    {% for field in query_form %}
+                                        <div class='form-group'>
+                                            {{ field }}
+                                        </div>
+                                    {% endfor %}
+                                <button type="submit" id='submit_btn' class="btn btn-success btn-sm" >Submit</button>
+                            </form>
+                        </div>
+                </div>
+            </div>
+            <div class="col-sm-3" align="center">
+                <div class="card" style="width: 18rem;">
+                    <div class="card-body">
+                        <h5 class="card-title">Query a Gene</h5>
+                        <form action="{% url 'queryGene' %}" method="POST" onsubmit="ShowLoading()" id="formGene">
+                            {% csrf_token %}
+                                {% for field in query_formGene %}
+                                    <div class='form-group'>
+                                        {{ field }}
+                                    </div>
+                                {% endfor %}
+                            <button type="submit" id='submit_btn_gene' class="btn btn-success btn-sm" >Submit</button>
+                        </form>
+                    </div>
+            </div>
         </div>
     </div>
+
+{% endblock %}
+
+{% block js %}
+    <script type="text/javascript">
+        function ShowLoading(e) {
+            var div = document.createElement('div');
+            var img = document.createElement('img');
+            img.src = "{% static 'images/wait.svg'%}";
+            div.innerHTML = "<b><font color='#194a90' size='2'>Loading results, please be patient</font></b>";
+            div.style.cssText = 'position: fixed; top: 20%; left: 40%; z-index: 5000; width: 422px; text-align: center; background: #FFFFFF;';
+
+            div.appendChild(img);
+            document.body.appendChild(div);
+            return true;
+        }
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            $("#formSNP").submit(function (e) {
+
+                //disable the submit button
+                $("#submit_btn").attr("disabled", true);
+                $("div.menu-hide").hide()
+                //
+                return true;
+            });
+        });
+
+    </script>
 {% endblock %}
