@@ -6,20 +6,21 @@
     <div id="page-wrapper">
         <div class="row">
             <div class="col-lg-12">
-                <br>
-                <h1>Query SNP</h1>
-                <p>Introduce your data: (eg: rs2845392)</p>
-
-                <form action="{% url 'querySNP' %}" method="POST" onsubmit="ShowLoading()" id="formSNP">
-                    {% csrf_token %}
-                    {% for field in query_form %}
-                        <div class='form-group'>
-                            <label for="{{ field.name }}">{{ field.label }}</label>
-                            {{ field }}
-                        </div>
-                    {% endfor %}
-                    <button type="submit" id='submit_btn' class="btn btn-success btn-sm" >Submit</button>
-                </form>
+                <div class="card" style="width: 18rem;">
+                    <div class="card-body">
+                        <h4 class="card-title">Query a SNP</h4>
+                        <form action="{% url 'querySNP' %}" method="POST" onsubmit="ShowLoading()" id="formSNP">
+                            {% csrf_token %}
+                            {% for field in query_form %}
+                                <div class='form-group'>
+                                    <label for="{{ field.name }}">{{ field.label }}</label>
+                                    {{ field }}
+                                </div>
+                            {% endfor %}
+                            <button type="submit" id='submit_btn' class="btn btn-success btn-sm" >Submit</button>
+                        </form>
+                    </div>
+                </div>
             </div>
         </div>
         <br>
