@@ -54,12 +54,13 @@ def PlotPromoters(snpID,geneID,start,end):
         
     df = pd.DataFrame(data=valuesPlot)
 
-    fig = px.strip(df, 'CpG ID', 'methRatio', 'Genotype', stripmode='overlay', hover_data=["Sample"])
+    fig = px.strip(df, 'CpG ID', 'methRatio', 'Genotype', stripmode='group', hover_data=["Sample"])
 
     fig.update_layout(
-        width=300*numSamples,legend_orientation="h",legend_title='<b> Genotype </b>'
+        width=300*numSamples, height=550,legend_orientation="h",xaxis_tickfont_size=14, legend_title='<b>Genotype</b>'
     )
-
+    fig.update_xaxes(title_text='')
+    fig.update_yaxes(title_text='<b>Meth Ratio</b>')
     div_obj = plot(fig, show_link=False, auto_open=False, output_type = 'div')
     return div_obj
 
@@ -99,10 +100,13 @@ def PlotEnhancers(snpID,enhancerID,start,end):
         
     df = pd.DataFrame(data=valuesPlot)
 
-    fig = px.strip(df, 'CpG ID', 'methRatio', 'Genotype', stripmode='overlay', hover_data=["Sample"])
+    fig = px.strip(df, 'CpG ID', 'methRatio', 'Genotype', stripmode='group', hover_data=["Sample"])
+#stripmode='overlay' to group 
     fig.update_layout(
-        width=150*numSamples,legend_orientation="h",legend_title='<b> Genotype </b>'
+        width=300*numSamples, height=550, legend_orientation="h",legend_title='<b> Genotype </b>',xaxis_tickfont_size=14
     )
+    fig.update_xaxes(title_text='')
+    fig.update_yaxes(title_text='<b>Meth Ratio</b>')
     div_obj = plot(fig, show_link=False, auto_open=False, output_type = 'div')
     return div_obj
 

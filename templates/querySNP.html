@@ -9,7 +9,7 @@
                 <div class="card" style="width: 18rem;">
                     <div class="card-body">
                         <h4 class="card-title">Query a SNP</h4>
-                        <form action="{% url 'querySNP' %}" method="POST" onsubmit="ShowLoading()" id="formSNP">
+                       <form action="{% url 'querySNP' %}" method="POST" onsubmit="ShowLoading()" id="formSNP">
                             {% csrf_token %}
                             {% for field in query_form %}
                                 <div class='form-group'>
