@@ -110,15 +110,16 @@ class snpsAssociated_FDR_enhancers(Base):
         return data if len(data) > 0 else None
 
 class snpsAssociated_FDR_trafficLights(Base):
-    __tablename__ = "snpsAssociated_FDR_trafficLights_filtered"
+    __tablename__ = "snpsAssociated_FDR_trafficLights"
 
+    chrom = sqlalchemy.Column(String(30), primary_key=True)
+    chromStartTL = sqlalchemy.Column(Integer, primary_key=True)
+    gene = sqlalchemy.Column(String(100), primary_key=True)
     snpID = sqlalchemy.Column(String(20), primary_key=True)
-    gene = sqlalchemy.Column(String(20), primary_key=True)
-    numOverlaps = sqlalchemy.Column(String(20))
 
     def get_trafficLights(_id):
         session = createSessionSQL(KEY_snpsAssociated_annotation)
-        data = session.query(snpsAssociated_FDR_trafficLights).filter_by(snpID=_id).all()
+        data = session.query(func.count(snpsAssociated_FDR_trafficLights.gene).label('total'),snpsAssociated_FDR_trafficLights).filter_by(snpID=_id).group_by(snpsAssociated_FDR_trafficLights.gene).order_by(desc('total')).all()
         session.close()
         return data if len(data) > 0 else None
 

@@ -15,7 +15,7 @@ def plotPromoters(inputDict):
         yValues.append(element['count'])
         numSamples = numSamples + 1
 
-    layout = go.Layout(width=100*numSamples,height=580)
+    layout = go.Layout(width=100*numSamples,height=500)
     fig = go.Figure(data=[
         go.Bar(name='Genes with CpG associated in its promoter', x=xValues, y=yValues, marker_color='rgb(55, 83, 109)')],layout=layout)
 
@@ -34,9 +34,28 @@ def plotEnhancers(inputDict):
         xValues.append(xValue)
         numSamples = numSamples + 1
 
-    layout = go.Layout(width=100*numSamples,height=580)
+    layout = go.Layout(width=100*numSamples,height=500)
     fig = go.Figure(data=[
         go.Bar(name='Enhancers with CpG associated', x=xValues, y=yValues, marker_color='rgb(55, 83, 109)')],layout=layout)
+    fig.update_layout(barmode='group', xaxis_tickangle=-45, xaxis_tickfont_size=12)
+
+    div_obj = plot(fig, show_link=False, auto_open=False, include_plotlyjs=True, output_type = 'div')
+    return div_obj
+
+def plotTrafficLights(inputDict):
+    baseLink = settings.SUB_SITE+"/plotElement/?element=tLight;snp="
+    xValues = []
+    yValues = []
+    numSamples = 0
+    for element in inputDict:
+        yValues.append(element[0])
+        xValue = "<a href='"+baseLink+element[1].snpID+";name="+element[1].gene+" 'target = '_self'>"+element[1].gene+"</a>"
+        xValues.append(xValue)
+        numSamples = numSamples + 1
+
+    layout = go.Layout(width=100*numSamples,height=500)
+    fig = go.Figure(data=[
+        go.Bar(name='Genes with CpG associated that are Traffic Lights', x=xValues, y=yValues, marker_color='rgb(55, 83, 109)')],layout=layout)
     fig.update_layout(barmode='group', xaxis_tickangle=-45, xaxis_tickfont_size=12)
 
     div_obj = plot(fig, show_link=False, auto_open=False, include_plotlyjs=True, output_type = 'div')

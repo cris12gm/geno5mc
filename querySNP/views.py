@@ -12,7 +12,7 @@ from django.urls import reverse_lazy
 
 from .forms import QuerySNP
 from .models import snpsAssociated_FDR_chrom, snpsAssociated_FDR_chr_table, snpsAssociated_FDR_promotersEPD, snpsAssociated_FDR_enhancers, snpsAssociated_FDR_trafficLights,getSNPID
-from querySNP.plotElements import plotPromoters, plotEnhancers
+from querySNP.plotElements import plotPromoters, plotEnhancers, plotTrafficLights
 
 class Errors(Enum):
     NO_ERROR = 0
@@ -46,7 +46,9 @@ def getAllFromSNP(snpId,associations,promoters,enhancers,tLights,snpInfo,error):
         enhancers = snpsAssociated_FDR_enhancers.get_Enhancers(snpId)
 
         #Añado a tlights el count
+        
         tLights = snpsAssociated_FDR_trafficLights.get_trafficLights(snpInfo.snpID)
+
     return snpInfo,associations,promoters,enhancers,tLights,error
 
 class SNPAssociated(TemplateView):
@@ -68,8 +70,9 @@ class SNPAssociated(TemplateView):
         enhancers = []
         tLights=[]
         barPlotPromoters = []
+        barPlotEnhancers = []
+        barPlotTLights = []
         error = ""
-
 
         if form.is_valid():
             snpId = form.cleaned_data.get('SNPid')
@@ -79,6 +82,8 @@ class SNPAssociated(TemplateView):
                     barPlotPromoters = plotPromoters(promoters)
                 if enhancers:
                     barPlotEnhancers = plotEnhancers(enhancers)
+                if tLights:
+                    barPlotTLights = plotTrafficLights(tLights)
         else:
             error = Errors.NOT_VALID
 
@@ -92,6 +97,7 @@ class SNPAssociated(TemplateView):
             'baseLink':baseLink,
             'barPlotPromoters':barPlotPromoters,
             'barPlotEnhancers':barPlotEnhancers,
+            'barPlotTLights':barPlotTLights,
             'error': error,
         })   
 
@@ -110,12 +116,18 @@ class SNPAssociatedGET(TemplateView):
         enhancers = []
         tLights=[]
         barPlotPromoters = []
+        barPlotEnhancers = []
+        barPlotTLights = []
 
         snpId = snp
         if snpId is not '':
             snpInfo,associations,promoters,enhancers,tLights,error=getAllFromSNP(snpId,associations,promoters,enhancers,tLights,snpInfo,error)
             if promoters:
                 barPlotPromoters = plotPromoters(promoters)
+            if enhancers:
+                barPlotEnhancers = plotEnhancers(enhancers)
+            if tLights:
+                barPlotTLights = plotTrafficLights(tLights)
         else:
             error = Errors.NOT_VALID
 
@@ -129,5 +141,7 @@ class SNPAssociatedGET(TemplateView):
             'query_form': form,
             'baseLink':baseLink,
             'barPlotPromoters':barPlotPromoters,
+            'barPlotEnhancers':barPlotEnhancers,
+            'barPlotTLights':barPlotTLights,
             'error': error
         })   

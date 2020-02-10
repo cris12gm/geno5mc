@@ -50,7 +50,20 @@ class snpsAssociated_FDR_enhancers(Base):
         session.close()
         return data if len(data) > 0 else None
 
-        
+class snpsAssociated_FDR_trafficLights(Base):
+    __tablename__ = "snpsAssociated_FDR_trafficLights"
+
+    chrom = sqlalchemy.Column(String(30), primary_key=True)
+    chromStartTL = sqlalchemy.Column(Integer, primary_key=True)
+    gene = sqlalchemy.Column(String(100), primary_key=True)
+    snpID = sqlalchemy.Column(String(20), primary_key=True)
+
+    def get_trafficLights(_id,_geneId):
+        session = createSessionSQL(KEY_snpsAssociated_annotation)
+        data = session.query(snpsAssociated_FDR_trafficLights).filter_by(gene = _geneId).filter_by(snpID=_id).all()
+        session.close()
+        return data if len(data) > 0 else None
+
 class getMethylation(Base):
     __tablename__ = "methRatio"
 
