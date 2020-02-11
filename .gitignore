@@ -9,3 +9,4 @@ config.py
 .vscode
 snpsAssociated/settings.py
 migrations/
+uploads/

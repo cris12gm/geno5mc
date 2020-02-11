@@ -10,6 +10,10 @@ from django.views.generic import FormView, DetailView, TemplateView
 from django.http import JsonResponse
 from django.urls import reverse_lazy
 
+from datetime import datetime
+import csv
+from sqlalchemy import inspect
+
 from .forms import QuerySNP
 from .models import snpsAssociated_FDR_chrom, snpsAssociated_FDR_chr_table, snpsAssociated_FDR_promotersEPD, snpsAssociated_FDR_enhancers, snpsAssociated_FDR_trafficLights,getSNPID
 from querySNP.plotElements import plotPromoters, plotEnhancers, plotTrafficLights
@@ -29,6 +33,22 @@ def getAllFromSNP(snpId,associations,promoters,enhancers,tLights,snpInfo,error):
             error = Errors.NOT_VALID
     else:
         associations = snpsAssociated_FDR_chr_table(snpInfo.chrom).get_Associated(snpInfo.snpID)
+
+        #Save associations to file
+        
+        fileNameAssociations = settings.MEDIA_ROOT+str(datetime.now()).split(".")[0].replace(" ","_").replace(":","_")+"_"+snpId+".txt"
+        f = open(fileNameAssociations,'w')
+        for element in associations:
+            inst = inspect(element)
+            attr_names = [c_attr.key for c_attr in inst.mapper.column_attrs]
+            line = ""
+            for att in attr_names:
+                line = line+str(getattr(element,att))+"\t"
+            line = (line+"\n").replace("\t\n","\n")
+            f.write(line)
+        f.close()
+        linkFileAssociations = fileNameAssociations.replace(settings.MEDIA_ROOT,settings.MEDIA_URL)
+
         promoters = snpsAssociated_FDR_promotersEPD.get_Promoters(snpId)
         # Añado a promoters el count
         if promoters:
@@ -49,7 +69,7 @@ def getAllFromSNP(snpId,associations,promoters,enhancers,tLights,snpInfo,error):
         
         tLights = snpsAssociated_FDR_trafficLights.get_trafficLights(snpInfo.snpID)
 
-    return snpInfo,associations,promoters,enhancers,tLights,error
+    return snpInfo,associations,promoters,enhancers,tLights,linkFileAssociations,error
 
 class SNPAssociated(TemplateView):
     template = 'querySNP.html'    
@@ -77,7 +97,7 @@ class SNPAssociated(TemplateView):
         if form.is_valid():
             snpId = form.cleaned_data.get('SNPid')
             if snpId is not '':
-                snpInfo,associations,promoters,enhancers,tLights,error=getAllFromSNP(snpId,associations,promoters,enhancers,tLights,snpInfo,error)
+                snpInfo,associations,promoters,enhancers,tLights,linkFileAssociations,error=getAllFromSNP(snpId,associations,promoters,enhancers,tLights,snpInfo,error)
                 if promoters:
                     barPlotPromoters = plotPromoters(promoters)
                 if enhancers:
@@ -95,6 +115,7 @@ class SNPAssociated(TemplateView):
             'tLights':tLights,
             'query_form': form,
             'baseLink':baseLink,
+            'linkFileAssociations':linkFileAssociations,
             'barPlotPromoters':barPlotPromoters,
             'barPlotEnhancers':barPlotEnhancers,
             'barPlotTLights':barPlotTLights,
