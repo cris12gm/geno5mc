@@ -52,10 +52,10 @@ def PlotTLights(snpID,geneID):
         
     df = pd.DataFrame(data=valuesPlot)
 
-    fig = px.strip(df, 'CpG ID', 'methRatio', 'Genotype', stripmode='group', hover_data=["Sample"])
+    fig = px.strip(df, 'CpG ID', 'methRatio', 'Genotype', stripmode='group', hover_data=["Sample"], width=250*numSamples)
 
     fig.update_layout(
-        width=300*numSamples, height=550,legend_orientation="h",xaxis_tickfont_size=14, legend_title='<b>Genotype</b>'
+        height=550,legend_orientation="h",xaxis_tickfont_size=14, legend_title='<b>Genotype</b>'
     )
     fig.update_xaxes(title_text='')
     fig.update_yaxes(title_text='<b>Meth Ratio</b>')

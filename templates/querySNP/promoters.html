@@ -3,28 +3,49 @@
         <div style="overflow-x: auto;">
             {{ barPlotPromoters | safe}}
         </div>
+        <br><hr>
+        <div id="accordion">
+            <div class="card">
+              <div class="card-header" id="headingTable">
+                <h5 class="mb-0">
+                  <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                    See table with results
+                  </button>
+                </h5>
+              </div>
+          
+              <div id="collapseOne" class="collapse" aria-labelledby="headingTable" data-parent="#accordion">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered" id="dataTablePromoters" width="100%" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <th>Gene ID</th>
+                                    <th>chrom</th>
+                                    <th>chromStart</th>
+                                    <th>chromEnd</th>
+                                    <th>Num. Associated CpGs</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for field in promoters %}
+                                <tr>
+                                    <td><a href="{{ baseLink }}/plotElement/?element=promoter;snp={{ snpInfo.snpID}};name={{field.data.geneID}};start={{field.data.chromStartPromoter}};end={{field.data.chromEndPromoter}}">{{ field.data.geneID }}</a></td>
+                                    <td>{{ field.data.chrom }}</td>
+                                    <td>{{ field.data.chromStartPromoter }}</td>
+                                    <td>{{ field.data.chromEndPromoter }}</td>
+                                    <td>{{ field.count }}</td>
+
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+              </div>
+            </div>
+            
+        </div>
     </div>
 </div>
-
-<!--    <div class="table-responsive">
-            In this table...
-            <hr>
-            <table class="table table-bordered" id="dataTablePromoter" width="100%" cellspacing="0">
-                <thead>
-                    <tr>
-                        <th>Gene ID</th>
-                        <th>Num CpGs</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for field in promoters %}
-                    <tr>
-                        <td><a href="{{ field.link }}">{{ field.data.geneID }}</a></td>
-                        <td>{{ field.count }}</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>    
-    </div>
-</div>-->

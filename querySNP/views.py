@@ -64,7 +64,7 @@ def getAllFromSNP(snpId,associations,promoters,enhancers,tLights,snpInfo,error):
             promoters = promotersNew
 
         enhancers = snpsAssociated_FDR_enhancers.get_Enhancers(snpId)
-
+        
         #Añado a tlights el count
         
         tLights = snpsAssociated_FDR_trafficLights.get_trafficLights(snpInfo.snpID)
@@ -82,7 +82,7 @@ class SNPAssociated(TemplateView):
 
     def post(self, request):
         form = QuerySNP(request.POST)
-        baseLink = settings.SUB_SITE+"/queryGene/gene/"
+        baseLink = settings.SUB_SITE
         error = None
         snpInfo = {}
         associations = []
@@ -131,7 +131,7 @@ class SNPAssociatedGET(TemplateView):
         form = QuerySNP()
         error = None
         snpInfo = {}
-        baseLink = settings.SUB_SITE+"/queryGene/gene/" 
+        baseLink = settings.SUB_SITE
         associations = []
         promoters = []
         enhancers = []
@@ -142,7 +142,7 @@ class SNPAssociatedGET(TemplateView):
 
         snpId = snp
         if snpId is not '':
-            snpInfo,associations,promoters,enhancers,tLights,error=getAllFromSNP(snpId,associations,promoters,enhancers,tLights,snpInfo,error)
+            snpInfo,associations,promoters,enhancers,tLights,linkFileAssociations,error=getAllFromSNP(snpId,associations,promoters,enhancers,tLights,snpInfo,error)
             if promoters:
                 barPlotPromoters = plotPromoters(promoters)
             if enhancers:
@@ -161,6 +161,7 @@ class SNPAssociatedGET(TemplateView):
             'tLights':tLights,
             'query_form': form,
             'baseLink':baseLink,
+            'linkFileAssociations':linkFileAssociations,
             'barPlotPromoters':barPlotPromoters,
             'barPlotEnhancers':barPlotEnhancers,
             'barPlotTLights':barPlotTLights,
