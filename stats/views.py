@@ -10,6 +10,7 @@ from django.views.generic import FormView, DetailView, TemplateView
 from django.http import JsonResponse
 from django.urls import reverse_lazy
 
+from .models import snpsAssociated_FDR_chrom
 # Create your views here.
 
 class stats(TemplateView):
@@ -19,5 +20,11 @@ class stats(TemplateView):
         pass
         return render(request, self.template, {})
     def get(self,request):
-        return render(request, self.template, {})
+        #Get number of snpsAssociated
+        numAssociatedSNP = snpsAssociated_FDR_chrom.get_SNP_chrom()[0]
+        
+        
+        return render(request, self.template, {
+            'numAssociatedSNP':numAssociatedSNP
+        })
 

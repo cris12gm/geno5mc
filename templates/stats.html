@@ -2,7 +2,13 @@
 {% load staticfiles %}
 
 {% block content %}
-    BASIC STATISTICS
+    <h1>DATABASE STATISTICS</h1>
+    <hr>
+
+    <p><b>Non redundant number of SNPs associated: </b>{{ numAssociatedSNP }}</p>
+    <p><b>Non redundant number of CpGs associated: </b>5,417,468</p>
+    <p><b>Total number of associations: </b>506,041,598</p>
+    <p><b>Number of CpGs that are Traffic Lights </b>18,470</p>
 
 {% endblock %}
 {% block js %}
