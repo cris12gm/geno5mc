@@ -133,3 +133,20 @@ class getSNPID(Base):
         data = session.query(getSNPID).filter_by(snpID=_id).all()
         session.close()
         return data if len(data) > 0 else None
+
+class topResults(Base):
+    __tablename__ = "snpsAssociated_FDR_topResults"
+
+    elementID = sqlalchemy.Column(String(50), primary_key=True)
+    elementType = sqlalchemy.Column(String(50))
+    chrom = sqlalchemy.Column(String(5))
+    chromStartElement = sqlalchemy.Column(Integer)
+    chromEndElement = sqlalchemy.Column(Integer)
+    chromStartCpG = sqlalchemy.Column((Integer), primary_key=True)
+    snpID = sqlalchemy.Column(String(20), primary_key=True)
+
+    def get_TopResults(_id):
+        session = createSessionSQL(KEY_snpsAssociated_annotation)
+        data = session.query(func.count(topResults.elementID),topResults).filter_by(snpID=_id).group_by(topResults.elementID).all()
+        session.close()
+        return data if len(data) > 0 else None

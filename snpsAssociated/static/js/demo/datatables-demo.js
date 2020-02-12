@@ -24,4 +24,7 @@ $(document).ready(function() {
   $('#dataTableSamples').DataTable({
     "order":[[3,"desc"]]
   });
+  $('#dataTableTopResults').DataTable({
+    "order":[[5,"desc"]]
+  });
 }); 
