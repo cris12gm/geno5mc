@@ -35,9 +35,11 @@
                 <li class="nav-item">
                     <a class="nav-link active" id="summary-tab" data-toggle="tab" href="#summary" role="tab" aria-controls="summary" aria-selected="true"><h5>Summary</h5></a>
                 </li>
+                {% if topResult %}
                 <li class="nav-item">
                     <a class="nav-link" id="topResults-tab" data-toggle="tab" href="#topResults" role="tab" aria-controls="topResults" aria-selected="false"><h5>Top Results</h5></a>
                 </li>
+                {% endif %}
                 {% if promoters %}
                 <li class="nav-item">
                     <a class="nav-link" id="promoters-tab" data-toggle="tab" href="#promoters" role="tab" aria-controls="promoters" aria-selected="false"><h5>Promoters</h5></a>

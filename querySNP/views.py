@@ -23,7 +23,7 @@ class Errors(Enum):
     NOT_VALID = 1
     NOT_ASSOCIATED = 2
 
-def getAllFromSNP(snpId,associations,promoters,enhancers,tLights,snpInfo,error):
+def getAllFromSNP(snpId,associations,promoters,enhancers,tLights,topResult,snpInfo,linkFileAssociations,error):
     snpInfo = snpsAssociated_FDR_chrom.get_SNP_chrom(snpId)
     if snpInfo is None:
         checkid = getSNPID.get_SNP(snpId)
@@ -47,6 +47,7 @@ def getAllFromSNP(snpId,associations,promoters,enhancers,tLights,snpInfo,error):
             line = (line+"\n").replace("\t\n","\n")
             f.write(line)
         f.close()
+
         linkFileAssociations = fileNameAssociations.replace(settings.MEDIA_ROOT,settings.MEDIA_URL)
 
         promoters = snpsAssociated_FDR_promotersEPD.get_Promoters(snpId)
@@ -72,7 +73,7 @@ def getAllFromSNP(snpId,associations,promoters,enhancers,tLights,snpInfo,error):
         #Get Top Results
 
         topResult = topResults.get_TopResults(snpInfo.snpID)
-        
+
     return snpInfo,associations,promoters,enhancers,tLights,topResult,linkFileAssociations,error
 
 class SNPAssociated(TemplateView):
@@ -93,6 +94,8 @@ class SNPAssociated(TemplateView):
         promoters = []
         enhancers = []
         tLights=[]
+        topResult = []
+        linkFileAssociations = ""
         barPlotPromoters = []
         barPlotEnhancers = []
         barPlotTLights = []
@@ -101,7 +104,7 @@ class SNPAssociated(TemplateView):
         if form.is_valid():
             snpId = form.cleaned_data.get('SNPid')
             if snpId is not '':
-                snpInfo,associations,promoters,enhancers,tLights,topResult,linkFileAssociations,error=getAllFromSNP(snpId,associations,promoters,enhancers,tLights,snpInfo,error)
+                snpInfo,associations,promoters,enhancers,tLights,topResult,linkFileAssociations,error=getAllFromSNP(snpId,associations,promoters,enhancers,tLights,topResult,snpInfo,linkFileAssociations,error)
                 if promoters:
                     barPlotPromoters = plotPromoters(promoters)
                 if enhancers:
@@ -141,13 +144,15 @@ class SNPAssociatedGET(TemplateView):
         promoters = []
         enhancers = []
         tLights=[]
+        topResult = []
+        linkFileAssociations = ""
         barPlotPromoters = []
         barPlotEnhancers = []
         barPlotTLights = []
 
         snpId = snp
         if snpId is not '':
-            snpInfo,associations,promoters,enhancers,tLights,topResult,linkFileAssociations,error=getAllFromSNP(snpId,associations,promoters,enhancers,tLights,snpInfo,error)
+            snpInfo,associations,promoters,enhancers,tLights,topResult,linkFileAssociations,error=getAllFromSNP(snpId,associations,promoters,enhancers,tLights,topResult,snpInfo,linkFileAssociations,error)
             if promoters:
                 barPlotPromoters = plotPromoters(promoters)
             if enhancers:
