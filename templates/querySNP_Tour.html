@@ -1,7 +1,11 @@
 {% extends "base.html" %}
 {% load staticfiles %}
 
+
+
 {% block content %}
+
+
 
     <div id="page-wrapper">
         <div class="row">
@@ -163,6 +167,39 @@
 <script src="{% static 'vendor/datatables/jquery.dataTables.js'%}"></script>
 <script src="{% static 'vendor/datatables/dataTables.bootstrap4.js'%}"></script>
 
+<script>
+
+         var tour = new Tour({
+             debug: true,
+             onEnd: function (tour) {
+                        window.location.href="/snpsassociated/"
+                        },
+
+             steps: [
+                 {
+                     element: "#id_SNPid",
+                     title: "Launching mirnaQC",
+                     placement: "bottom",
+                     content: "Welcome to mirnaQC launching page. Let us guide you on how to launch your jobs.",
+                     orphan: true,
+                     backdrop: true,
+                 }
+         ]
+         });
+
+          // Clear bootstrap tour session data
+            localStorage.removeItem('tour_current_step');
+            localStorage.removeItem('tour_end');
+
+         // Initialize the tour
+         tour.init();
+
+         // Start the tour
+         tour.start();
+
+
+
+</script>
 
 {% endblock %}
 
