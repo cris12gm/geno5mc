@@ -131,6 +131,7 @@ class SNPAssociated(TemplateView):
         })   
 
 class SNPAssociatedGET(TemplateView):
+
     template = 'querySNPWF.html'
         
 
@@ -177,4 +178,58 @@ class SNPAssociatedGET(TemplateView):
             'barPlotEnhancers':barPlotEnhancers,
             'barPlotTLights':barPlotTLights,
             'error': error
+        })   
+
+class SNPAssociatedTour(TemplateView):
+    template = 'querySNP_Tour.html'
+
+    def get(self, request):  
+        form = QuerySNP()
+        return render(request, self.template, {
+            'query_form': form
+        })
+
+    def post(self, request):
+        form = QuerySNP(request.POST)
+        baseLink = settings.SUB_SITE
+        error = None
+        snpInfo = {}
+        associations = []
+        promoters = []
+        enhancers = []
+        tLights=[]
+        topResult = []
+        linkFileAssociations = ""
+        barPlotPromoters = []
+        barPlotEnhancers = []
+        barPlotTLights = []
+        error = ""
+
+        if form.is_valid():
+            snpId = form.cleaned_data.get('SNPid')
+            if snpId is not '':
+                snpInfo,associations,promoters,enhancers,tLights,topResult,linkFileAssociations,error=getAllFromSNP(snpId,associations,promoters,enhancers,tLights,topResult,snpInfo,linkFileAssociations,error)
+                if promoters:
+                    barPlotPromoters = plotPromoters(promoters)
+                if enhancers:
+                    barPlotEnhancers = plotEnhancers(enhancers)
+                if tLights:
+                    barPlotTLights = plotTrafficLights(tLights)
+        else:
+            error = Errors.NOT_VALID
+
+        return render(request, self.template, {
+            'snpInfo': snpInfo,
+            'associations': associations,
+            'promoters': promoters,
+            'enhancers':enhancers,
+            'tLights':tLights,
+            'topResult':topResult,
+            'query_form': form,
+            'baseLink':baseLink,
+            'linkFileAssociations':linkFileAssociations,
+            'barPlotPromoters':barPlotPromoters,
+            'barPlotEnhancers':barPlotEnhancers,
+            'barPlotTLights':barPlotTLights,
+            'error': error,
         })   
