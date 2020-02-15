@@ -16,8 +16,9 @@
                 </div>
             </div>
         
+            <center>
             <div class = "row">
-                <div class="col-lg-3" align="center">
+                <div class="column" align="center" style="width: 30%">
                     <div class="card" style="width: 18rem;">
                             <div class="card-body">
                                 <h4 class="card-title">Query a SNP</h4>
@@ -33,7 +34,7 @@
                             </div>
                     </div>
                 </div>
-                <div class="col-lg-3" align="center">
+                <div class="column" align="center" style="width: 30%">
                     <div class="card" style="width: 18rem;">
                         <div class="card-body">
                             <h4 class="card-title">Query a Gene</h4>
@@ -49,16 +50,18 @@
                         </div>
                     </div>
                 </div>
-                <div class="card" style="width: 18rem;">
-                            <div class="card-body">
-                                <h4 class="card-title">Take a tour</h4>
-
-                                    <a href="{% url 'querySNP' %}tour" ><button class="btn btn-success btn-sm" >Tour</button></a>
-
-                            </div>
+                <div class="column" align="center" style="width: 30%">
+                    <div class="card" style="width: 18rem;">
+                        <div class="card-body">
+                            <br>
+                            <h4 class="card-title">Take a tour</h4>
+                            <br>
+                            <a href="{% url 'querySNP' %}tour" ><button class="btn btn-success btn-sm" >Tour</button></a>
+                        </div>
                     </div>
+                </div>
             </div>
-        </div>
+        </center>
     </div>
 {% endblock %}
 
