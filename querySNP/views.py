@@ -189,7 +189,17 @@ class SNPAssociatedTour(TemplateView):
             'query_form': form
         })
 
-    def post(self, request):
+
+class SNPAssociatedTourPOST(TemplateView):
+    template = 'querySNP_Tour_2.html'
+
+    def get(self, request):  
+        form = QuerySNP()
+        return render(request, self.template, {
+            'query_form': form
+        })
+
+    def post(self, request, *args, **kwargs):
         form = QuerySNP(request.POST)
         baseLink = settings.SUB_SITE
         error = None

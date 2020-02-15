@@ -89,39 +89,25 @@
 
 
   <!--Script for the tour-->
-
-<script>
+  <script>
     var intro = introJs();
     var options_before = {
         steps: [
-            { 
-                intro: "Welcome to the tour"
-            },
             {
-                element: document.querySelector('#step1'),
-                intro: "Introduce an SNP ID"
-            },
-            {
-                element: document.querySelector('#submit_btn'),
-                intro: "Press submit",
-                onbeforechange: function(){
-                    alert("test")
-                }
-            },
-            { 
-                intro: "Wait until it is loaded"
-            }    
+                element: document.querySelector('#summary-tab'),
+                intro: "Summary"
+            }
         ]
     }
 
     function startObjectsIntro() {
         var intro = introJs();
         intro.setOptions(options_before);
-        intro.start().onbeforechange(function () {
+        intro.start().showStepNumbers(False).onbeforechange(function () {
 
-            if (intro._currentStep == "3") {
-                document.getElementById("submit_btn").click(); 
-            } 
+        //    if (intro._currentStep == "3") {
+        //        document.getElementById("submit_btn").click(); 
+        //    } 
         });
     }
     $(document).ready(function(){
@@ -129,8 +115,6 @@
     });
     
 </script>
-
-
 
 <!-- This script enables link to tabs-->
 <script>
