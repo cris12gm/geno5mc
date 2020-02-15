@@ -7,7 +7,7 @@ from .views import SNPAssociated,SNPAssociatedGET,SNPAssociatedTour
 
 
 urlpatterns = [
-    url(r'^tour', SNPAssociatedTour.as_view()),
+    url(r'^tour', SNPAssociatedTour.as_view(), name='querySNP_Tour'),
     url(r'^snp/(?P<snp>[\w-]+)', SNPAssociatedGET.as_view()),
     url('', SNPAssociated.as_view(), name='querySNP'),
     ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

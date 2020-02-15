@@ -11,7 +11,7 @@
                 <div class="card" style="width: 18rem;">
                     <div class="card-header"><center><h3><b>Query a SNP</b></h3></center></div>
                     <div class="card-body">
-                       <form action="{% url 'querySNP' %}" method="POST" onsubmit="ShowLoading()" id="formSNP">
+                       <form action="{% url 'querySNP_Tour' %}" method="POST" onsubmit="ShowLoading()" id="formSNP">
                             {% csrf_token %}
                             {% for field in query_form %}
                                 <div class='form-group' id="step1">
@@ -91,34 +91,43 @@
   <!--Script for the tour-->
 
 <script>
-    function startIntro(){
-        var intro = introJs();
-          intro.setOptions({
-            steps: [
-              { 
+    var intro = introJs();
+    var options_before = {
+        steps: [
+            { 
                 intro: "Welcome to the tour"
-              },
-              {
+            },
+            {
                 element: document.querySelector('#step1'),
                 intro: "Introduce an SNP ID"
-              },
-              {
+            },
+            {
                 element: document.querySelector('#submit_btn'),
                 intro: "Press submit",
-                onbeforechange: function() {
+                onbeforechange: function(){
                     alert("test")
-                },
-              },
-              { 
-                intro: "Welcome to the tour"
-              },
-            ]
-          });
-          intro.start();
-      }
-      $(document).ready(function(){
-        startIntro();
-      });
+                }
+            },
+            { 
+                intro: "Wait until it is loaded"
+            }    
+        ]
+    }
+
+    function startObjectsIntro() {
+        var intro = introJs();
+        intro.setOptions(options_before);
+        intro.start().onbeforechange(function () {
+
+            if (intro._currentStep == "3") {
+                document.getElementById("submit_btn").click(); 
+            } 
+        });
+    }
+    $(document).ready(function(){
+        startObjectsIntro();
+    });
+    
 </script>
 
 
