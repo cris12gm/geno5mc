@@ -9,12 +9,12 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="card" style="width: 18rem;">
-                    <div data-step="1" data-intro="Start of the tour" class="card-header"><center><h3><b>Query a SNP</b></h3></center></div>
+                    <div class="card-header"><center><h3><b>Query a SNP</b></h3></center></div>
                     <div class="card-body">
                        <form action="{% url 'querySNP' %}" method="POST" onsubmit="ShowLoading()" id="formSNP">
                             {% csrf_token %}
                             {% for field in query_form %}
-                                <div class='form-group' data-step="2" data-intro="Introduce an SNP ID">
+                                <div class='form-group' id="step1">
                                     <label for="{{ field.name }}">{{ field.label }}</label>
                                     {{ field }}
                                 </div>
@@ -87,7 +87,41 @@
 {% endblock %}
 {% block js %}
 
-  <!-- Demo scripts for this page-->
+
+  <!--Script for the tour-->
+
+<script>
+    function startIntro(){
+        var intro = introJs();
+          intro.setOptions({
+            steps: [
+              { 
+                intro: "Welcome to the tour"
+              },
+              {
+                element: document.querySelector('#step1'),
+                intro: "Introduce an SNP ID"
+              },
+              {
+                element: document.querySelector('#submit_btn'),
+                intro: "Press submit",
+                onbeforechange: function() {
+                    alert("test")
+                },
+              },
+              { 
+                intro: "Welcome to the tour"
+              },
+            ]
+          });
+          intro.start();
+      }
+      $(document).ready(function(){
+        startIntro();
+      });
+</script>
+
+
 
 <!-- This script enables link to tabs-->
 <script>
@@ -107,7 +141,7 @@
     {
         $("#loadpage").hide();
         $('#divPageContent').css("visibility", "visible");
-        introJs().start();
+        //introJs().setOption('showProgress', true).start();
     });
   
 </script>
@@ -154,13 +188,6 @@
 </script>
 
 
-<!-- This script makes the "Show methylation" button -->
-
-<script>
-    function getMethGraph() {
-        alert("Test")
-    }
-</script>
 
 <script src="{% static 'js/demo/datatables-demo.js'%}"></script>
 <script src="{% static 'vendor/datatables/jquery.dataTables.js'%}"></script>
