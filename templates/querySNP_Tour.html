@@ -5,18 +5,16 @@
 
 {% block content %}
 
-
-
     <div id="page-wrapper">
         <div class="row">
             <div class="col-lg-12">
                 <div class="card" style="width: 18rem;">
-                    <div class="card-header"><center><h3><b>Query a SNP - tour</b></h3></center></div>
+                    <div data-step="1" data-intro="Start of the tour" class="card-header"><center><h3><b>Query a SNP</b></h3></center></div>
                     <div class="card-body">
                        <form action="{% url 'querySNP' %}" method="POST" onsubmit="ShowLoading()" id="formSNP">
                             {% csrf_token %}
                             {% for field in query_form %}
-                                <div class='form-group'>
+                                <div class='form-group' data-step="2" data-intro="Introduce an SNP ID">
                                     <label for="{{ field.name }}">{{ field.label }}</label>
                                     {{ field }}
                                 </div>
@@ -109,6 +107,7 @@
     {
         $("#loadpage").hide();
         $('#divPageContent').css("visibility", "visible");
+        introJs().start();
     });
   
 </script>
