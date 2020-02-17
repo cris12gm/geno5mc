@@ -18,6 +18,7 @@ def createSessionSQL (keyFile):
 class samples(Base):
     __tablename__ = "samples"
 
+    internalID = sqlalchemy.Column(String(50))
     SRX = sqlalchemy.Column(String(30), primary_key=True)
     SRP = sqlalchemy.Column(String(30))
     bioSample = sqlalchemy.Column(String(30))

@@ -135,6 +135,7 @@ class getMethylation(Base):
 
 
 class getGenotype(Base):
+
     __tablename__ = "genotypes"
 
     id = sqlalchemy.Column(String(30), primary_key=True)
@@ -204,3 +205,23 @@ class getGenotype(Base):
         data = session.query(getGenotype).filter_by(id=_id).all()
         session.close()
         return data[0] if len(data)>0 else None
+
+class samples(Base):
+    __tablename__ = "samples"
+
+    internalID = sqlalchemy.Column(String(50))
+    SRX = sqlalchemy.Column(String(30), primary_key=True)
+    SRP = sqlalchemy.Column(String(30))
+    bioSample = sqlalchemy.Column(String(30))
+    tissueType = sqlalchemy.Column(String(255))
+    totalNumOfReads = sqlalchemy.Column(Integer)
+    percentageMethylatedCpG = sqlalchemy.Column(Float)
+    percentageUnMethylatedCpG = sqlalchemy.Column(Float)
+    positionsVariation = sqlalchemy.Column(Integer)
+
+
+    def get_all_samples():
+        session = createSessionSQL(KEY_snpsAssociated_annotation)
+        data = session.query(samples).all()
+        session.close()
+        return data if len(data)>0 else None

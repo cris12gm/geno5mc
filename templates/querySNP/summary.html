@@ -9,47 +9,52 @@
         <b>Alternative Allele: </b> {{ snpInfo.alternative }}
         <br><hr>
         <a href='{{ linkFileAssociations }}' download><button class="btn btn-success btn-sm">Download all associations</button></a>
-    </div>
-    <br>
-    <div class="card mb-3">
-        <div class="card-header" id="headingTopResults">
-            <h5 class="mb-0">
-              <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                <b>TOP RESULTS</b>
-              </button>
-            </h5>
-        </div>
-        <div id="collapseOne" class="collapse" aria-labelledby="headingTopResults" data-parent="#accordion">
-            <div class="card-body">
-                <div class="table-responsive">
-                    <table class="table table-bordered" id="dataTableTopResults" width="100%" cellspacing="0">
-                        <thead>
-                            <tr>
-                                <th>Element ID</th>
-                                <th>Class</th>
-                                <th>chrom</th>
-                                <th>chromStart</th>
-                                <th>chromEnd</th>
-                                <th>num CpGs TLs</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for field in topResult %}
-                            <tr>
-                                <td>{{ field.1.elementID }}</td>
-                                <td>{{ field.1.elementType }}</td>
-                                <td>{{ field.1.chrom }}</td>
-                                <td>{{ field.1.chromStartElement }}</td>
-                                <td>{{ field.1.chromEndElement }}</td>
-                                <td>{{ field.0 }}</td>
-        
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
+
+        <br><br>
+        {% if topResult %}
+        <div id="accordion">
+            <div class="card">
+              <div class="card-header" id="headingTopResults">
+                <h5 class="mb-0">
+                  <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                    <h4><b>TOP RESULTS</b></h4>
+                  </button>
+                </h5>
+              </div>
+          
+              <div id="collapseOne" class="collapse show" aria-labelledby="headingTopResults" data-parent="#accordion">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered" id="dataTableTopResults" width="100%" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <th>Element ID</th>
+                                    <th>Class</th>
+                                    <th>chrom</th>
+                                    <th>chromStart</th>
+                                    <th>chromEnd</th>
+                                    <th>num CpGs TLs</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for field in topResult %}
+                                <tr>
+                                    <td>{{ field.1.elementID }}</td>
+                                    <td>{{ field.1.elementType }}</td>
+                                    <td>{{ field.1.chrom }}</td>
+                                    <td>{{ field.1.chromStartElement }}</td>
+                                    <td>{{ field.1.chromEndElement }}</td>
+                                    <td>{{ field.0 }}</td>
+            
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
-            </div>
+              </div>
+            </div> 
         </div>
-    </div>    
-    
+        {% endif %}
+    </div>
 </div>
