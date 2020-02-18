@@ -185,25 +185,9 @@ class SNPAssociatedTour(TemplateView):
 
     def get(self, request):  
         form = QuerySNP()
-        return render(request, self.template, {
-            'query_form': form
-        })
-
-
-class SNPAssociatedTourPOST(TemplateView):
-    template = 'querySNP_Tour_2.html'
-
-    def get(self, request):  
-        form = QuerySNP()
-        return render(request, self.template, {
-            'query_form': form
-        })
-
-    def post(self, request, *args, **kwargs):
-        form = QuerySNP(request.POST)
-        baseLink = settings.SUB_SITE
         error = None
         snpInfo = {}
+        baseLink = settings.SUB_SITE
         associations = []
         promoters = []
         enhancers = []
@@ -213,20 +197,15 @@ class SNPAssociatedTourPOST(TemplateView):
         barPlotPromoters = []
         barPlotEnhancers = []
         barPlotTLights = []
-        error = ""
+        snpId = "rs727563"
 
-        if form.is_valid():
-            snpId = form.cleaned_data.get('SNPid')
-            if snpId is not '':
-                snpInfo,associations,promoters,enhancers,tLights,topResult,linkFileAssociations,error=getAllFromSNP(snpId,associations,promoters,enhancers,tLights,topResult,snpInfo,linkFileAssociations,error)
-                if promoters:
-                    barPlotPromoters = plotPromoters(promoters)
-                if enhancers:
-                    barPlotEnhancers = plotEnhancers(enhancers)
-                if tLights:
-                    barPlotTLights = plotTrafficLights(tLights)
-        else:
-            error = Errors.NOT_VALID
+        snpInfo,associations,promoters,enhancers,tLights,topResult,linkFileAssociations,error=getAllFromSNP(snpId,associations,promoters,enhancers,tLights,topResult,snpInfo,linkFileAssociations,error)
+        if promoters:
+            barPlotPromoters = plotPromoters(promoters)
+        if enhancers:
+            barPlotEnhancers = plotEnhancers(enhancers)
+        if tLights:
+            barPlotTLights = plotTrafficLights(tLights)
 
         return render(request, self.template, {
             'snpInfo': snpInfo,
@@ -242,4 +221,5 @@ class SNPAssociatedTourPOST(TemplateView):
             'barPlotEnhancers':barPlotEnhancers,
             'barPlotTLights':barPlotTLights,
             'error': error,
-        })   
+        })
+

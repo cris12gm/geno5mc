@@ -11,7 +11,7 @@
                 <div class="card" style="width: 18rem;">
                     <div class="card-header"><center><h3><b>Query a SNP</b></h3></center></div>
                     <div class="card-body">
-                       <form action="{% url 'querySNP_Tour_2' %}" method="POST" onsubmit="ShowLoading()" id="formSNP">
+                       <form action="{% url 'querySNP' %}" method="POST" onsubmit="ShowLoading()" id="formSNP">
                             {% csrf_token %}
                             {% for field in query_form %}
                                 <div class='form-group' id="step1">
@@ -32,7 +32,7 @@
         {% endif %}
         
         {% if associations %}
-        <div class="menu-hide">
+        <div class="menu-hide" id="menuToHide" style="display: none;">
             <ul class="nav nav-tabs" id="myTab" role="tablist">
                 <li class="nav-item">
                     <a class="nav-link active" id="summary-tab" data-toggle="tab" href="#summary" role="tab" aria-controls="summary" aria-selected="true"><h5>Summary</h5></a>
@@ -100,9 +100,10 @@
                     alert("test")
                 }
             },
-            { 
-                intro: "Wait for it to load"
-            }    
+            {
+                element: document.querySelector('#summary-tab'),
+                intro: "Summary"
+            }  
         ],
         showStepNumbers:false,
         hideNext:true,
@@ -115,7 +116,8 @@
         intro.start().onbeforechange(function () {
 
             if (intro._currentStep == "3") {
-                document.getElementById("submit_btn").click(); 
+                var hide = document.getElementById("menuToHide");
+                hide.style.display = "block";
             } 
         });
     }
