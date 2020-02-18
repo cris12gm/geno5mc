@@ -33,7 +33,12 @@ def PlotTLights(snpID,geneID):
 
     numSamples = 0
 
-    print ("a")
+    samplesAll = samples.get_all_samples()
+    samplesDict = {}
+    for element in samplesAll:
+        srx = getattr(element,"SRX")
+        name = getattr(element,"internalID")
+        samplesDict[name]=srx
 
     for element in cpgs:
         numSamples = numSamples + 1
@@ -52,7 +57,7 @@ def PlotTLights(snpID,geneID):
                 valuesPlot["methRatio"].append(valueMeth)
                 valuesPlot["Genotype"].append(valueGenotype)
                 valuesPlot["CpG ID"].append(idCpG)
-                valuesPlot["Sample"].append(att)
+                valuesPlot["Sample"].append(samplesDict[att])
         
     df = pd.DataFrame(data=valuesPlot)
 
