@@ -19,7 +19,7 @@
                                     {{ field }}
                                 </div>
                             {% endfor %}
-                            <button type="submit" id='submit_btn' class="btn btn-success btn-sm" >Submit</button>
+                            <button type="submit" id='submit_btn' class="btn btn-success btn-sm" disabled="true">Submit</button>
                         </form>
                     </div>
                 </div>
@@ -115,7 +115,12 @@
         intro.setOptions(options_before);
         intro.start().onbeforechange(function () {
 
+            if (intro._currentStep == "2"){
+                var submitB = document.getElementById("submit_btn");
+                submitB.disabled = false;
+            }
             if (intro._currentStep == "3") {
+                //setTimeout(ShowLoading(), 1000)
                 var hide = document.getElementById("menuToHide");
                 hide.style.display = "block";
             } 
