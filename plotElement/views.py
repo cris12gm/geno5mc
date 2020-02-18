@@ -10,7 +10,7 @@ from django.views.generic import FormView, DetailView, TemplateView
 from django.http import JsonResponse
 from django.urls import reverse_lazy
 
-from .models import snpsAssociated_FDR_promotersEPD,getMethylation,getGenotype,snpsAssociated_FDR_enhancers,snpsAssociated_FDR_trafficLights
+from .models import snpsAssociated_FDR_promotersEPD,getMethylation,getGenotype,snpsAssociated_FDR_enhancers,snpsAssociated_FDR_trafficLights,samples
 from sqlalchemy import inspect
 import plotly.graph_objs as go
 from plotly.offline import plot
@@ -45,10 +45,11 @@ def PlotTLights(snpID,geneID):
             valueMeth = getattr(methylationCpG,att)
             if valueMeth and not "_" in str(valueMeth):
                 valueGenotype = str(int(getattr(genotypes,att))).replace("0",ref).replace("1",het).replace("2",alt)
+                sample = getattr(samples.get_one_sample(att),"SRX").strip()
                 valuesPlot["methRatio"].append(valueMeth)
                 valuesPlot["Genotype"].append(valueGenotype)
                 valuesPlot["CpG ID"].append(idCpG)
-                valuesPlot["Sample"].append(att)
+                valuesPlot["Sample"].append(sample)
         
     df = pd.DataFrame(data=valuesPlot)
 
