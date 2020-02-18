@@ -86,16 +86,19 @@
     var options_before = {
         steps: [
             { 
-                intro: "Welcome to the tour"
+                intro: "<center><b>WELCOME TO geno<sup>5</sup>mC</b><br>In this tutorial we will show you how our page works with an example, the SNP <a href='https://www.ebi.ac.uk/gwas/variants/rs727563' target='_blank'>rs727563</a>.</center>"
+            },
+            { 
+                intro: "The SNP <a href='https://www.ebi.ac.uk/gwas/variants/rs727563' target='_blank'>rs727563</a> has . <br><img src='https://www.w3schools.com/tags/smiley.gif' alt='Smiley face' width='42' height='42'></center>"
             },
             {
                 element: document.querySelector('#step1'),
-                intro: "Introduce an SNP ID",
+                intro: "First we should introduce the SNP ID",
 
             },
             {
                 element: document.querySelector('#submit_btn'),
-                intro: "Press submit",
+                intro: "Then just press submit to see the results",
                 onbeforechange: function(){
                     alert("test")
                 }
@@ -103,7 +106,10 @@
             {
                 element: document.querySelector('#summary-tab'),
                 intro: "Summary"
-            }  
+            },
+            {
+                intro: "That's the end of the tour"
+            }   
         ],
         showStepNumbers:false,
         hideNext:true,
@@ -115,11 +121,11 @@
         intro.setOptions(options_before);
         intro.start().onbeforechange(function () {
 
-            if (intro._currentStep == "2"){
+            if (intro._currentStep == "3"){
                 var submitB = document.getElementById("submit_btn");
                 submitB.disabled = false;
             }
-            if (intro._currentStep == "3") {
+            if (intro._currentStep == "4") {
                 //setTimeout(ShowLoading(), 1000)
                 var hide = document.getElementById("menuToHide");
                 hide.style.display = "block";
