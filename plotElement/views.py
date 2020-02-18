@@ -32,6 +32,9 @@ def PlotTLights(snpID,geneID):
     valuesPlot["Sample"] = []
 
     numSamples = 0
+
+    print ("a")
+
     for element in cpgs:
         numSamples = numSamples + 1
         idCpG = element.chrom+"_"+str(element.chromStartTL)
@@ -45,11 +48,11 @@ def PlotTLights(snpID,geneID):
             valueMeth = getattr(methylationCpG,att)
             if valueMeth and not "_" in str(valueMeth):
                 valueGenotype = str(int(getattr(genotypes,att))).replace("0",ref).replace("1",het).replace("2",alt)
-                sample = getattr(samples.get_one_sample(att),"SRX").strip()
+                #sample = getattr(samples.get_one_sample(att),"SRX").strip()
                 valuesPlot["methRatio"].append(valueMeth)
                 valuesPlot["Genotype"].append(valueGenotype)
                 valuesPlot["CpG ID"].append(idCpG)
-                valuesPlot["Sample"].append(sample)
+                valuesPlot["Sample"].append(att)
         
     df = pd.DataFrame(data=valuesPlot)
 

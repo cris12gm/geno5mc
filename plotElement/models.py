@@ -223,6 +223,7 @@ class samples(Base):
     def get_all_samples():
         session = createSessionSQL(KEY_snpsAssociated_annotation)
         data = session.query(samples).all()
+        print (data)
         session.close()
         return data if len(data)>0 else None
     
