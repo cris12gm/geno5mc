@@ -11,7 +11,7 @@
         <a href='{{ linkFileAssociations }}' download><button class="btn btn-success btn-sm">Download all associations</button></a>
 
         <br><br>
-        {% if topResult %}
+        {% if topResultPromoter or topResultEnhancer %}
         <div id="accordion">
             <div class="card">
               <div class="card-header" id="headingTopResults">
@@ -37,7 +37,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                {% for field in topResult %}
+                                {% for field in topResultPromoter %}
                                 <tr>
                                     <td>{{ field.1.elementID }}</td>
                                     <td>{{ field.1.elementType }}</td>

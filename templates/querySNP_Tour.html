@@ -1,6 +1,8 @@
 {% extends "base.html" %}
 {% load staticfiles %}
 
+
+
 {% block content %}
 <script type="text/javascript">
     function preLoading(e) {
@@ -128,49 +130,87 @@
             },
             {
                 element: document.querySelector('#step1'),
-                intro: "First we should introduce the SNP ID",
+                intro: "First, fill the search box with a SNP ID",
 
             },
             {
                 element: document.querySelector('#submit_btn'),
                 intro: "Then just press submit to see the results",
-                onbeforechange: function(){
-                    alert("test")
-                }
+                click: true,
+                // onbeforechange: function(){
+                //     alert("test")
+                // }
             },
             {
                 element: document.querySelector('#summary-tab'),
                 intro: "Summary"
             },
             {
+                element: document.querySelector("#promoters-tab"),
+                intro: "Summary"
+            },
+            {
+                element: document.querySelector("#enhancers-tab"),
+                intro: "Summary"
+            },
+            {
+                element: document.querySelector("#tLights-tab"),
+                intro: "Summary"
+            },
+
+            {
                 intro: "That's the end of the tour"
             }   
         ],
         showStepNumbers:false,
         hideNext:true,
-        disableInteraction:true
-    }
+        disableInteraction:false
+    };
 
-    function startObjectsIntro() {
-        var intro = introJs();
+    intro.setOptions(options_before);
+
         intro.setOptions(options_before);
-        intro.start().onbeforechange(function () {
+        intro.onbeforechange(function () {
 
-            if (intro._currentStep == "3"){
-                var submitB = document.getElementById("submit_btn");
-                submitB.disabled = false;
-            }
-            if (intro._currentStep == "4") {
+
+        if (intro._currentStep == "3") {
+            document.getElementById("id_SNPid").value = "rs727563";
+            var submitB = document.getElementById("submit_btn");
+            submitB.disabled = false;
+        }
+        if (intro._currentStep == "4") {
                 //setTimeout(ShowLoading(), 1000)
                 var hide = document.getElementById("menuToHide");
                 hide.style.display = "block";
-            } 
-        });
-    }
-    $(document).ready(function(){
-        startObjectsIntro();
+            }
+            if (intro._currentStep == "5") {
+                //setTimeout(ShowLoading(), 1000)
+                alert("hehe");
+                $('[href="#promoters-tab"]').tab('show');
+                // $("#promoters-tab").trigger('click')
+            }
+
     });
-    
+
+    intro.start();
+
+
+    // function startObjectsIntro() {
+    //     var intro = introJs();
+    //     intro.setOptions(options_before);
+    //     .onbeforechange(function () {
+    //
+    //         if (intro._currentStep == "3"){
+    //             var submitB = document.getElementById("submit_btn");
+    //             submitB.disabled = false;
+    //         }
+    //
+    //     });
+    // }
+    // $(document).ready(function(){
+    //     startObjectsIntro();
+    // });
+    //
 </script>
 
 
@@ -232,39 +272,7 @@
 <script src="{% static 'vendor/datatables/jquery.dataTables.js'%}"></script>
 <script src="{% static 'vendor/datatables/dataTables.bootstrap4.js'%}"></script>
 
-<script>
 
-         var tour = new Tour({
-             debug: true,
-             onEnd: function (tour) {
-                        window.location.href="/snpsassociated/"
-                        },
-
-             steps: [
-                 {
-                     element: "#id_SNPid",
-                     title: "Launching mirnaQC",
-                     placement: "bottom",
-                     content: "Welcome to mirnaQC launching page. Let us guide you on how to launch your jobs.",
-                     orphan: true,
-                     backdrop: true,
-                 }
-         ]
-         });
-
-          // Clear bootstrap tour session data
-            localStorage.removeItem('tour_current_step');
-            localStorage.removeItem('tour_end');
-
-         // Initialize the tour
-         tour.init();
-
-         // Start the tour
-         tour.start();
-
-
-
-</script>
 
 <script>
 
