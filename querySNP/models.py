@@ -150,3 +150,9 @@ class topResults(Base):
         data = session.query(func.count(topResults.elementID),topResults).filter_by(snpID=_id).group_by(topResults.elementID).all()
         session.close()
         return data if len(data) > 0 else None
+
+    def get_TopElement(_id,_element):
+        session = createSessionSQL(KEY_snpsAssociated_annotation)
+        data = session.query(func.count(topResults.elementID),topResults).filter_by(snpID=_id).filter_by(elementType=_element).group_by(topResults.elementID).all()
+        session.close()
+        return data if len(data) > 0 else None
