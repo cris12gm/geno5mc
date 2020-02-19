@@ -1,7 +1,36 @@
 <div class="card mb-3">             
     <div class="card-body">
-        <div style="overflow-x: auto;">
-            {{ barPlotEnhancers | safe}}
+        <div class="row" cellspacing="10">
+            <div class="col-sm-7">
+                <center><b>CpGs associated in enhancers</b></center>
+                <div style="overflow-x: auto;">
+                    {{ barPlotEnhancers | safe}}
+                </div>
+            </div>
+            <div class="col-sm-5">
+                <center>
+                    <br>
+                    <div class="table-responsive">
+                        <table class="table table-bordered" id="dataTableEnhancersLite" width="80%" cellspacing="3" style="margin-right:100px;">
+                            <thead>
+                                <tr>
+                                    <th colspan="2">Enhancer</th>
+                                    <th>Associated<br>CpGs</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for field in enhancers %}
+                                <tr>
+                                    <td>{{ field.1.enhancerID }}</td>
+                                    <td><div style="text-align:center;"><button class="btn btn-success btn-sm" onclick="window.location.href='{{ baseLink }}/plotElement/?element=enhancer;snp={{ snpInfo.snpID}};name={{field.1.enhancerID}};start={{field.1.chromStart}};end={{field.1.chromEnd}}'">See Meth</button></div></td>
+                                    <td>{{ field.0 }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </center>
+            </div>
         </div>
         <br>
         <hr>

@@ -130,8 +130,6 @@ class GenesAssociatedGET(TemplateView):
             else:
                 #Get Expression
                 expression = requests.get("https://gtexportal.org/rest/v1/expression/geneExpression?datasetId=gtex_v7&gencodeId="+geneCode+"&format=json").json()['geneExpression']
-                print (expression)
-                print ("aaaaaaaaaaaaa")
                 gTEX = plotExpression(expression)
                 # Añado a promoters el count
                 if promotersAssociated:
