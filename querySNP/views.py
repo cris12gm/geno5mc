@@ -111,6 +111,7 @@ class SNPAssociated(TemplateView):
                     barPlotEnhancers = plotEnhancers(enhancers)
                 if tLights:
                     barPlotTLights = plotTrafficLights(tLights)
+                    
         else:
             error = Errors.NOT_VALID
 

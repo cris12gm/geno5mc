@@ -1,27 +1,28 @@
 <div class="card mb-3" >             
     <div class="card-body">
         <div class="row" cellspacing="10">
-            <div class="card" style="width: 60%;">
+            <div class="col-sm-7">
+                <center><b>CpGs associated in promoters</b></center>
                 <div style="overflow-x: auto;">
                     {{ barPlotPromoters | safe}}
                 </div>
             </div>
-            <div class="card" style="width: 40%;">  
+            <div class="col-sm-5">  
                 <center>
                     <br>
                     <div class="table-responsive">
-                        <table class="table table-bordered" id="dataTablePromotersLite" width="80%" cellspacing="3">
+                        <table class="table table-bordered" id="dataTablePromotersLite" width="80%" cellspacing="3" style="margin-right:100px;">
                             <thead>
                                 <tr>
                                     <th colspan="3">Gene</th>
-                                    <th>Associated CpGs</th>
+                                    <th>Associated<br>CpGs</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {% for field in promoters %}
                                 <tr>
-                                    <td><a href="">{{ field.data.geneID }}</a></td>
-                                    <td><div style="text-align:center;"><button class="btn btn-success btn-sm" onclick="window.location.href='{{ baseLink }}/'">See Gene</button></div></td>
+                                    <td>{{ field.data.geneID }}</td>
+                                    <td><div style="text-align:center;"><button class="btn btn-success btn-sm" onclick="window.location.href='{{ baseLink }}/queryGene/gene/{{ field.data.geneID }}'">See Gene</button></div></td>
                                     <td><div style="text-align:center;"><button class="btn btn-success btn-sm" onclick="window.location.href='{{ baseLink }}/plotElement/?element=promoter;snp={{ snpInfo.snpID}};name={{field.data.geneID}};start={{field.data.chromStartPromoter}};end={{field.data.chromEndPromoter}}'">See Meth</button></div></td>
                                     <td>{{ field.count }}</td>
                                 </tr>

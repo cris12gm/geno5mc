@@ -3,11 +3,35 @@ $(document).ready(function() {
   $('#dataTablePromoters').DataTable({
     "order":[[1, "desc"]]
   });
-  $('#dataTablePromotersLite').DataTable({
+  $('#dataTablePromotersLite').removeAttr('width').DataTable({
     "pageLength" : 6,
-    "order":[[3, "desc"]],
+    "order":[[1, "desc"]],
     "searching": false,
-    "bLengthChange":false
+    "bLengthChange":false,
+    "autoWidth": false,
+    "columnDefs": [
+      { "width": "10%", "targets": 1 }
+    ]
+  });
+  $('#dataTableEnhancersLite').removeAttr('width').DataTable({
+    "pageLength" : 6,
+    "order":[[1, "desc"]],
+    "searching": false,
+    "bLengthChange":false,
+    "autoWidth": false,
+    "columnDefs": [
+      { "width": "10%", "targets": 1 }
+    ]
+  });
+  $('#dataTableTLightsLite').removeAttr('width').DataTable({
+    "pageLength" : 6,
+    "order":[[1, "desc"]],
+    "searching": false,
+    "bLengthChange":false,
+    "autoWidth": false,
+    "columnDefs": [
+      { "width": "10%", "targets": 1 }
+    ]
   });
   $('#dataTableRegulation').DataTable({
       "order":[[1,"desc"]]
