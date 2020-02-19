@@ -9,7 +9,7 @@
         var div = document.createElement('div');
         var img = document.createElement('img');
         img.src = "{% static 'images/wait.svg'%}";
-        div.innerHTML = "<b><font color='#194a90' size='2'>Loading tour, please be patient</font></b>";
+        div.innerHTML = "<b><font color='#194a90' size='4'>Loading tour, please wait</font></b>";
         div.style.cssText = 'position: fixed; top: 20%; left: 40%; z-index: 5000; width: 422px; text-align: center; background: #FFFFFF;';
         div.appendChild(img);
         div.setAttribute("id", "div_loading");
@@ -106,15 +106,7 @@
         return true;
     }
 
-//     document.onreadystatechange = function(){
-//      if(document.readyState === 'complete'){
-//
-//
-//      }
-// }
-
 </script>
-
 
   <!--Script for the tour-->
 
@@ -172,21 +164,18 @@
         intro.setOptions(options_before);
         intro.onbeforechange(function () {
 
-
         if (intro._currentStep == "3") {
             document.getElementById("id_SNPid").value = "rs727563";
             var submitB = document.getElementById("submit_btn");
             submitB.disabled = false;
         }
         if (intro._currentStep == "4") {
-                //setTimeout(ShowLoading(), 1000)
                 var hide = document.getElementById("menuToHide");
                 hide.style.display = "block";
             }
             if (intro._currentStep == "5") {
-                //setTimeout(ShowLoading(), 1000)
                 alert("hehe");
-                $('[href="#promoters-tab"]').tab('show');
+                $('[href="#promoters"]').tab('show');
                 // $("#promoters-tab").trigger('click')
             }
 
@@ -233,7 +222,6 @@
     {
         $("#loadpage").hide();
         $('#divPageContent').css("visibility", "visible");
-        //introJs().setOption('showProgress', true).start();
     });
   
 </script>
@@ -273,14 +261,9 @@
 <script src="{% static 'vendor/datatables/dataTables.bootstrap4.js'%}"></script>
 
 
-
 <script>
-
     $(document).ready(function(){
-
             $("#div_loading").hide();
-
-
             })
 
 </script>
