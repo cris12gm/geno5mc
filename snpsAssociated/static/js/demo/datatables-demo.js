@@ -4,7 +4,10 @@ $(document).ready(function() {
     "order":[[1, "desc"]]
   });
   $('#dataTablePromotersLite').DataTable({
-    "pageLength" : 5
+    "pageLength" : 6,
+    "order":[[3, "desc"]],
+    "searching": false,
+    "bLengthChange":false
   });
   $('#dataTableRegulation').DataTable({
       "order":[[1,"desc"]]
