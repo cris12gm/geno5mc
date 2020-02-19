@@ -3,6 +3,9 @@ $(document).ready(function() {
   $('#dataTablePromoters').DataTable({
     "order":[[1, "desc"]]
   });
+  $('#dataTablePromotersLite').DataTable({
+    "pageLength" : 5
+  });
   $('#dataTableRegulation').DataTable({
       "order":[[1,"desc"]]
   });
