@@ -85,7 +85,8 @@ class snpsAssociated_FDR_promotersEPD(Base):
     chromStartCpG = sqlalchemy.Column(Integer, primary_key=True)
     snpID = sqlalchemy.Column(String(200), primary_key=True)
     promoterID = sqlalchemy.Column(String(200), primary_key=True)
-
+    description = sqlalchemy.Column(String(500))
+    
     def get_Promoters(_id):
         session = createSessionSQL(KEY_snpsAssociated_annotation)
         data = session.query(func.count(snpsAssociated_FDR_promotersEPD.geneID).label('total'), snpsAssociated_FDR_promotersEPD).filter_by(snpID=_id).group_by(snpsAssociated_FDR_promotersEPD.geneID).order_by(desc('total')).all()

@@ -25,6 +25,7 @@ class snpsAssociated_FDR_promotersEPD(Base):
     chromStartCpG = sqlalchemy.Column(Integer, primary_key=True)
     snpID = sqlalchemy.Column(String(200), primary_key=True)
     promoterID = sqlalchemy.Column(String(200), primary_key=True)
+    description = sqlalchemy.Column(String(500))
 
     def get_SNPs_Promoters(_id,_geneId):
         session = createSessionSQL(KEY_snpsAssociated_annotation)
@@ -132,7 +133,6 @@ class getMethylation(Base):
         data = session.query(getMethylation).filter_by(id=_id).all()
         session.close()
         return data[0] if len(data)>0 else None
-
 
 class getGenotype(Base):
 
