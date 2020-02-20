@@ -1,9 +1,0 @@
-<b>ID: </b><a href="https://www.ncbi.nlm.nih.gov/snp/{{snpInfo.snpID}}" target="_blank">{{snpInfo.snpID}}</a>
-<br>
-<b>Position:</b> {{ snpInfo.chrom }}:{{ snpInfo.chromStart }}
-<br>
-<b>Reference Allele: </b> {{ snpInfo.reference }}
-        <br>
-        <b>Alternative Allele: </b> {{ snpInfo.alternative }}
-        <br><hr>
-        <a href='{{ linkFileAssociations }}' download><button class="btn btn-success btn-sm">Download all associations</button></a>
