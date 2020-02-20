@@ -38,7 +38,8 @@ def snpsAssociated_FDR_chr_table(chrID):
 
     class snpsAssociated_FDR_chr(Base):
         __tablename__ = 'snpsAssociated_FDR_{chrID}'.format(chrID=str(chrID))
-
+        __table_args__ = {'extend_existing': True} 
+        
         chrom = sqlalchemy.Column(String(5))
         chromStart = sqlalchemy.Column(Integer, primary_key=True)
         snpID = sqlalchemy.Column(String(10), primary_key=True)

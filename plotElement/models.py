@@ -226,3 +226,14 @@ class samples(Base):
         session.close()
         return data if len(data)>0 else None
     
+class genes(Base):
+    __tablename__ = "geneDescriptions"
+
+    geneID = sqlalchemy.Column(String(30),primary_key=True)
+    description = sqlalchemy.Column(String(500))
+
+    def get_geneDescription(_id):
+        session = createSessionSQL(KEY_snpsAssociated_annotation)
+        data = session.query(genes).filter_by(geneID=_id).all()
+        session.close()
+        return data[0] if len(data)>0 else None

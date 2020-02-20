@@ -22,8 +22,8 @@
                                 {% for field in tLights %}
                                 <tr>
                                     <td>{{ field.1.gene }}</td>
-                                    <td><div style="text-align:center;"><button class="btn btn-success btn-sm" onclick="window.location.href='{{ baseLink }}/queryGene/gene/{{ field.1.gene }}'">See Gene</button></div></td>
-                                    <td><div style="text-align:center;"><button class="btn btn-success btn-sm" onclick="window.location.href='{{ baseLink }}/plotElement/?element=tLight;snp={{ snpInfo.snpID}};name={{field.1.gene}}'">See Meth</button></div></td>
+                                    <td><div style="text-align:center;"><button class="btn btn-success btn-sm" onclick="ShowLoading();window.location.href='{{ baseLink }}/queryGene/gene/{{ field.1.gene }}'">See Gene</button></div></td>
+                                    <td><div style="text-align:center;"><button class="btn btn-success btn-sm" onclick="ShowLoading();window.location.href='{{ baseLink }}/plotElement/?element=tLight;snp={{ snpInfo.snpID}};name={{field.1.gene}}'">See Meth</button></div></td>
                                     <td>{{ field.0 }}</td>
                                 </tr>
                                 {% endfor %}

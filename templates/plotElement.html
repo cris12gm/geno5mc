@@ -4,7 +4,10 @@
 {% block content %}
     <button class="btn btn-success btn-sm" onclick="goBack()" >Go Back</button>
     <br>
-    <center><b>{{ name }}</b></center>
+    <center><h2><b>{{ name }}</b></h2></center>
+    {% if description %}
+        <div style="text-align:center;text-transform: capitalize;">{{ description }}</div>
+    {% endif %}
     <div name="plotElement" style="overflow-x: auto;">
         {{ plotElement | safe}}
     </div>    

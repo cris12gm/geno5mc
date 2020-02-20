@@ -21,9 +21,9 @@
                             <tbody>
                                 {% for field in promoters %}
                                 <tr>
-                                    <td>{{ field.data.geneID }}</td>
-                                    <td><div style="text-align:center;"><button class="btn btn-success btn-sm" onclick="window.location.href='{{ baseLink }}/queryGene/gene/{{ field.data.geneID }}'">See Gene</button></div></td>
-                                    <td><div style="text-align:center;"><button class="btn btn-success btn-sm" onclick="window.location.href='{{ baseLink }}/plotElement/?element=promoter;snp={{ snpInfo.snpID}};name={{field.data.geneID}};start={{field.data.chromStartPromoter}};end={{field.data.chromEndPromoter}}'">See Meth</button></div></td>
+                                    <td><div class="row" style="margin-left:20px;text-align:center;vertical-align:middle;">{{ field.data.geneID }}{% include "querySNP/modalPromoters.html" %}</div></td>
+                                    <td><div style="text-align:center;"><button class="btn btn-success btn-sm" onclick="ShowLoading();window.location.href='{{ baseLink }}/queryGene/gene/{{ field.data.geneID }}'">See Gene</button></div></td>
+                                    <td><div style="text-align:center;"><button class="btn btn-success btn-sm" onclick="ShowLoading();window.location.href='{{ baseLink }}/plotElement/?element=promoter;snp={{ snpInfo.snpID}};name={{field.data.geneID}};start={{field.data.chromStartPromoter}};end={{field.data.chromEndPromoter}}'">See Meth</button></div></td>
                                     <td>{{ field.count }}</td>
                                 </tr>
                                 {% endfor %}

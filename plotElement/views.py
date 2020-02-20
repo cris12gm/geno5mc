@@ -10,7 +10,7 @@ from django.views.generic import FormView, DetailView, TemplateView
 from django.http import JsonResponse
 from django.urls import reverse_lazy
 
-from .models import snpsAssociated_FDR_promotersEPD,getMethylation,getGenotype,snpsAssociated_FDR_enhancers,snpsAssociated_FDR_trafficLights,samples
+from .models import snpsAssociated_FDR_promotersEPD,getMethylation,getGenotype,snpsAssociated_FDR_enhancers,snpsAssociated_FDR_trafficLights,samples,genes
 from sqlalchemy import inspect
 import plotly.graph_objs as go
 from plotly.offline import plot
@@ -70,8 +70,6 @@ def PlotTLights(snpID,geneID):
     fig.update_yaxes(title_text='<b>Meth Ratio</b>')
     div_obj = plot(fig, show_link=False, auto_open=False, output_type = 'div')
     return div_obj
-
-
 
 def PlotPromoters(snpID,geneID,start,end):
     cpgs = snpsAssociated_FDR_promotersEPD.get_SNPs_Promoters(snpID,geneID)
@@ -174,13 +172,17 @@ class plotElements(TemplateView):
     def get(self,request):
         valoresGet = request.GET
         element = valoresGet['element']
+        description = ""
+
         if element == 'promoter':
             plotElement = PlotPromoters(valoresGet['snp'],valoresGet['name'],valoresGet['start'],valoresGet['end'])
+            description = getattr(genes.get_geneDescription(valoresGet['name']),"description")
         elif element == 'enhancer':
             plotElement = PlotEnhancers(valoresGet['snp'],valoresGet['name'],valoresGet['start'],valoresGet['end'])
         elif element== 'tLight':
             plotElement = PlotTLights(valoresGet['snp'],valoresGet['name'])
         return render(request, self.template, {
+            'description':description,
             'plotElement':plotElement,
             'snpID':valoresGet['snp'],
             'name':valoresGet['name']

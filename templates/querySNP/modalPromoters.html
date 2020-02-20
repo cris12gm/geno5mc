@@ -1,0 +1,21 @@
+<a class="nav-link" href="#modalPromoters{{field.data.geneID}}"><i class="fas fa-fw fa-info-circle" data-toggle="modal" data-target="#modalPromoters{{field.data.geneID}}"></i></a>
+
+<!-- Modal -->
+<div class="modal fade" id="modalPromoters{{field.data.geneID}}" tabindex="-1" role="dialog" aria-labelledby="modalLabelPromoters" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalLabelPromoters">{{field.data.geneID}}</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            {{ field.data.geneID }}
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+</div>
