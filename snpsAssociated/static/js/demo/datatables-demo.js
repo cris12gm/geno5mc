@@ -54,7 +54,7 @@ $(document).ready(function() {
   $('#dataTableSamples').DataTable({
     "order":[[3,"desc"]]
   });
-  $('#dataTableTopResults').DataTable({
+  $('#dataTableTopResults_Promoter').DataTable({
     "order":[[6,"desc"]]
   });
   $('#dataTableTopResults_Enhancer').DataTable({

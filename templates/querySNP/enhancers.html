@@ -21,8 +21,14 @@
                             <tbody>
                                 {% for field in enhancers %}
                                 <tr>
-                                    <td><div class="row" style="margin-left:20px;text-align:center;vertical-align:middle;">{{ field.1.enhancerID }}{% include "querySNP/modalEnhancers.html" %}</div></td>
-                                    <td><div style="text-align:center;"><button class="btn btn-success btn-sm" onclick="ShowLoading();window.location.href='{{ baseLink }}/plotElement/?element=enhancer;snp={{ snpInfo.snpID}};name={{field.1.enhancerID}};start={{field.1.chromStart}};end={{field.1.chromEnd}}'">See Meth</button></div></td>
+                                    <td>
+                                        <a class="nav-link" href="#modalEnhancers{{field.1.enhancerID}}" data-toggle="modal" data-target="#modalEnhancers{{field.1.enhancerID}}">
+                                            <span>{{ field.1.enhancerID }}</span>
+                                            <i class="fas fa-fw fa-info-circle"></i>
+                                        </a>
+                                        {% include "querySNP/modalEnhancers.html" %}
+                                    </td>
+                                    <td><div style="text-align:center;"><button class="btn btn-success btn-sm" onclick="ShowLoading();window.location.href='{{ baseLink }}/plotElement/?element=enhancer;snp={{ snpInfo.snpID}};name={{field.1.enhancerID}};start={{field.1.chromStart}};end={{field.1.chromEnd}}'">Methylation</button></div></td>
                                     <td>{{ field.0 }}</td>
                                 </tr>
                                 {% endfor %}
@@ -39,7 +45,7 @@
               <div class="card-header" id="headingTable">
                 <h5 class="mb-0">
                   <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                    See table with results
+                    See full result table
                   </button>
                 </h5>
               </div>

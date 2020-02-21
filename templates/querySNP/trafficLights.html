@@ -15,15 +15,21 @@
                             <thead>
                                 <tr>
                                     <th colspan="3">Gene</th>
-                                    <th>Associated<br>CpGs that are TLs</th>
+                                    <th>Associated<br>CpGs that are<br>TLs</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {% for field in tLights %}
                                 <tr>
-                                    <td>{{ field.1.gene }}</td>
-                                    <td><div style="text-align:center;"><button class="btn btn-success btn-sm" onclick="ShowLoading();window.location.href='{{ baseLink }}/queryGene/gene/{{ field.1.gene }}'">See Gene</button></div></td>
-                                    <td><div style="text-align:center;"><button class="btn btn-success btn-sm" onclick="ShowLoading();window.location.href='{{ baseLink }}/plotElement/?element=tLight;snp={{ snpInfo.snpID}};name={{field.1.gene}}'">See Meth</button></div></td>
+                                    <td>
+                                        <a class="nav-link" href="#modalTLights{{field.1.gene}}" data-toggle="modal" data-target="#modalTLights{{field.1.gene}}">
+                                            <span>{{ field.1.gene }}</span>
+                                            <i class="fas fa-fw fa-info-circle"></i>
+                                        </a>
+                                        {% include "querySNP/modaltLights.html" %}
+                                    </td>
+                                    <td><div style="text-align:center;"><button class="btn btn-success btn-sm" onclick="ShowLoading();window.location.href='{{ baseLink }}/queryGene/gene/{{ field.1.gene }}'">Gene</button></div></td>
+                                    <td><div style="text-align:center;"><button class="btn btn-success btn-sm" onclick="ShowLoading();window.location.href='{{ baseLink }}/plotElement/?element=tLight;snp={{ snpInfo.snpID}};name={{field.1.gene}}'">Methylation</button></div></td>
                                     <td>{{ field.0 }}</td>
                                 </tr>
                                 {% endfor %}

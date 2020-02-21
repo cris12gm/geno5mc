@@ -1,5 +1,3 @@
-<a class="nav-link" href="#modalPromoters{{field.data.geneID}}"><i class="fas fa-fw fa-info-circle" data-toggle="modal" data-target="#modalPromoters{{field.data.geneID}}"></i></a>
-
 <!-- Modal -->
 <div class="modal fade" id="modalPromoters{{field.data.geneID}}" tabindex="-1" role="dialog" aria-labelledby="modalLabelPromoters" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -11,7 +9,7 @@
           </button>
         </div>
         <div class="modal-body">
-          <b>Description:</b><div style="text-transform: capitalize;">{{ field.data.description }}</div>
+          <div style="text-align:left;"><b>Description:</b></div><div style="text-align:left;text-transform: capitalize;">{{ field.data.description }}</div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
