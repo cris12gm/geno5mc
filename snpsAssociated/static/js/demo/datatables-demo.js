@@ -1,7 +1,7 @@
 // Call the dataTables jQuery plugin
 $(document).ready(function() {
   $('#dataTablePromoters').DataTable({
-    "order":[[1, "desc"]]
+    "order":[[4, "desc"]]
   });
   $('#dataTablePromotersLite').removeAttr('width').DataTable({
     "pageLength" : 6,

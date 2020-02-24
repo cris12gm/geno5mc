@@ -7,7 +7,7 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy import func
 from sqlalchemy import desc
-from config import KEY_snpsAssociated_FDR, KEY_snpsAssociated_annotation
+from config import KEY_snpsAssociated_FDR, KEY_snpsAssociated_annotation, KEY_hg38
 
 Base = declarative_base()
 
@@ -158,3 +158,31 @@ class topResults(Base):
         data = session.query(func.count(topResults.elementID),topResults).filter_by(snpID=_id).filter_by(elementType=_element).group_by(topResults.elementID).all()
         session.close()
         return data if len(data) > 0 else None
+
+class genes(Base):
+    __tablename__ = "geneDescriptions"
+
+    geneID = sqlalchemy.Column(String(30),primary_key=True)
+    description = sqlalchemy.Column(String(500))
+
+    def get_geneDescription(_id):
+        session = createSessionSQL(KEY_snpsAssociated_annotation)
+        data = session.query(genes).filter_by(geneID=_id).all()
+        session.close()
+        return data[0] if len(data)>0 else None
+
+class enhancers(Base):
+    __tablename__ = "enhancers_GeneHancer"
+
+    chrom = sqlalchemy.Column(String(30))
+    chromStart = sqlalchemy.Column(Integer)
+    chromEnd = sqlalchemy.Column(Integer)
+    name = sqlalchemy.Column(String(30),primary_key=True)
+    genes = sqlalchemy.Column(String(300))
+
+    def get_enhancerData(_id):
+        session = createSessionSQL(KEY_hg38)
+        data = session.query(enhancers).filter_by(name=_id).all()
+        session.close()
+        return data[0] if len(data)>0 else None
+

@@ -15,7 +15,7 @@ import csv
 from sqlalchemy import inspect
 
 from .forms import QuerySNP
-from .models import snpsAssociated_FDR_chrom, snpsAssociated_FDR_chr_table, snpsAssociated_FDR_promotersEPD, snpsAssociated_FDR_enhancers, snpsAssociated_FDR_trafficLights,getSNPID,topResults
+from .models import snpsAssociated_FDR_chrom, snpsAssociated_FDR_chr_table, snpsAssociated_FDR_promotersEPD, snpsAssociated_FDR_enhancers, snpsAssociated_FDR_trafficLights,getSNPID,topResults,genes,enhancers
 from querySNP.plotElements import plotPromoters, plotEnhancers, plotTrafficLights
 
 class Errors(Enum):
@@ -77,6 +77,30 @@ def getAllFromSNP(snpId,associations,promoters,enhancers,tLights,topResultPromot
         topResultPromoter = topResults.get_TopElement(snpInfo.snpID,"Promoter")
         topResultEnhancer = topResults.get_TopElement(snpInfo.snpID,"Enhancer")
     return snpInfo,associations,promoters,enhancers,tLights,topResultPromoter,topResultEnhancer,linkFileAssociations,error
+
+
+def queryGeneDescription(request):
+
+    geneID = request.GET.get('geneID', None).replace("buttonPromoters","")
+    description = getattr(genes.get_geneDescription(geneID),"description")
+
+    dataGen = {}
+    dataGen["geneID"]=geneID
+    dataGen["geneDescription"]=description
+
+    return JsonResponse(dataGen)
+
+def queryEnhancerDescription(request):
+
+    enhancerID = request.GET.get('name', None).replace("buttonEnhancers","")
+    description = getattr(enhancers.get_enhancerData(enhancerID),"genes").replace(";",", ")
+
+    dataGen = {}
+    dataGen["enhancerID"]=enhancerID
+    dataGen["enhancerGenes"]=description
+
+    return JsonResponse(dataGen)
+
 
 class SNPAssociated(TemplateView):
     template = 'querySNP.html'    

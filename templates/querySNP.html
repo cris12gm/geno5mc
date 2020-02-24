@@ -148,6 +148,42 @@
     });
 </script>
 
+<script>
+
+    $('.ajaxButtonGene').on('click', function (e) {
+            $.ajax({
+            url: '{% url "ajax_gene" %}',
+            data: {
+                "geneID" : this.id
+            },
+            dataType: 'json',
+            success: function (data) {
+                $("#modalLabelPromoters").html(data.geneID);
+                $("#modalPromotersDescription").html(data.geneDescription);
+            }
+            });
+    });
+
+</script>
+
+<script>
+    $('.ajaxButtonEnhancer').on('click', function (e) {
+        $.ajax({
+            url: '{% url "ajax_enhancer" %}',
+            data: {
+                "name" : this.id
+            },
+            dataType: 'json',
+            success: function (dataE) {
+                $("#modalLabelEnhancer").html(dataE.enhancerID);
+                $("#modalEnhancerDescription").html(dataE.enhancerGenes);
+            }
+        });
+    });
+</script>
+
+
+
 <script src="{% static 'js/demo/datatables-demo.js'%}"></script>
 <script src="{% static 'vendor/datatables/jquery.dataTables.js'%}"></script>
 <script src="{% static 'vendor/datatables/dataTables.bootstrap4.js'%}"></script>

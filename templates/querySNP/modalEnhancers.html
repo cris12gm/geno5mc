@@ -1,15 +1,15 @@
 <!-- Modal -->
-<div class="modal fade" id="modalEnhancers{{field.1.enhancerID}}" tabindex="-1" role="dialog" aria-labelledby="modalLabelEnhancer" aria-hidden="true">
+<div class="modal fade" id="modalEnhancers" tabindex="-1" role="dialog" aria-labelledby="modalLabelEnhancer" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="modalLabelEnhancer">Genes regulated by {{field.1.enhancerID}}</h5>
+          <h5 class="modal-title" id="modalLabelEnhancer">Genes regulated by </h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body">
-            {{ field.1.genesID }}
+          <div id="modalEnhancerDescription"></div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

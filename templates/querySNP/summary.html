@@ -26,63 +26,72 @@
                 <div id="collapseOne" class="collapse show" aria-labelledby="headingTopResults" data-parent="#accordion">
                     <div class="card-body">
                         {% if topResultPromoter %}
-                        <h4>CpGs associated in promoters that are Traffic Lights</h4>
-                        <hr>
-                        <div class="table-responsive">
-                            <table class="table table-bordered" id="dataTableTopResults_Promoter" width="100%" cellspacing="0">
-                                <thead>
-                                    <tr>
-                                        <th colspan="3">Gene</th>
-                                        <th>chrom</th>
-                                        <th>chromStart Promoter</th>
-                                        <th>chromEnd Promoter </th>
-                                        <th>num CpGs TLs</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {% for field in topResultPromoter %}
-                                    <tr>
-                                        <td>{{ field.1.elementID }}</td>
-                                        <td><div style="text-align:center;"><button class="btn btn-success btn-sm" onclick="ShowLoading();window.location.href='{{ baseLink }}/queryGene/gene/{{ field.1.elementID }}'">Gene</button></div></td>
-                                        <td><div style="text-align:center;"><button class="btn btn-success btn-sm" onclick="ShowLoading();window.location.href='{{ baseLink }}/plotElement/?element=promoter;snp={{ snpInfo.snpID}};name={{field.1.elementID}};start={{field.1.chromStart}};end={{field.1.chromEnd}}'">Methylation</button></div></td>
-                                        <td>{{ field.1.chrom }}</td>
-                                        <td>{{ field.1.chromStartElement }}</td>
-                                        <td>{{ field.1.chromEndElement }}</td>
-                                        <td>{{ field.0 }}</td>
-                                    </tr>
-                                    {% endfor %}
-                                </tbody>
-                            </table>
+                        <div class = "card" id="cardPromoters">
+                            <div class="card-header">
+                                <h5>CpGs associated in promoters that are Traffic Lights</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive" id="topResultPromoter-table">
+                                    <table class="table table-bordered" id="dataTableTopResults_Promoter" width="100%" cellspacing="0">
+                                        <thead>
+                                            <tr>
+                                                <th colspan="3">Gene</th>
+                                                <th>chrom</th>
+                                                <th>chromStart Promoter</th>
+                                                <th>chromEnd Promoter </th>
+                                                <th>num CpGs TLs</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for field in topResultPromoter %}
+                                            <tr>
+                                                <td>{{ field.1.elementID }}</td>
+                                                <td><div style="text-align:center;"><button class="btn btn-success btn-sm" onclick="ShowLoading();window.location.href='{{ baseLink }}/queryGene/gene/{{ field.1.elementID }}'">Gene</button></div></td>
+                                                <td><div style="text-align:center;"><button class="btn btn-success btn-sm" onclick="ShowLoading();window.location.href='{{ baseLink }}/plotElement/?element=promoter;snp={{ snpInfo.snpID}};name={{field.1.elementID}};start={{field.1.chromStart}};end={{field.1.chromEnd}}'">Methylation</button></div></td>
+                                                <td>{{ field.1.chrom }}</td>
+                                                <td>{{ field.1.chromStartElement }}</td>
+                                                <td>{{ field.1.chromEndElement }}</td>
+                                                <td>{{ field.0 }}</td>
+                                            </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
                         </div>
                         {% endif %}
                         {% if topResultEnhancer %}
-                        <br>
-                        <h4>CpGs associated in enhancers that are Traffic Lights</h4>
-                        <hr>
-                        <div class="table-responsive">
-                            <table class="table table-bordered" id="dataTableTopResults_Enhancer" width="100%" cellspacing="0">
-                                <thead>
-                                    <tr>
-                                        <th colspan="2">Enhancer</th>
-                                        <th>chrom</th>
-                                        <th>chromStart Enhancer</th>
-                                        <th>chromEnd Enhancer </th>
-                                        <th>num CpGs TLs</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {% for field in topResultEnhancer %}
-                                    <tr>
-                                        <td>{{ field.1.elementID }}</td>
-                                        <td><div style="text-align:center;"><button class="btn btn-success btn-sm" onclick="ShowLoading();window.location.href='{{ baseLink }}/plotElement/?element=enhancer;snp={{ snpInfo.snpID}};name={{field.1.elementID}};start={{field.1.chromStart}};end={{field.1.chromEnd}}'" onclick="ShowLoading()">Methylation</button></div></td>
-                                        <td>{{ field.1.chrom }}</td>
-                                        <td>{{ field.1.chromStartElement }}</td>
-                                        <td>{{ field.1.chromEndElement }}</td>
-                                        <td>{{ field.0 }}</td>
-                                    </tr>
-                                    {% endfor %}
-                                </tbody>
-                            </table>
+                        <div class= "card" id="cardEnhancers">
+                            <div class="card-header">
+                                <h5>CpGs associated in enhancers that are Traffic Lights</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive" id="test">
+                                    <table class="table table-bordered" id="dataTableTopResults_Enhancer" width="100%" cellspacing="0">
+                                        <thead>
+                                            <tr>
+                                                <th colspan="2">Enhancer</th>
+                                                <th>chrom</th>
+                                                <th>chromStart Enhancer</th>
+                                                <th>chromEnd Enhancer </th>
+                                                <th>num CpGs TLs</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for field in topResultEnhancer %}
+                                            <tr>
+                                                <td>{{ field.1.elementID }}</td>
+                                                <td><div style="text-align:center;"><button class="btn btn-success btn-sm" onclick="ShowLoading();window.location.href='{{ baseLink }}/plotElement/?element=enhancer;snp={{ snpInfo.snpID}};name={{field.1.elementID}};start={{field.1.chromStart}};end={{field.1.chromEnd}}'" onclick="ShowLoading()">Methylation</button></div></td>
+                                                <td>{{ field.1.chrom }}</td>
+                                                <td>{{ field.1.chromStartElement }}</td>
+                                                <td>{{ field.1.chromEndElement }}</td>
+                                                <td>{{ field.0 }}</td>
+                                            </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
                         </div>
                         {% endif %}
                     </div>
