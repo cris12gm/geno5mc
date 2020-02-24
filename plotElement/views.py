@@ -86,6 +86,14 @@ def PlotPromoters(snpID,geneID,start,end):
     valuesPlot["Sample"] = []
 
     numSamples = 0
+
+    samplesAll = samples.get_all_samples()
+    samplesDict = {}
+    for element in samplesAll:
+        srx = getattr(element,"SRX")
+        name = getattr(element,"internalID")
+        samplesDict[name]=srx
+
     for element in cpgs:
         numSamples = numSamples + 1
         idCpG = element.chrom+"_"+str(element.chromStartCpG)
@@ -102,7 +110,7 @@ def PlotPromoters(snpID,geneID,start,end):
                 valuesPlot["methRatio"].append(valueMeth)
                 valuesPlot["Genotype"].append(valueGenotype)
                 valuesPlot["CpG ID"].append(idCpG)
-                valuesPlot["Sample"].append(att)
+                valuesPlot["Sample"].append(samplesDict[att])
         
     df = pd.DataFrame(data=valuesPlot)
 
@@ -121,6 +129,13 @@ def PlotEnhancers(snpID,enhancerID,start,end):
     cpgs = snpsAssociated_FDR_enhancers.get_Enhancers(snpID,enhancerID)
     genotypes = getGenotype.getGenotypeCpG(snpID)
     numSamples = 0
+
+    samplesAll = samples.get_all_samples()
+    samplesDict = {}
+    for element in samplesAll:
+        srx = getattr(element,"SRX")
+        name = getattr(element,"internalID")
+        samplesDict[name]=srx
     
     ref = str(getattr(genotypes,"reference"))+str(getattr(genotypes,"reference"))
     alt = str(getattr(genotypes,"alternative"))+str(getattr(genotypes,"alternative"))
@@ -148,7 +163,7 @@ def PlotEnhancers(snpID,enhancerID,start,end):
                 valuesPlot["methRatio"].append(valueMeth)
                 valuesPlot["Genotype"].append(valueGenotype)
                 valuesPlot["CpG ID"].append(idCpG)
-                valuesPlot["Sample"].append(att)
+                valuesPlot["Sample"].append(samplesDict[att])
         
     df = pd.DataFrame(data=valuesPlot)
 

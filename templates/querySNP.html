@@ -163,6 +163,32 @@
             }
             });
     });
+    $('.ajaxButtonGeneTop').on('click', function (e) {
+            $.ajax({
+            url: '{% url "ajax_gene" %}',
+            data: {
+                "geneID" : this.id
+            },
+            dataType: 'json',
+            success: function (data) {
+                $("#modalLabelPromotersTop").html(data.geneID);
+                $("#modalPromotersDescriptionTop").html(data.geneDescription);
+            }
+            });
+    });
+    $('.ajaxButtonGeneTL').on('click', function (e) {
+            $.ajax({
+            url: '{% url "ajax_gene" %}',
+            data: {
+                "geneID" : this.id
+            },
+            dataType: 'json',
+            success: function (data) {
+                $("#modalLabelPromotersTL").html(data.geneID);
+                $("#modalPromotersDescriptionTL").html(data.geneDescription);
+            }
+            });
+    });
 
 </script>
 
@@ -177,6 +203,19 @@
             success: function (dataE) {
                 $("#modalLabelEnhancer").html(dataE.enhancerID);
                 $("#modalEnhancerDescription").html(dataE.enhancerGenes);
+            }
+        });
+    });
+    $('.ajaxButtonEnhancerTop').on('click', function (e) {
+        $.ajax({
+            url: '{% url "ajax_enhancer" %}',
+            data: {
+                "name" : this.id
+            },
+            dataType: 'json',
+            success: function (dataE) {
+                $("#modalLabelEnhancerTop").html(dataE.enhancerID);
+                $("#modalEnhancerDescriptionTop").html(dataE.enhancerGenes);
             }
         });
     });

@@ -96,7 +96,7 @@ def queryEnhancerDescription(request):
     description = getattr(enhancers.get_enhancerData(enhancerID),"genes").replace(";",", ")
 
     dataGen = {}
-    dataGen["enhancerID"]=enhancerID
+    dataGen["enhancerID"]="Genes regulated by: "+enhancerID
     dataGen["enhancerGenes"]=description
 
     return JsonResponse(dataGen)

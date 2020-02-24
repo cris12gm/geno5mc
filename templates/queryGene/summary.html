@@ -1,6 +1,9 @@
 <div class="card mb-3">             
     <div class="card-body">
         <h2>{{geneId}}</h2>
+        {% if description %}
+            <div style="text-transform: capitalize;">{{ description }}</div>
+        {% endif %}
         <hr> 
         <div class="accordion" id="accordionGenes">
             {% if gTEX %}
@@ -19,20 +22,6 @@
                 </div>
             </div>
             {% endif %}
-            <div class="card">
-                <div class="card-header" id="Meth">
-                    <h5 class="mb-0">
-                        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseMeth" aria-expanded="true" aria-controls="collapseMeth">
-                        <b>Methylation</b>
-                      </button>
-                    </h5>
-                </div>
-                <div id="collapseMeth" class="collapse show" aria-labelledby="headingMeth" data-parent="#accordionMeth">
-                    <div class="card-body">
-                        {{gTEX|safe}}
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
 </div>

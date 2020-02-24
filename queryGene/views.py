@@ -15,7 +15,7 @@ from queryGene.plotExpression import plotExpression
 
 
 from .forms import QueryGene
-from .models import snpsAssociated_FDR_promotersEPD, snpsAssociated_FDR_chrom, getGeneID, snpsAssociated_FDR_enhancers, snpsAssociated_FDR_trafficLights, getGencode
+from .models import snpsAssociated_FDR_promotersEPD, snpsAssociated_FDR_chrom, getGeneID, snpsAssociated_FDR_enhancers, snpsAssociated_FDR_trafficLights, getGencode,genes
 
 class Errors(Enum):
     NO_ERROR = 0
@@ -40,6 +40,7 @@ class GenesAssociated(TemplateView):
         enhancersAssociated = []
         tLightsAssociated = []
         gTEX = []
+        description = ""
 
         if form.is_valid():
             geneId = form.cleaned_data.get('GeneId')
@@ -78,6 +79,8 @@ class GenesAssociated(TemplateView):
                             }
                             promotersAssociatedNew.append(info)
                         promotersAssociated = promotersAssociatedNew
+                    #Get description
+                    description = getattr(genes.get_geneDescription(geneId),"description")
         else:
             error = Errors.NOT_VALID
 
@@ -86,6 +89,7 @@ class GenesAssociated(TemplateView):
             'promotersAssociated': promotersAssociated,
             'enhancersAssociated': enhancersAssociated,
             'tLightsAssociated': tLightsAssociated,
+            'description':description,
             'gTEX':gTEX,
             'baseLink': baseLink,
             'query_form': form,
@@ -102,6 +106,7 @@ class GenesAssociatedGET(TemplateView):
         promotersAssociated = []
         enhancersAssociated = []
         tLightsAssociated = []
+        description = ""
         gTEX = []
 
         baseLink = settings.SUB_SITE+"/querySNP/snp/"
@@ -144,6 +149,8 @@ class GenesAssociatedGET(TemplateView):
                         }
                         promotersAssociatedNew.append(info)
                     promotersAssociated = promotersAssociatedNew
+                #Get description
+                description = getattr(genes.get_geneDescription(geneId),"description")
 
         else:
             error = Errors.NOT_VALID
@@ -152,6 +159,7 @@ class GenesAssociatedGET(TemplateView):
             'promotersAssociated': promotersAssociated,
             'enhancersAssociated': enhancersAssociated,
             'tLightsAssociated': tLightsAssociated,
+            'description':description,
             'baseLink': baseLink,
             'gTEX':gTEX,
             'query_form': form,

@@ -4,7 +4,14 @@
 {% block content %}
 <div id="page-wrapper">
     <br>
-    <button class="btn btn-success btn-sm" onclick="goBack()" >Go Back</button>
+    <div class="row">
+        <div class="col-lg-6">
+            <button class="btn btn-success btn-sm" onclick="goBack()" >Go Back</button>
+        </div>
+        <div class="col-lg-4" style="text-align:center">
+            <h4>Your have queried the gene {{ geneId }}</h4>
+        </div>
+    </div>
     <br><br>
     
     {% if error %}

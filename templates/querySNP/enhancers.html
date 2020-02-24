@@ -56,11 +56,11 @@
                         <table class="table table-bordered" id="dataTableRegulation" width="100%" cellspacing="0">
                             <thead>
                                 <tr>
-                                    <th>Enhancer ID</th>
+                                    <th>Enhancer</th>
+                                    <th>Methylation</th>
                                     <th>chrom</th>
                                     <th>chromStart</th>
                                     <th>chromEnd</th>
-                                    <th>Genes</th>
                                     <th>Num. Associated CpGs</th>
 
                                 </tr>
@@ -68,11 +68,17 @@
                             <tbody>
                                 {% for field in enhancers %}
                                 <tr>
-                                    <td><a href="{{ baseLink }}/plotElement/?element=enhancer;snp={{ snpInfo.snpID}};name={{field.1.enhancerID}};start={{field.1.chromStart}};end={{field.1.chromEnd}}">{{ field.1.enhancerID }}</a></td>
+                                    <td>
+                                        <a class="ajaxButtonEnhancer" href="#" id="buttonEnhancers{{field.1.enhancerID}}" data-toggle="modal" data-target="#modalEnhancers">
+                                            <span>{{ field.1.enhancerID }}</span>
+                                            <i class="fas fa-fw fa-info-circle"></i>
+                                        </a>
+                                        {% include "querySNP/modalEnhancers.html" %}
+                                    </td>
+                                    <td><div style="text-align:center;"><button class="btn btn-success btn-sm" onclick="ShowLoading();window.location.href='{{ baseLink }}/plotElement/?element=enhancer;snp={{ snpInfo.snpID}};name={{field.1.enhancerID}};start={{field.1.chromStart}};end={{field.1.chromEnd}}'">Methylation</button></div></td>
                                     <td>{{ field.1.chrom }}</td>
                                     <td>{{ field.1.chromStart }}</td>
                                     <td>{{ field.1.chromEnd }}</td>
-                                    <td>{{ field.1.genesID }}</td>
                                     <td>{{ field.0 }}</td>
 
                                 </tr>

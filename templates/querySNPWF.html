@@ -5,7 +5,14 @@
 
     <div id="page-wrapper">
         <br>
-        <button class="btn btn-success btn-sm" onclick="goBack()" >Go Back</button>
+        <div class="row">
+            <div class="col-lg-6">
+                <button class="btn btn-success btn-sm" onclick="goBack()" >Go Back</button>
+            </div>
+            <div class="col-lg-4" style="text-align:center">
+                <h4>Your have queried the SNP {{ snpInfo.snpID }}</h4>
+            </div>
+        </div>
         <br><br>
 
         {% if error %}
@@ -100,20 +107,22 @@
         var div = document.createElement('div');
         var img = document.createElement('img');
         img.src = "{% static 'images/wait.svg'%}";
-        div.innerHTML = "<b><font color='#194a90' size='2'>Loading results, please be patient</font></b>";
-        div.style.cssText = 'position: fixed; top: 20%; left: 40%; z-index: 5000; width: 422px; text-align: center; background: #FFFFFF;';
+        div.innerHTML = "<b><font color='#194a90' size='4'>Loading results, please wait</font></b>";
+        div.style.cssText = 'position: fixed; top: 20%; left: 40%; z-index: 5000; width: 422px; text-align: center; background: #FFFFFF;border-style: outset;';
 
         div.appendChild(img);
         document.body.appendChild(div);
         return true;
     }
+    
 </script>
 
-<!-- This script cancel submit button when the form is loading-->
+
+<!-- This script cancel submit button when the form is loading and hides menu-->
+<!-- This script also hides the menu when you press buttons in topResults-->
 <script>
     $(document).ready(function () {
         $("#formSNP").submit(function (e) {
-
             //disable the submit button
             $("#submit_btn").attr("disabled", true);
             $("div.menu-hide").hide()
@@ -123,19 +132,91 @@
     });
 
 </script>
-
-
-<!-- This script makes the "Show methylation" button -->
+<script>
+    $(document).ready(function(){
+        $('[data-toggle="tooltip"]').tooltip();   
+    });
+</script>
 
 <script>
-    function getMethGraph() {
-        alert("Test")
-    }
+
+    $('.ajaxButtonGene').on('click', function (e) {
+            $.ajax({
+            url: '{% url "ajax_gene" %}',
+            data: {
+                "geneID" : this.id
+            },
+            dataType: 'json',
+            success: function (data) {
+                $("#modalLabelPromoters").html(data.geneID);
+                $("#modalPromotersDescription").html(data.geneDescription);
+            }
+            });
+    });
+    $('.ajaxButtonGeneTop').on('click', function (e) {
+            $.ajax({
+            url: '{% url "ajax_gene" %}',
+            data: {
+                "geneID" : this.id
+            },
+            dataType: 'json',
+            success: function (data) {
+                $("#modalLabelPromotersTop").html(data.geneID);
+                $("#modalPromotersDescriptionTop").html(data.geneDescription);
+            }
+            });
+    });
+    $('.ajaxButtonGeneTL').on('click', function (e) {
+            $.ajax({
+            url: '{% url "ajax_gene" %}',
+            data: {
+                "geneID" : this.id
+            },
+            dataType: 'json',
+            success: function (data) {
+                $("#modalLabelPromotersTL").html(data.geneID);
+                $("#modalPromotersDescriptionTL").html(data.geneDescription);
+            }
+            });
+    });
+
 </script>
+
+<script>
+    $('.ajaxButtonEnhancer').on('click', function (e) {
+        $.ajax({
+            url: '{% url "ajax_enhancer" %}',
+            data: {
+                "name" : this.id
+            },
+            dataType: 'json',
+            success: function (dataE) {
+                $("#modalLabelEnhancer").html(dataE.enhancerID);
+                $("#modalEnhancerDescription").html(dataE.enhancerGenes);
+            }
+        });
+    });
+    $('.ajaxButtonEnhancerTop').on('click', function (e) {
+        $.ajax({
+            url: '{% url "ajax_enhancer" %}',
+            data: {
+                "name" : this.id
+            },
+            dataType: 'json',
+            success: function (dataE) {
+                $("#modalLabelEnhancerTop").html(dataE.enhancerID);
+                $("#modalEnhancerDescriptionTop").html(dataE.enhancerGenes);
+            }
+        });
+    });
+</script>
+
+
 
 <script src="{% static 'js/demo/datatables-demo.js'%}"></script>
 <script src="{% static 'vendor/datatables/jquery.dataTables.js'%}"></script>
 <script src="{% static 'vendor/datatables/dataTables.bootstrap4.js'%}"></script>
 
+<script src="{% static 'js/tooltip.js' %}"></script>
 
 {% endblock %}

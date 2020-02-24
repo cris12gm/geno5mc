@@ -1,7 +1,7 @@
 // Call the dataTables jQuery plugin
 $(document).ready(function() {
   $('#dataTablePromoters').DataTable({
-    "order":[[4, "desc"]]
+    "order":[[5, "desc"]]
   });
   $('#dataTablePromotersLite').removeAttr('width').DataTable({
     "pageLength" : 6,
@@ -34,7 +34,7 @@ $(document).ready(function() {
     ]
   });
   $('#dataTableRegulation').DataTable({
-      "order":[[1,"desc"]]
+      "order":[[5,"desc"]]
   });
   $('#dataTableTL').DataTable({
       "order":[[1,"desc"]]
@@ -55,7 +55,7 @@ $(document).ready(function() {
     "order":[[3,"desc"]]
   });
   $('#dataTableTopResults_Promoter').DataTable({
-    "order":[[6,"desc"]]
+    "order":[[3,"desc"]]
   });
   $('#dataTableTopResults_Enhancer').DataTable({
     "order":[[5,"desc"]]
