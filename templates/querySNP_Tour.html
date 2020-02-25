@@ -129,11 +129,8 @@
             },
             {
                 element: document.querySelector('#submit_btn'),
-                intro: "Then just press submit to see the results",
+                intro: "Then just press <button class='btn btn-success btn-sm'>Submit</b> to see the results",
                 click: true,
-                // onbeforechange: function(){
-                //     alert("test")
-                // }
             },
             {
                 element: document.querySelector('#myTab'),
@@ -141,20 +138,25 @@
             },
             {
                 element:document.querySelector('#infoSNP'),
-                intro:"In <i>summary</i> first you will find the basic information of the SNP as its possition or its possible alleles.<br>In our case the SNP is located in chromosome 22 and has two possible alleles, C (reference) and T (alternative).<br> The risk allele is the reference one (C).",
+                intro:"In <i>Summary</i> first you will find the basic information of the SNP as its possition or its possible alleles.<br>In our case the SNP is located in chromosome 22 and has two possible alleles, C (reference) and T (alternative).<br> The risk allele is the reference one (C).",
                 tooltipClass:"step5Tour"
             },
             {
                 element:document.querySelector("#headingTopResults"),
-                intro:"In the Top Results section,..."
+                intro:"In this section you will find the most relevant results.<br>Within the <i>Top Results</i> there are two categories:<br><b>a) CpGs associated in promoters that are also Traffic Lights</b>: In this section you can find those genes with at least one CpG associated in its promoter region that it is also a Traffic Light<br><b>b) CpGs associated in enhancers that are also Traffic Lights</b>: In this section you can find those enhancers with at least one CpG associated inside that it is also a Traffic Light<br>"
             },
             {
-                element:document.querySelector("#topResultPromoter-table"),
-                intro:"There are three genes that have CpGs associated to the SNP rs727563 in its promoter.<br>The one that has the highest number of them is CYTH4."
+                element:document.querySelector("#cardPromoters"),
+                intro:"<center><b>CpGs associated in promoters that are also Traffic Lights</b></center><br>In this example there are three genes that have CpGs associated to the SNP rs727563 in its promoter.<br>The one that has the highest number of them is <a href='https://www.ncbi.nlm.nih.gov/gene/27128' target='_blank'>CYTH4</a>, so we first we will focus on it."
             },
             {
                 element:document.querySelector("#buttonPromotersCYTH4"),
-                intro:"This gene encodes...."
+                intro:"<a href='https://www.ncbi.nlm.nih.gov/gene/27128' target='_blank'>CYTH4</a> encodes the Cytohesin-4 protein.<br>This protein has been <u>related to inflammatory bowel disease</u> (Peters et al., 2017).",
+                tooltipClass:"step8Tour"
+            },
+            {
+                element:document.querySelector("#buttonMethCYTH4"),
+                intro:"If you press the <button class='btn btn-success btn-sm'>Methylation</button> button it would take you to another page where to see the methylation distribution (in our samples) of the 3 CpGs associated in the promoter of this gene."
             }
         ],
         showStepNumbers:false,
