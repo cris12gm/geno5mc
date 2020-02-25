@@ -3,6 +3,9 @@
 
 {% block content %}
 
+<link href="/static/tour/introjs.css" rel="stylesheet">
+<link href="{% static 'css/stylesIntroJs.css'%}" rel="stylesheet">
+
 <script type="text/javascript">
     function preLoading(e) {
         var div = document.createElement('div');
@@ -92,6 +95,8 @@
 {% block js %}
 
 <!-- This script show an image when is loading-->
+<script src="{% static 'tour/intro.js' %}"></script>
+
 <script type="text/javascript">
     function ShowLoading(e) {
         var div = document.createElement('div');
@@ -117,7 +122,8 @@
                 intro: "<center><b>WELCOME TO geno<sup>5</sup>mC</b><br>In this tutorial we will show you how our page works with an example, the SNP <a href='https://www.ebi.ac.uk/gwas/variants/rs727563' target='_blank'>rs727563</a>.</center>"
             },
             { 
-                intro: "The SNP <a href='https://www.ebi.ac.uk/gwas/variants/rs727563' target='_blank'>rs727563</a> has . <br><img src='https://www.w3schools.com/tags/smiley.gif' alt='Smiley face' width='42' height='42'></center>"
+                intro: "The SNP <a href='https://www.ebi.ac.uk/gwas/variants/rs727563' target='_blank'>rs727563</a>, located in chromosome 22 (chr22:41471373, GRCh38.p12), has been associated by GWAS with inflammatory bowel disease (specifically in Crohn's disease) ((Liu et al., 2015)). This SNP is an intron variant of the gene ACO2	which encodes for the aconitase 2 protein.<br>This protein belongs to the aconitase/IPM isomerase family, and catalyzes the interconversion of citrate to isocitrate via cis-aconitate in the second step of the TCA cycle. Diseases associated with ACO2 include Infantile Cerebellar-Retinal Degeneration and Optic Atrophy 9 (Metodiev et al., 2014; Spiegel et al., 2012) so it has no apparent association with inflammatory bowel disease. </center>",
+                tooltipClass:"step2Test"
             },
             {
                 element: document.querySelector('#step1'),
@@ -155,7 +161,8 @@
         ],
         showStepNumbers:false,
         hideNext:true,
-        disableInteraction:false
+        disableInteraction:false,
+        tooltipClass:true
     };
 
     intro.setOptions(options_before);
@@ -167,7 +174,7 @@
             document.getElementById("id_SNPid").value = "rs727563";
             var submitB = document.getElementById("submit_btn");
             submitB.disabled = false;
-        }
+            }
         if (intro._currentStep == "4") {
                 var hide = document.getElementById("menuToHide");
                 hide.style.display = "block";
@@ -178,8 +185,7 @@
                 // $("#promoters-tab").trigger('click')
             }
 
-    });
-
+        });
     intro.start();
 
 
