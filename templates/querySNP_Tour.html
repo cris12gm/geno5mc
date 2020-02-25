@@ -119,19 +119,12 @@
     var options_before = {
         steps: [
             { 
-                intro: "<center><b>WELCOME TO geno<sup>5</sup>mC</b></center><br>In this tutorial we will show you how our page works with an example, the SNP <a href='https://www.ebi.ac.uk/gwas/variants/rs727563' target='_blank'>rs727563</a>."
-            },
-            { 
-                intro: "The SNP <a href='https://www.ebi.ac.uk/gwas/variants/rs727563' target='_blank'>rs727563</a>, located in chromosome 22 (chr22:41471373, GRCh38.p12), has been associated by GWAS with inflammatory bowel disease (specifically in Crohn's disease) ((Liu et al., 2015)).<br> This SNP is an intron variant of the gene <a href='https://www.ncbi.nlm.nih.gov/gene/50' target='_blank'>ACO2</a> which encodes for the aconitase 2 protein. <br><br><img src={% static 'images/tutorial_1.png'%} width='800px'>",
+                intro: "<center><h3>Welcome to geno<sup>5</sup>mC.</h3></center>In this tutorial we will show you how our page works with an example, the SNP <a href='https://www.ebi.ac.uk/gwas/variants/rs727563' target='_blank'>rs727563</a>.<br><br>This SNP, located in chromosome 22 (chr22:41471373, GRCh38.p12), has been associated by GWAS with inflammatory bowel disease (specifically in Crohn's disease) ((Liu et al., 2015)).<br> This SNP is an intron variant of the gene <a href='https://www.ncbi.nlm.nih.gov/gene/50' target='_blank'>ACO2</a> which encodes for the aconitase 2 protein. <br><br><img src={% static 'images/tutorial_1.png'%} width='800px'>The <a href='https://www.ncbi.nlm.nih.gov/gene/50' target='_blank'>ACO2</a> belongs to the aconitase/IPM isomerase family, and catalyzes the interconversion of citrate to isocitrate via cis-aconitate in the second step of the TCA cycle. Diseases associated with ACO2 include Infantile Cerebellar-Retinal Degeneration and Optic Atrophy 9 (Metodiev et al., 2014; Spiegel et al., 2012) so it has <u>no apparent association</u> with inflammatory bowel diseases.",
                 tooltipClass:"step2Test"
             },
             {
-                intro:"The <a href='https://www.ncbi.nlm.nih.gov/gene/50' target='_blank'>ACO2</a> belongs to the aconitase/IPM isomerase family, and catalyzes the interconversion of citrate to isocitrate via cis-aconitate in the second step of the TCA cycle. Diseases associated with ACO2 include Infantile Cerebellar-Retinal Degeneration and Optic Atrophy 9 (Metodiev et al., 2014; Spiegel et al., 2012) so it has <u>no apparent association</u> with inflammatory bowel diseases.",
-                tooltipClass:"step3Test"
-            },
-            {
                 element: document.querySelector('#step1'),
-                intro: "First, fill the search box with a SNP ID",
+                intro: "To query an SNP, first, you will need to fill the search box with a SNP ID",
 
             },
             {
@@ -174,12 +167,12 @@
         intro.setOptions(options_before);
         intro.onbeforechange(function () {
 
-        if (intro._currentStep == "3") {
+        if (intro._currentStep == "2") {
             document.getElementById("id_SNPid").value = "rs727563";
             var submitB = document.getElementById("submit_btn");
             submitB.disabled = false;
             }
-        if (intro._currentStep == "4") {
+        if (intro._currentStep == "3") {
                 var hide = document.getElementById("menuToHide");
                 hide.style.display = "block";
             }
