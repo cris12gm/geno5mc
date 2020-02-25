@@ -11,14 +11,20 @@
         var div = document.createElement('div');
         var img = document.createElement('img');
         img.src = "{% static 'images/wait.svg'%}";
-        div.innerHTML = "<b><font color='#194a90' size='4'>Loading tour, please wait</font></b>";
         div.style.cssText = 'position: fixed; top: 20%; left: 40%; z-index: 5000; width: 422px; text-align: center; background: #FFFFFF;';
         div.appendChild(img);
         div.setAttribute("id", "div_loading");
         document.body.appendChild(div);
+
+        var submitB = document.getElementById("submit_btn");
+        submitB.disabled = false;
         return true;
     }
     preLoading();
+
+    
+
+    
 </script>
 
     <div id="page-wrapper">
@@ -48,7 +54,7 @@
         {% endif %}
         
         {% if associations %}
-        <div class="menu-hide" id="menuToHide" style="display: none;">
+        <div class="menu-hide" id="menuToHide" style="display: block;">
             <ul class="nav nav-tabs" id="myTab" role="tablist">
                 <li class="nav-item">
                     <a class="nav-link active" id="summary-tab" data-toggle="tab" href="#summary" role="tab" aria-controls="summary" aria-selected="true"><h5>Summary</h5></a>
@@ -118,50 +124,42 @@
     var intro = introJs();
     var options_before = {
         steps: [
-            { 
-                intro: "<center><h3>Welcome to geno<sup>5</sup>mC.</h3></center>In this tutorial we will show you how our page works with an example, the SNP <a href='https://www.ebi.ac.uk/gwas/variants/rs727563' target='_blank'>rs727563</a>.<br><br>This SNP, located in chromosome 22 (chr22:41471373, GRCh38.p12), has been associated by GWAS with inflammatory bowel disease (specifically in Crohn's disease) ((Liu et al., 2015)).<br> This SNP is an intron variant of the gene <a href='https://www.ncbi.nlm.nih.gov/gene/50' target='_blank'>ACO2</a> which encodes for the aconitase 2 protein. <br><br><img src={% static 'images/tutorial_1.png'%} width='800px'>The <a href='https://www.ncbi.nlm.nih.gov/gene/50' target='_blank'>ACO2</a> belongs to the aconitase/IPM isomerase family, and catalyzes the interconversion of citrate to isocitrate via cis-aconitate in the second step of the TCA cycle. Diseases associated with ACO2 include Infantile Cerebellar-Retinal Degeneration and Optic Atrophy 9 (Metodiev et al., 2014; Spiegel et al., 2012) so it has <u>no apparent association</u> with inflammatory bowel diseases.",
-                tooltipClass:"step1Tour"
+            {
+                element:document.querySelector("#dataTableTopResults_Enhancer"),
+                intro:"There are ----enhancers that"
             },
             {
-                element: document.querySelector('#step1'),
-                intro: "To query an SNP, first, you will need to fill the search box with a SNP ID",
-
+                element:document.querySelector("#buttonEnhancersGH22F035646"),
+                intro:"thisEnhancer...."
             },
             {
-                element: document.querySelector('#submit_btn'),
-                intro: "Then just press submit to see the results",
-                click: true,
-                // onbeforechange: function(){
-                //     alert("test")
-                // }
+                element: document.querySelector("#promoters-tab"),
+                intro: "Promoters"
             },
             {
-                element: document.querySelector('#myTab'),
-                intro: "You will find several tabs with the query results.<br>First we will focus on the <i>Summary</i>"
+                element:document.querySelector("#barPlotPromoters"),
+                intro: "In this plot,..."
             },
             {
-                element:document.querySelector('#infoSNP'),
-                intro:"In <i>summary</i> first you will find the basic information of the SNP as its possition or its possible alleles.<br>In our case the SNP is located in chromosome 22 and has two possible alleles, C (reference) and T (alternative).<br> The risk allele is the reference one (C).",
-                tooltipClass:"step5Tour"
+                element:document.querySelector("#dataTablePromotersLite"),
+                intro: "In this table..."
             },
             {
-                element:document.querySelector("#headingTopResults"),
-                intro:"In the Top Results section,..."
+                element: document.querySelector("#enhancers-tab"),
+                intro: "Enhancers "
             },
             {
-                element:document.querySelector("#topResultPromoter-table"),
-                intro:"There are three genes that have CpGs associated to the SNP rs727563 in its promoter.<br>The one that has the highest number of them is CYTH4."
+                element: document.querySelector("#tLights-tab"),
+                intro: "Traffic Lights"
             },
             {
-                element:document.querySelector("#buttonPromotersCYTH4"),
-                intro:"This gene encodes...."
-            }
+                intro: "That's the end of the tour"
+            }   
         ],
         showStepNumbers:false,
         hideNext:true,
         disableInteraction:false,
         tooltipClass:true,
-        doneLabel:"Next ->",
         scrollTo:"tooltip"
     };
 
@@ -170,23 +168,28 @@
         intro.setOptions(options_before);
         intro.onbeforechange(function () {
 
-        if (intro._currentStep == "2") {
+        if (intro._currentStep == "1") {
             document.getElementById("id_SNPid").value = "rs727563";
-            var submitB = document.getElementById("submit_btn");
-            submitB.disabled = false;
         }
-        if (intro._currentStep == "3") {
-            var hide = document.getElementById("menuToHide");
-            hide.style.display = "block";
+        if (intro._currentStep == "2") {
+            $('[href="#promoters"]').tab('show');
+            // $("#promoters-tab").trigger('click')
         }
-        });
+        if (intro._currentStep == "5") {
+            $('[href="#enhancers"]').tab('show');
+            // $("#promoters-tab").trigger('click')
+        }
+        if (intro._currentStep == "6") {
+            $('[href="#tLights"]').tab('show');
+            // $("#promoters-tab").trigger('click')
+        }
 
+        });
         intro.oncomplete(function() {
-            window.location.href = "{% url 'plotElement' %}tour/?element=promoter;snp=rs727563;name=CYTH4;start=;end=";
+            window.location.href = "{% url 'home' %}";
         });
         intro.start();
 </script>
-
 
 <!-- This script enables link to tabs-->
 <script>

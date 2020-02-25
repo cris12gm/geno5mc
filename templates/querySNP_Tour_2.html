@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block content %}
+<link href="{% static 'tour/introjs.css'%}" rel="stylesheet">
+<link href="{% static 'css/stylesIntroJs.css'%}" rel="stylesheet">
+
+    <button id = "backBtn" class="btn btn-success btn-sm" onclick="goBack()" >Go Back</button>
+    <br>
+    <center><h2><b>{{ name }}</b></h2></center>
+    {% if description %}
+        <div style="text-align:center;text-transform: capitalize;">{{ description }}</div>
+    {% endif %}
+    <div id="plotElement" name="plotElement" style="overflow-x: auto;">
+        {{ plotElement | safe}}
+    </div>
+{% endblock %}
+{% block js %}
+  <!-- Demo scripts for this page-->
+
+  <!-- This script show an image when is loading-->
+<script type="text/javascript">
+    function ShowLoading(e) {
+        var div = document.createElement('div');
+        var img = document.createElement('img');
+        img.src = "{% static 'images/wait.svg'%}";
+        div.innerHTML = "<b><font color='#194a90' size='2'>Loading results, please be patient</font></b>";
+        div.style.cssText = 'position: fixed; top: 20%; left: 40%; z-index: 5000; width: 422px; text-align: center; background: #FFFFFF;';
+
+        div.appendChild(img);
+        document.body.appendChild(div);
+        return true;
+    }
+</script>
+
+<!-- This script cancel submit button when the form is loading-->
+<script>
+    $(document).ready(function () {
+        $("#formSNP").submit(function (e) {
+
+            //disable the submit button
+            $("#submit_btn").attr("disabled", true);
+            $("div.menu-hide").hide()
+            //
+            return true;
+        });
+    });
+
+</script>
+
+
+<!-- Script for the tour -->
+
+<script src="{% static 'tour/intro.js' %}"></script>
+
+
+<script>
+    var intro = introJs();
+    var options_before = {
+        steps: [
+            { 
+                element:document.querySelector("#plotElement"),
+                intro: "In this plot we can see.....",
+            },
+            {
+                element:document.querySelector("#backBtn"),
+                intro: "Press back button to go to the previous page"
+            }
+        ],
+        showStepNumbers:false,
+        hideNext:true,
+        disableInteraction:false,
+        tooltipClass:true,
+        doneLabel:"Next ->",
+        scrollTo:"tooltip"
+    };
+
+    intro.setOptions(options_before);
+
+        intro.setOptions(options_before);
+        intro.oncomplete(function () {
+            window.location.href = "{% url 'querySNP' %}tour_3";
+        });
+        intro.start();
+</script>
+
+<script>
+    function goBack() {
+      window.history.back();
+    }
+</script>
+
+<script src="{% static 'js/demo/datatables-demo.js'%}"></script>
+<script src="{% static 'vendor/datatables/jquery.dataTables.js'%}"></script>
+<script src="{% static 'vendor/datatables/dataTables.bootstrap4.js'%}"></script>
+
+{% endblock %}
+

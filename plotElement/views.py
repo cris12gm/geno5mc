@@ -202,3 +202,29 @@ class plotElements(TemplateView):
             'snpID':valoresGet['snp'],
             'name':valoresGet['name']
             })
+
+class plotElementsTour(TemplateView):
+    template = "querySNP_Tour_2.html"
+
+    def post(self,request):
+        pass
+        return render(request, self.template, {})
+
+    def get(self,request):
+        valoresGet = request.GET
+        element = valoresGet['element']
+        description = ""
+
+        if element == 'promoter':
+            plotElement = PlotPromoters(valoresGet['snp'],valoresGet['name'],valoresGet['start'],valoresGet['end'])
+            description = getattr(genes.get_geneDescription(valoresGet['name']),"description")
+        elif element == 'enhancer':
+            plotElement = PlotEnhancers(valoresGet['snp'],valoresGet['name'],valoresGet['start'],valoresGet['end'])
+        elif element== 'tLight':
+            plotElement = PlotTLights(valoresGet['snp'],valoresGet['name'])
+        return render(request, self.template, {
+            'description':description,
+            'plotElement':plotElement,
+            'snpID':valoresGet['snp'],
+            'name':valoresGet['name']
+            })
