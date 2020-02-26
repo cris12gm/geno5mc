@@ -73,8 +73,25 @@
 
         intro.setOptions(options_before);
         intro.oncomplete(function () {
+            var divAll = document.getElementById("allPage");
+            var divBut = document.getElementById("backBtn")
+            divAll.style.display="none";
+            divBut.style.display="none";
+            
+            function ShowLoading(e) {
+                var div = document.createElement('div');
+                var img = document.createElement('img');
+                img.src = "{% static 'images/wait.svg'%}";
+                div.style.cssText = 'position: fixed; top: 20%; left: 40%; z-index: 5000; width: 422px; text-align: center; background: #FFFFFF;';
+
+                div.appendChild(img);
+                document.body.appendChild(div);
+                return true;
+            }
+            ShowLoading();
             window.location.href = "{% url 'querySNP' %}tour_3";
         });
+
         intro.start();
 </script>
 

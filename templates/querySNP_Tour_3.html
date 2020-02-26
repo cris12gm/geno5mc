@@ -6,26 +6,6 @@
 <link href="{% static 'tour/introjs.css'%}" rel="stylesheet">
 <link href="{% static 'css/stylesIntroJs.css'%}" rel="stylesheet">
 
-<script type="text/javascript">
-    function preLoading(e) {
-        var div = document.createElement('div');
-        var img = document.createElement('img');
-        img.src = "{% static 'images/wait.svg'%}";
-        div.style.cssText = 'position: fixed; top: 20%; left: 40%; z-index: 5000; width: 422px; text-align: center; background: #FFFFFF;';
-        div.appendChild(img);
-        div.setAttribute("id", "div_loading");
-        document.body.appendChild(div);
-
-        var submitB = document.getElementById("submit_btn");
-        submitB.disabled = false;
-        return true;
-    }
-    preLoading();
-
-    
-
-    
-</script>
 
     <div id="page-wrapper">
         <div class="row">
@@ -126,7 +106,7 @@
         steps: [
             {
                 element:document.querySelector("#cardPromoters"),
-                intro:"Back to the Top Results page, specifically to the Promoter table, we can see that there are two more genes apart from <a href='https://www.ncbi.nlm.nih.gov/gene/27128' target='_blank'>CYTH4</a> that are associated with our SNP by its CpGs in promoter.<br> Those genes are <a href='https://www.ncbi.nlm.nih.gov/gene/8542' target='_blank'>APOL1</a> and <a href='https://www.ncbi.nlm.nih.gov/gene/80830' target='_blank'>APOL6</a>, both of them from the apolipoprotein L gene family that have been <u>related to several inflammatory diseases</u>."
+                intro:"Back to <i>Top Results</i>, specifically to the Promoter table, we can see that there are two more genes apart from <a href='https://www.ncbi.nlm.nih.gov/gene/27128' target='_blank'>CYTH4</a> that are associated with our SNP by its CpGs in promoter.<br> Those genes are <a href='https://www.ncbi.nlm.nih.gov/gene/8542' target='_blank'>APOL1</a> and <a href='https://www.ncbi.nlm.nih.gov/gene/80830' target='_blank'>APOL6</a>, both of them from the apolipoprotein L gene family that have been <u>related to several inflammatory diseases</u>."
             },
             {
                 element:document.querySelector("#cardEnhancers"),
@@ -142,9 +122,9 @@
                 intro: "<center><b>Promoters</b></center><br>In this tab you will find all genes associated with the SNP for having CpGs associated in its promoter region."
             },
             {
-                element:document.querySelector("#barPlotPromoters"),
+                element:document.querySelector("#barPlotPromotersAll"),
                 intro: "First, in this plot you can see the number of CpGs associated inside the promoter region of each gene.<br>In our example we can see that the gene with more CpGs associated in its promoter region is <a href='https://www.ncbi.nlm.nih.gov/gene/6523' target='_blank'>SLC5A1</a>, that has 3 CpGs associated in its promoter region.",
-                position: "bottom-right"
+                position:'top'
             },
             {
                 element:document.querySelector("#buttonPromotersSLC5A1"),
@@ -159,7 +139,7 @@
                 intro: "<center><b>Traffic Lights</b></center><br>And also about genes regulated by Traffic Lights that are CpGs associated."
             },
             {
-                intro: "Our database allows the query of a SNP and shows the possible association with genes that without it could have been lost.<br>We show the example of the SNP <i>rs727563</i>, that has been related to Inflammatory Bowel Diseases but apparently does not have connection with them because it is located in the intron of a gene that performs a function far away from anything related to the disease.<br>With our approach it can be found that the relation with the phenotype of this snp could be with the methylation of the promoter of the genes <a href='https://www.ncbi.nlm.nih.gov/gene/27128' target='_blank'>CYTH4</a>,<a href='https://www.ncbi.nlm.nih.gov/gene/80831' target='_blank'>APOL5</a>, <a href='https://www.ncbi.nlm.nih.gov/gene/80830' target='_blank'>APOL6</a> or <a href='https://www.ncbi.nlm.nih.gov/gene/6523' target='_blank'>SLC5A1</a> among others that had been reported as possible responsibles of the phenotype in Inflammatory Diseases.",
+                intro: "rs727563 allele frequencies are associated with methylation of several CpG dinucleotides.Although no functional link has previously been described between this SNP and inflammatory bowel disease, a subset of these CpGs are located in the promoter regions of different genes reported to have a role in the inflammatory processes. This analysis suggests an implication of this SNP in the regulation of gene expression in a handful of genes involved with inflammation, which could provide a functional explanation for the association discovered through the GWAS study.<br>Therefore this database can be used to:<br>1. Detect genes with expression values that might be directly influenced by a SNP (specially if the CpGs are known to correlated to the expression of this gene - <a href=https://bmcgenomics.biomedcentral.com/articles/10.1186/s12864-018-5387-1> Traffic Light CpGs</a><br>2. Detect putative functional links between sequence variants (SNPs) and phenotypes (if the SNP is known to be associated to a certain phenotype by means of GWAS studies)", 
                 tooltipClass:"step1Tour"
             }   
         ],
@@ -178,10 +158,12 @@
         if (intro._currentStep == "1") {
             document.getElementById("id_SNPid").value = "rs727563";
         }
-
-        if (intro._currentStep == "3") {
-            $('[href="#promoters"]').tab('show');
+        if (intro._currentStep == "2") {
+            $('[href="#summary"]').tab('show');
         }
+       if (intro._currentStep == "3") {
+           $('[href="#promoters"]').tab('show');
+       }
         if (intro._currentStep == "6") {
             $('[href="#enhancers"]').tab('show');
         }
