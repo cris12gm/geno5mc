@@ -8,12 +8,12 @@
     <button id = "backBtn" class="btn btn-success btn-sm" onclick="goBack()" >Go Back</button>
     <br>
     <div id="allPage">
-        <center><h2><b>{{ name }}</b></h2></center>
+        <center><h2 id='titleElement' style='width:50%;'><b>{{ name }}</b></h2></center>
         {% if description %}
             <div style="text-align:center;text-transform: capitalize;">{{ description }}</div>
         {% endif %}
         <br>
-        <div id="plotElement" name="plotElement" style="overflow-x: auto;">
+        <div id="plotElement" name="plotElement" style="overflow-x: auto;width:50%;" >
             {{ plotElement | safe}}
         </div>
     </div>
@@ -21,20 +21,6 @@
 {% block js %}
   <!-- Demo scripts for this page-->
 
-  <!-- This script show an image when is loading-->
-<script type="text/javascript">
-    function ShowLoading(e) {
-        var div = document.createElement('div');
-        var img = document.createElement('img');
-        img.src = "{% static 'images/wait.svg'%}";
-        div.innerHTML = "<b><font color='#194a90' size='2'>Loading results, please be patient</font></b>";
-        div.style.cssText = 'position: fixed; top: 20%; left: 40%; z-index: 5000; width: 422px; text-align: center; background: #FFFFFF;';
-
-        div.appendChild(img);
-        document.body.appendChild(div);
-        return true;
-    }
-</script>
 
 <!-- This script cancel submit button when the form is loading-->
 <script>
@@ -51,7 +37,6 @@
 
 </script>
 
-
 <!-- Script for the tour -->
 
 <script src="{% static 'tour/intro.js' %}"></script>
@@ -62,13 +47,14 @@
     var options_before = {
         steps: [
             {
-                element:document.querySelector("#allPage"),
-                intro:"In this page we can see the methylation distribution of the 2 CpGs associated that are TLs and are located in the promoter of <a href='https://www.ncbi.nlm.nih.gov/gene/27128' target='_blank'>CYTH4</a>",
+                element:document.querySelector("#titleElement"),
+                intro:"In this page you can see the methylation distribution of the 2 CpGs associated that are TLs and are located in the promoter of <a href='https://www.ncbi.nlm.nih.gov/gene/27128' target='_blank'>CYTH4</a>",
             },
             { 
                 element:document.querySelector("#plotElement"),
-                intro: "As we can see in the legend of the plot, homozygous for the reference allele (genotype = CC) are displayed in <b><font color = 'blue'>blue</font></b>, homozygous individuals for the alternative allele (genotype = TT) are displayed in <b><font color='red'>red</font></b> and the heterozigotes (CT) are displayed in <b><font color='green'>green</font></b>.<br> We can observe at the plot that the samples with the <b><font color='blue'>CC</font></b> genotype remain unmethylated in contrast to the samples with the genotype TT",
-                position:"top"
+                intro: "This plot is the methylation distribution of our 58 samples. As we can see in the legend of the plot, samples that are homozygous for the reference allele (genotype = CC) are displayed in <b><font color = 'blue'>blue</font></b>, homozygous individuals for the alternative allele (genotype = TT) are displayed in <b><font color='red'>red</font></b> and the heterozigotes (CT) are displayed in <b><font color='green'>green</font></b>.<br> We can observe that the samples with the <b><font color='blue'>CC</font></b> genotype remain unmethylated in contrast to the samples with the genotype <b><font color='red'>TT</font></b> that are mainly methylated.<br><br>Therefore, the genotype <b><font color='blue'>CC</font></b> will be associated with hypomethylation and the genotype <b><font color='red'>TT</font></b> with hypermethylation of these CpGs.",
+                position:"bottom",
+                tooltipClass:"step2bTour"
             },
             {
                 element:document.querySelector("#backBtn"),

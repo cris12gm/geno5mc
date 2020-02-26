@@ -125,35 +125,41 @@
     var options_before = {
         steps: [
             {
+                element:document.querySelector("#cardPromoters"),
+                intro:"Back to the Top Results page, specifically to the Promoter table, we can see that there are two more genes apart from <a href='https://www.ncbi.nlm.nih.gov/gene/27128' target='_blank'>CYTH4</a> that are associated with our SNP by its CpGs in promoter.<br> Those genes are <a href='https://www.ncbi.nlm.nih.gov/gene/8542' target='_blank'>APOL1</a> and <a href='https://www.ncbi.nlm.nih.gov/gene/80830' target='_blank'>APOL6</a>, both of them from the apolipoprotein L gene family that have been <u>related to several inflammatory diseases</u>."
+            },
+            {
                 element:document.querySelector("#cardEnhancers"),
-                intro:"There are ----enhancers that"
+                intro:"<center><b>CpGs associated in promoters that are also Traffic Lights</b></center><br>We also have enhancers that have CpGs associated inside that are also Traffic Lights.<br>In our case there are 16 enhancers with this conditions."
             },
             {
                 element:document.querySelector("#buttonEnhancersGH22F035646"),
-                intro:"thisEnhancer...."
+                intro:"This is one the enhancers with the highest number of CpGs associated inside, 4. As we can search in <a href='https://www.genecards.org/'>GeneCards</a> (and in our database by clicking on the enhancer name) this enhancer is regulating the expression of 3 genes:<br><img src={% static 'images/tutorial_2.png'%} width='400px'><br>As you can remember, <a href='https://www.ncbi.nlm.nih.gov/gene/80830' target='_blank'>APOL6</a> is one of the genes also associated by promoter, and it also appear another gene of the same family, <a href='https://www.ncbi.nlm.nih.gov/gene/80831' target='_blank'>APOL5</a>, that, as we have pointed out before, has been <u>related with several inflammatory diseases</u>"
             },
             {
                 element: document.querySelector("#promoters-tab"),
-                intro: "Promoters"
+                intro: "<center><b>Promoters</b></center><br>In this tab you will find all genes associated with the SNP for having CpGs associated in its promoter region."
             },
             {
                 element:document.querySelector("#barPlotPromoters"),
-                intro: "In this plot,..."
+                intro: "First, in this plot you can see the number of CpGs associated inside the promoter region of each gene.<br>In our example we can see that the gene with more CpGs associated in its promoter region is <a href='https://www.ncbi.nlm.nih.gov/gene/6523' target='_blank'>SLC5A1</a>, that has 3 CpGs associated in its promoter region.",
+                position: "bottom-right"
             },
             {
-                element:document.querySelector("#dataTablePromotersLite"),
-                intro: "In this table..."
+                element:document.querySelector("#buttonPromotersSLC5A1"),
+                intro: "<a href='https://www.ncbi.nlm.nih.gov/gene/6523' target='_blank'>SLC5A1</a> encodes a member of the sodium-dependent glucose transporter (SGLT) family. The encoded integral membrane protein is the primary mediator of dietary glucose and galactose uptake from the intestinal lumen, and as it functions points out, it is mainly expressed in intestine. This gene has been <u>related with inflammatory bowel diseases</u> (Brzozowski et al.)."
             },
             {
                 element: document.querySelector("#enhancers-tab"),
-                intro: "Enhancers "
+                intro: "<center><b>Enhancers</b></center><br>You can also see in detail the information about all the enhancers with CpGs associated of this SNP."
             },
             {
                 element: document.querySelector("#tLights-tab"),
-                intro: "Traffic Lights"
+                intro: "<center><b>Traffic Lights</b></center><br>And also about genes regulated by Traffic Lights that are CpGs associated."
             },
             {
-                intro: "That's the end of the tour"
+                intro: "Our database allows the query of a SNP and shows the possible association with genes that without it could have been lost.<br>We show the example of the SNP <i>rs727563</i>, that has been related to Inflammatory Bowel Diseases but apparently does not have connection with them because it is located in the intron of a gene that performs a function far away from anything related to the disease.<br>With our approach it can be found that the relation with the phenotype of this snp could be with the methylation of the promoter of the genes <a href='https://www.ncbi.nlm.nih.gov/gene/27128' target='_blank'>CYTH4</a>,<a href='https://www.ncbi.nlm.nih.gov/gene/80831' target='_blank'>APOL5</a>, <a href='https://www.ncbi.nlm.nih.gov/gene/80830' target='_blank'>APOL6</a> or <a href='https://www.ncbi.nlm.nih.gov/gene/6523' target='_blank'>SLC5A1</a> among others that had been reported as possible responsibles of the phenotype in Inflammatory Diseases.",
+                tooltipClass:"step1Tour"
             }   
         ],
         showStepNumbers:false,
@@ -171,17 +177,15 @@
         if (intro._currentStep == "1") {
             document.getElementById("id_SNPid").value = "rs727563";
         }
-        if (intro._currentStep == "2") {
+
+        if (intro._currentStep == "3") {
             $('[href="#promoters"]').tab('show');
-            // $("#promoters-tab").trigger('click')
-        }
-        if (intro._currentStep == "5") {
-            $('[href="#enhancers"]').tab('show');
-            // $("#promoters-tab").trigger('click')
         }
         if (intro._currentStep == "6") {
+            $('[href="#enhancers"]').tab('show');
+        }
+        if (intro._currentStep == "7") {
             $('[href="#tLights"]').tab('show');
-            // $("#promoters-tab").trigger('click')
         }
 
         });
