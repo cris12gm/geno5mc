@@ -14,4 +14,5 @@ urlpatterns = [
     url(r'^plotElement/', include ('plotElement.urls')),
     url(r'^stats/', include ('stats.urls')),
     url(r'^primaryData/', include ('primaryData.urls')),
+    url(r'^queryTrait/', include ('queryTrait.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

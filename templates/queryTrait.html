@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block content %}
+
+<!-- Latest compiled and minified CSS -->
+<link href="{% static 'css/bootstrap-select.min.css'%}" rel="stylesheet">
+
+<div id="page-wrapper">
+
+    {% if traits %}
+        <div class="row">
+            <div class="col-lg-12">
+                <h1>Query Trait</h1>
+                <p>Select a trait:</p>
+                <form action="{% url 'queryTrait' %}" method="post" onsubmit="ShowLoading()" id="formTrait">
+                    {% csrf_token %}
+                    <select id="traits" name="traitslist" class="selectpicker" data-live-search="true" form="formTrait">
+                        {% for trait in traits %}
+                            <option value="{{trait}}">{{trait}}</option>
+                        {% endfor %}
+                    </select>
+                    <button type="submit" id='submit_btn' class="btn btn-success btn-sm">Submit</button>
+                </form>                
+            </div>
+        </div>
+    {% endif %}
+
+    {% if selectedTrait %}
+        <h1>
+            {{ selectedTrait }}
+        </h1>
+        {% if snpsTrait %}
+            {% for element in snpsTrait %}
+                {{element.snpID}}
+            {% endfor %}
+        {% endif %}
+    {% endif %}
+</div>
+
+{% endblock %}
+{% block js %}
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="{% static 'js/bootstrap-select.min.js'%}"></script>
+
+<!-- (Optional) Latest compiled and minified JavaScript translation files -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/js/i18n/defaults-*.min.js"></script>
+
+{% endblock %}
