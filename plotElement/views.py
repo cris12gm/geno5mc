@@ -16,8 +16,6 @@ import plotly.graph_objs as go
 from plotly.offline import plot
 import plotly.express as px
 import pandas as pd
-import dash_bio as dashbio
-import dash_html_components as html
 
 def PlotTLights(snpID,geneID):
     cpgs = snpsAssociated_FDR_trafficLights.get_trafficLights(snpID,geneID)
