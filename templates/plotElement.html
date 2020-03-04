@@ -10,8 +10,15 @@
     {% endif %}
     <div name="plotElement" style="overflow-x: auto;">
         {{ plotElement | safe}}
-    </div>    
-{% endblock %}
+    </div>
+    {% if plotElementDistance %}
+        <hr><br>
+        <div name="plotElementDistance" style="overflow-x: auto;">
+            <h4 style='text-align:center;'>Spatial distribution</h4>
+            {{ plotElementDistance | safe}}
+        </div>    
+    {% endif %}
+    {% endblock %}
 {% block js %}
   <!-- Demo scripts for this page-->
 
