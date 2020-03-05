@@ -20,6 +20,12 @@ import pandas as pd
 def PlotTLights(snpID,geneID):
     cpgs = snpsAssociated_FDR_trafficLights.get_trafficLights(snpID,geneID)
     genotypes = getGenotype.getGenotypeCpG(snpID)
+
+
+    #Get gene position
+
+    
+
     ref = str(getattr(genotypes,"reference"))+str(getattr(genotypes,"reference"))
     alt = str(getattr(genotypes,"alternative"))+str(getattr(genotypes,"alternative"))
     het = str(getattr(genotypes,"reference"))+str(getattr(genotypes,"alternative"))
@@ -39,9 +45,16 @@ def PlotTLights(snpID,geneID):
         name = getattr(element,"internalID")
         samplesDict[name]=srx
 
+    #For position Plot
+    valuesPlot_Position=[]
+    valuesPlot_Position_y=[1]*len(cpgs)
+    hoverPosition = []
+
     for element in cpgs:
         numSamples = numSamples + 1
         idCpG = element.chrom+"_"+str(element.chromStartTL)
+        valuesPlot_Position.append(element.chromStartCpG)
+        hoverPosition.append(idCpG)
         methylationCpG = getMethylation.getMethCpG(idCpG)
 
         ##Get names of columns
@@ -68,7 +81,28 @@ def PlotTLights(snpID,geneID):
     fig.update_xaxes(title_text='')
     fig.update_yaxes(title_text='<b>Meth Ratio</b>')
     div_obj = plot(fig, show_link=False, auto_open=False, output_type = 'div')
-    return div_obj
+
+    #Plot distances real distribution
+    fig_Distances = go.Figure(data = go.Scatter(x=valuesPlot_Position,y=valuesPlot_Position_y,mode='markers',hovertext=hoverPosition,hoverinfo="text"))
+
+    fig_Distances.update_yaxes(showticklabels=False,title_text='', range=[0,2])
+    fig_Distances.update_layout(yaxis_showgrid=False)
+    fig_Distances.update_xaxes(range=[int(start)-100,int(end)+100])
+    fig_Distances.add_shape(
+        # Rectangle reference to the axes
+            type="rect",
+            xref="x",
+            yref="y",
+            x0=start,
+            y0=0.5,
+            x1=end,
+            y1=1.5,
+            fillcolor="PaleTurquoise",
+            opacity=0.3,
+        )
+    div_obj2 = plot(fig_Distances,show_link=False, auto_open=False, output_type='div')
+
+    return div_obj,div_obj2
 
 def PlotPromoters(snpID,geneID,start,end):
     cpgs = snpsAssociated_FDR_promotersEPD.get_SNPs_Promoters(snpID,geneID)
@@ -128,7 +162,7 @@ def PlotPromoters(snpID,geneID,start,end):
     fig.update_yaxes(title_text='<b>Meth Ratio</b>')
     div_obj = plot(fig, show_link=False, auto_open=False, output_type = 'div')
 
-
+    #Plot distances real distribution
     fig_Distances = go.Figure(data = go.Scatter(x=valuesPlot_Position,y=valuesPlot_Position_y,mode='markers',hovertext=hoverPosition,hoverinfo="text"))
 
     fig_Distances.update_yaxes(showticklabels=False,title_text='', range=[0,2])

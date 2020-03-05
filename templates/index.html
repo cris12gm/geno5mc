@@ -2,73 +2,91 @@
 {% load staticfiles %}
 
 {% block content %}
+    <link href="{% static 'css/stylesIndex.css'%}" rel="stylesheet">
     <div id="page-wrapper">
         <div class="menu-hide">
             <div class="row">
                 <div class="col-lg-12">
-                    <br>
                     <h1 style='text-align:center;'>geno<sup>5</sup>mC</h1>
                     <div class="card bg-light mb-3">
                         <div class="card-body" id='cardInicio'>
-                            geno<sup>5</sup>mC is a database and web-server to explore the associations between DNA methylation and the genotype.
+                            <font size="3">geno<sup>5</sup>mC is a database and web-server to explore the associations between DNA methylation and the genotype.
                             Using 58 publically available whole genome bisulfite sequencing datasets we determine sequence variation and methylation state at a single cytosine resolution by means of MethylExtract2. Statistically significant associations (FDR <= 0.05) are determined by means of a Fisher Exact test. 
-                            <br>
-                            The database can be explored in different ways, either by querying one SNP ID or by means of a gene name.
+                            </font>
                         </div>
                     </div>
                 </div>
             </div>
-        
-            <center>
             <div class = "row">
-                <div class="column" align="center" style="width: 30%">
-                    <div class="card" style="width: 18rem;">
-                            <div class="card-body">
-                                <h4 class="card-title">Query a SNP</h4>
-                                <form action="{% url 'querySNP' %}" method="POST" onsubmit="ShowLoading()" id="formSNP">
-                                    {% csrf_token %}
-                                        {% for field in query_form %}
-                                            <div class='form-group'>
-                                                {{ field }}
-                                            </div>
-                                        {% endfor %}
-                                    <button type="submit" id='submit_btn' class="btn btn-success btn-sm" >Submit</button>
-                                </form>
+                <div class="column" align="center" style="width: 50%;" >
+                    <br>
+                    <div class = "row">
+                        <div class="col col-center" align="center">
+                            <div class="card text-black bg-info" style="width: 15rem;">
+                                <div class="card-body">
+                                    <h4 class="card-title">Take a tour</h4>
+                                    <br>
+                                    <a href="{% url 'querySNP' %}tour" ><button class="btn btn-success btn-sm" onclick="ShowLoadingTour()">Tour</button></a>
+                                </div>
                             </div>
-                    </div>
-                </div>
-                <div class="column" align="center" style="width: 30%">
-                    <div class="card" style="width: 18rem;">
-                        <div class="card-body">
-                            <h4 class="card-title">Query a Gene</h4>
-                            <form action="{% url 'queryGene' %}" method="POST" onsubmit="ShowLoading()" id="formGene">
-                                {% csrf_token %}
-                                    {% for field in query_formGene %}
-                                        <div class='form-group'>
-                                            {{ field }}
-                                        </div>
-                                    {% endfor %}
-                                <button type="submit" id='submit_btn_gene' class="btn btn-success btn-sm" >Submit</button>
-                            </form>
                         </div>
                     </div>
-                </div>
-                <div class="column" align="center" style="width: 30%">
-                    <div class="card" style="width: 18rem;">
-                        <div class="card-body">
-                            <br>
-                            <h4 class="card-title">Take a tour</h4>
-                            <br>
-                            <a href="{% url 'querySNP' %}tour" ><button class="btn btn-success btn-sm" onclick="ShowLoadingTour()">Tour</button></a>
+                    <br>
+                    <div class = "row">
+                        <div class="column" style="width: 50%;">
+                            <div class="card" style="width: 15rem;">
+                                <div class="card-body">
+                                    <h4 class="card-title">Query a SNP</h4>
+                                    <form action="{% url 'querySNP' %}" method="POST" onsubmit="ShowLoading()" id="formSNP">
+                                        {% csrf_token %}
+                                            {% for field in query_form %}
+                                                <div class='form-group'>
+                                                    {{ field }}
+                                                </div>
+                                            {% endfor %}
+                                        <button type="submit" id='submit_btn' class="btn btn-success btn-sm" >Submit</button>
+                                    </form>
+                                </div>
                         </div>
+                        </div>
+                        <div class="column" style="width: 50%;">
+                            <div class="card" style="width: 15rem;">
+                                <div class="card-body">
+                                    <h4 class="card-title">Query a Gene</h4>
+                                    <form action="{% url 'queryGene' %}" method="POST" onsubmit="ShowLoading()" id="formGene">
+                                        {% csrf_token %}
+                                            {% for field in query_formGene %}
+                                                <div class='form-group'>
+                                                    {{ field }}
+                                                </div>
+                                            {% endfor %}
+                                        <button type="submit" id='submit_btn_gene' class="btn btn-success btn-sm" >Submit</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+                <div class="column" align="center" style="width: 50%;">
+                    <img id="imgAsociados" src="{% static 'images/esquemaAsociados.png'%}" alt="geno<sup>5</sup>mC workflow" style="width:100%;max-width:300px">    
+                    <div id="modalImg" class="modal">
+                        <!-- The Close Button -->
+                        <span class="close">&times;</span>
+                      
+                        <!-- Modal Content (The Image) -->
+                        <img class="modal-content" id="img01">
+                      
+                        <!-- Modal Caption (Image Text) -->
+                        <div id="caption"></div>
                     </div>
                 </div>
             </div>
-        </center>
+        <br>
     </div>
 {% endblock %}
 
-{% block js %}
+{% block js %}  
     <script type="text/javascript">
         function ShowLoadingTour(e) {
             $("div.menu-hide").hide();
@@ -117,6 +135,30 @@
                 });
         });
 
+    </script>
+<!-- Script for the modal of the img -->
+    <script>
+        // Get the modal
+        var modal = document.getElementById("modalImg");
+
+        // Get the image and insert it inside the modal - use its "alt" text as a caption
+        var img = document.getElementById("imgAsociados");
+        var modalImg = document.getElementById("img01");
+        var captionText = document.getElementById("caption");
+        img.onclick = function(){
+        modal.style.display = "block";
+        modalImg.src = this.src;
+        modalImg.style.width ="50%";
+        captionText.innerHTML = this.alt;
+        }
+
+        // Get the <span> element that closes the modal
+        var span = document.getElementsByClassName("close")[0];
+
+        // When the user clicks on <span> (x), close the modal
+        span.onclick = function() {
+        modal.style.display = "none";
+        }
     </script>
 
 {% endblock %}
