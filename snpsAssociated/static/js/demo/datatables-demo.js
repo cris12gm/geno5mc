@@ -60,4 +60,5 @@ $(document).ready(function() {
   $('#dataTableTopResults_Enhancer').DataTable({
     "order":[[5,"desc"]]
   });
+  $('#dataTableQueryTrait').DataTable({});
 }); 

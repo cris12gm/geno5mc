@@ -11,17 +11,21 @@
     {% if traits %}
         <div class="row">
             <div class="col-lg-12">
-                <h1>Query Trait</h1>
-                <p>Select a trait:</p>
-                <form action="{% url 'queryTrait' %}" method="post" onsubmit="ShowLoading()" id="formTrait">
-                    {% csrf_token %}
-                    <select id="traits" name="traitslist" class="selectpicker" data-live-search="true" form="formTrait">
-                        {% for trait in traits %}
-                            <option value="{{trait}}">{{trait}}</option>
-                        {% endfor %}
-                    </select>
-                    <button type="submit" id='submit_btn' class="btn btn-success btn-sm">Submit</button>
-                </form>                
+                <div class="card" style="width: 25rem;">
+                    <div class="card-header"><center><h3><b>Query Trait</b></h3></center></div>
+                    <div class="card-body">
+                        <form action="{% url 'queryTrait' %}" method="post" onsubmit="ShowLoading()" id="formTrait">
+                            {% csrf_token %}
+                            <select id="traits" name="traitslist" class="selectpicker" data-live-search="true" form="formTrait">
+                                {% for trait in traits %}
+                                    <option value="{{trait}}">{{trait}}</option>
+                                {% endfor %}
+                            </select>
+                            <br><br>
+                            <button type="submit" id='submit_btn' class="btn btn-success btn-sm">Submit</button>
+                        </form>  
+                    </div>
+                </div>          
             </div>
         </div>
     {% endif %}
@@ -30,10 +34,35 @@
         <h1>
             {{ selectedTrait }}
         </h1>
-        {% if snpsTrait %}
-            {% for element in snpsTrait %}
-                {{element.snpID}}
-            {% endfor %}
+        {% if snpsOut %}
+        <div class="card mb-3" >             
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="dataTableQueryTrait" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>SNP ID</th>
+                                <th>chrom</th>
+                                <th>chromStart</th>
+                                <th>Reference</th>
+                                <th>Alternative</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for field in snpsOut %}
+                            <tr>
+                                <td><a href="{{ baseLink }}{{field.snpID}}">{{ field.snpID}}</a></td>
+                                <td>{{ field.chrom }}</td>
+                                <td>{{ field.chromStart }}</td>
+                                <td>{{ field.reference }}</td>
+                                <td>{{ field.alternative }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
         {% endif %}
     {% endif %}
 </div>

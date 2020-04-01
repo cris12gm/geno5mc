@@ -6,7 +6,7 @@ from sqlalchemy import create_engine, MetaData, Table, Column, String, Integer, 
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy import func,desc
-from config import KEY_hg38, KEY_snpsAssociated_annotation
+from config import KEY_hg38, KEY_snpsAssociated_annotation, KEY_snpsAssociated_FDR
 
 Base = declarative_base()
 
@@ -52,6 +52,22 @@ class PhenotypeGenotypeFDR(Base):
         data = session.query(PhenotypeGenotypeFDR).group_by(PhenotypeGenotypeFDR.trait).all()
         session.close()
         return data if len(data) > 0 else None
+
+class snpsAssociated_FDR_chrom(Base):
+    __tablename__ = "snpsAssociated_FDR_chrom"
+
+    snpID = sqlalchemy.Column(String(200), primary_key=True)
+    chrom = sqlalchemy.Column(String(200))
+    chromStart = sqlalchemy.Column(Integer)
+    reference = sqlalchemy.Column(String(1))
+    alternative = sqlalchemy.Column(String(1))
+    hetero = sqlalchemy.Column(String(1))
+
+    def get_SNP_info(_id):
+        session = createSessionSQL(KEY_snpsAssociated_FDR)
+        data = session.query(snpsAssociated_FDR_chrom).filter_by(snpID=_id).all()
+        session.close()
+        return data[0] if len(data) is 1 else None
 
 class snpsAssociated_FDR_promotersEPD(Base):
     __tablename__ = "snpsAssociated_FDR_promotersEPD"
