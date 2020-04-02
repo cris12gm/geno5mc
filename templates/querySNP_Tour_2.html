@@ -16,6 +16,13 @@
         <div id="plotElement" name="plotElement" style="overflow-x: auto;width:50%;" >
             {{ plotElement | safe}}
         </div>
+        {% if plotElementDistance %}
+        <hr><br>
+        <div name="plotElementDistance" style="overflow-x: auto;">
+            <h4 style='text-align:center;'>Spatial distribution</h4>
+            {{ plotElementDistance | safe}}
+        </div>    
+        {% endif %}
     </div>
 {% endblock %}
 {% block js %}
