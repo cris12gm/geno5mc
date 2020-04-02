@@ -10,16 +10,15 @@ from django.views.generic import FormView, DetailView, TemplateView
 from django.http import JsonResponse
 from django.urls import reverse_lazy
 
-from .models import PhenotypeGenotype,PhenotypeGenotypeFDR,snpsAssociated_FDR_promotersEPD,snpsAssociated_FDR_chrom
+from .models import PhenotypeGenotype,PhenotypeGenotypeFDR,PhenotypeGenotypeTraits,snpsAssociated_FDR_promotersEPD,snpsAssociated_FDR_chrom
 
 class TraitsAssociated(TemplateView):
     template = 'queryTrait.html'
     
     
-    def get(self, request):  
-        baseLink = settings.SUB_SITE+"/querySNP/snp/"
+    def get(self, request):
         #Get all traits and pass to form 
-        traits = PhenotypeGenotypeFDR.get_All_Traits()
+        traits = PhenotypeGenotypeTraits.get_All_Traits()
         traitsList = []
 
         for element in traits:
@@ -32,6 +31,7 @@ class TraitsAssociated(TemplateView):
     def post (self, request):
         baseLink = settings.SUB_SITE+"/querySNP/snp/"
         selectedTrait = request.POST['traitslist']
+        definitionTrait = getattr(PhenotypeGenotypeTraits.get_Trait(selectedTrait),'definition')
         snpsTrait = PhenotypeGenotypeFDR.get_All_SNP_Trait(selectedTrait)
         snpsOut = []
         for snp in snpsTrait:
@@ -41,6 +41,7 @@ class TraitsAssociated(TemplateView):
         #    promoters = snpsAssociated_FDR_promotersEPD.get_Promoters(getattr(snp,"snpID"))
         return render(request, self.template, {
             'selectedTrait':selectedTrait,
+            'definitionTrait':definitionTrait,
             'snpsOut':snpsOut,
             'baseLink':baseLink
         })

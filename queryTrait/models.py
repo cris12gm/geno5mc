@@ -86,3 +86,20 @@ class snpsAssociated_FDR_promotersEPD(Base):
         data = session.query(func.count(snpsAssociated_FDR_promotersEPD.geneID).label('total'), snpsAssociated_FDR_promotersEPD).filter_by(snpID=_id).group_by(snpsAssociated_FDR_promotersEPD.geneID).order_by(desc('total')).all()
         session.close()
         return data if len(data) > 0 else None
+
+class PhenotypeGenotypeTraits(Base):
+    __tablename__ = "PheGenI_traitsDefinition"
+
+    trait = sqlalchemy.Column(String(100), primary_key=True)
+    definition = sqlalchemy.Column(String(3000))
+    
+    def get_All_Traits():
+        session = createSessionSQL(KEY_hg38)
+        data = session.query(PhenotypeGenotypeTraits).all()
+        session.close()
+        return data if len(data) > 0 else None
+    def get_Trait(_id):
+        session = createSessionSQL(KEY_hg38)
+        data = session.query(PhenotypeGenotypeTraits).filter_by(trait=_id).all()
+        session.close()
+        return data[0] if len(data) > 0 else None
