@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block content %}
+
+<h2 style="text-align: center;margin-top:10px;">Query geno<sup>5</sup>mC</h2>
+<ul class="nav nav-tabs" id="tabsQuery" role="tablist">
+    <li class="nav-item">
+        <a class="nav-link active" id="snp-tab" data-toggle="tab" href="#snp" role="tab" aria-controls="home" aria-selected="true">By SNP ID</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" id="gene-tab" data-toggle="tab" href="#gene" role="tab" aria-controls="profile" aria-selected="false">By Gene ID</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" id="trait-tab" data-toggle="tab" href="#trait" role="tab" aria-controls="trait" aria-selected="false">By Trait</a>
+    </li>
+</ul>
+<div class="tab-content" id="myTabContent">
+    <div class="tab-pane fade show active" id="snp" role="tabpanel" aria-labelledby="snp-tab">
+        <div class="row" style="margin-top: 30px;">
+            <div class="column" style="margin-left:20px;">
+                <div class="card" style="width: 18rem;">
+                    <p class="card-header" style="text-align: center;margin-top:5px;">Introduce a SNP ID to view its associations</p>
+                    <form action="{% url 'querySNP' %}" method="POST"  id="formSNP" style="margin-top: 10px; margin-left:10px; margin-bottom:10px;text-align:center;">
+                        {% csrf_token %}
+                        {% for field in formSNP %}
+                            <div class='form-group'">
+                                {{ field }}
+                            </div>
+                        {% endfor %}
+                        <button type="submit" id='submit_btn' class="btn btn-success btn-sm" >Submit</button>
+                    </form>
+                </div>
+            </div>
+            <div class=column style="width: 50%;margin-left:10px;">
+                Imagen explicando busqueda por SNP
+            </div>
+        </div>
+    </div>
+    <div class="tab-pane fade" id="gene" role="tabpanel" aria-labelledby="gene-tab">gene Form</div>
+    <div class="tab-pane fade" id="trait" role="tabpanel" aria-labelledby="trait-tab">snp tab</div>
+</div>
+
+{% endblock%}
