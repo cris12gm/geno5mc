@@ -5,3 +5,5 @@ my_validator = RegexValidator(r"rs[0-9]{1,15}", "The snpID should be in this for
 class QuerySNP(forms.Form):
     SNPid = forms.CharField(label='SNP ID',max_length=15, validators=[my_validator], widget=forms.TextInput())
     #attrs={'placeholder':'rs727563',} -> inside TextInput
+class QueryGene(forms.Form):
+    GeneId = forms.CharField(label='Gene ID:',max_length=15, widget=forms.TextInput())

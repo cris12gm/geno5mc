@@ -9,7 +9,7 @@ from django.views.generic.edit import CreateView
 from django.views.generic import FormView, DetailView, TemplateView
 from django.http import JsonResponse
 from django.urls import reverse_lazy
-from .forms import QuerySNP
+from .forms import QuerySNP,QueryGene
 
 from sqlalchemy import inspect
 
@@ -22,8 +22,10 @@ class SNPAssociatedQuery(TemplateView):
     template = 'query.html'
 
     def get(self, request):  
-        formSNP = QuerySNP()  
+        formSNP = QuerySNP()
+        formGene = QueryGene()
         return render(request, self.template, {
-            'formSNP':formSNP
+            'formSNP':formSNP,
+            'formGene':formGene
         })
     
