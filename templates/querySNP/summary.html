@@ -1,8 +1,7 @@
 <div class="card mb-3" >             
     <div class="card-body">
         <div id="infoSNP">
-            <b>ID: </b><a href="https://www.ncbi.nlm.nih.gov/snp/{{snpInfo.snpID}}" target="_blank">{{snpInfo.snpID}}</a>
-            <br>
+            <h2><a href="https://www.ncbi.nlm.nih.gov/snp/{{snpInfo.snpID}}" target="_blank">{{snpInfo.snpID}}</a></h2>
             <b>Position:</b> {{ snpInfo.chrom }}:{{ snpInfo.chromStart }}
             <br>
             <b>Reference Allele: </b> {{ snpInfo.reference }}

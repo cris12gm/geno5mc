@@ -45,7 +45,12 @@
     }
   }
 
-  #tittleBar {
-    text-align: center;
-    display: block;
-  }
+#tittleBar {
+  text-align: center;
+  display: block;
+  height:50px;
+}
+
+#topNav {
+  height: 50px;
+}

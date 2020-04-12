@@ -10,7 +10,7 @@ from django.views.generic import FormView, DetailView, TemplateView
 from django.http import JsonResponse
 from django.urls import reverse_lazy
 from .forms import QuerySNP,QueryGene
-
+from .models import PhenotypeGenotypeTraits
 from sqlalchemy import inspect
 
 class Errors(Enum):
@@ -24,8 +24,17 @@ class SNPAssociatedQuery(TemplateView):
     def get(self, request):  
         formSNP = QuerySNP()
         formGene = QueryGene()
+
+        traits = PhenotypeGenotypeTraits.get_All_Traits()
+        traitsList = []
+
+        for element in traits:
+            trait = getattr(element,"trait")
+            traitsList.append(trait)
+
         return render(request, self.template, {
             'formSNP':formSNP,
-            'formGene':formGene
+            'formGene':formGene,
+            'traits':traitsList
         })
     

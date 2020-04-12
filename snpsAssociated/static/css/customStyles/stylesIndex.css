@@ -1,0 +1,15 @@
+#cardTour {
+  width: 15rem;
+  align-self: center;
+  background-color: #e2edfd !important;
+  }
+
+#titleIndex {
+  width:40%;
+  display:block;
+  margin-right:auto;
+  margin-left:auto;
+  margin-top:50px;
+  margin-bottom:40px;
+
+}

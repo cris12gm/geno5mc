@@ -105,11 +105,9 @@ def queryEnhancerDescription(request):
 class SNPAssociated(TemplateView):
     template = 'querySNP.html'    
 
-    def get(self, request):  
-        form = QuerySNP()
-        return render(request, self.template, {
-            'query_form': form
-        })
+    def get(self, request): 
+
+        return redirect(settings.SUB_SITE+"/query/#gene")
 
     def post(self, request):
         form = QuerySNP(request.POST)

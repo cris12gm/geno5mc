@@ -1,0 +1,27 @@
+.cardQuery{
+    width: 18rem;
+    margin-left:20px;
+    margin-top: 30px;
+}
+.cardTrait {
+    width: 25rem;
+}
+.headerCardQuery{
+    text-align: center;
+    margin-top:5px;
+}
+
+.formQuery{
+    margin-top: 10px;
+    margin-left:10px;
+    margin-bottom:10px;
+    text-align:center;
+}
+
+.cardTrait {
+    width: 25rem;
+}
+
+.submitTrait{
+    margin-top:10px;
+}

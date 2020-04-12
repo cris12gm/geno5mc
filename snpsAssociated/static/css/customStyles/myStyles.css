@@ -1,0 +1,64 @@
+/* Formato de todos los títulos */
+.titlePag {
+  margin-top: 10px;
+}
+
+.btn-success {
+  color: #fff;
+  background-color: #246cd1;
+  border-color: #194a90;
+}
+
+.btn-success:hover {
+  color: #fff;
+  background-color: #246cd1;
+  border-color: #194a90;
+}
+
+.btn-success:focus, .btn-success.focus {
+  color: #fff;
+  background-color: #194a90;
+  border-color: #246cd1;
+  box-shadow: 0 0 0 0.2rem #246cd1;
+}
+
+.btn-success.disabled, .btn-success:disabled {
+  color: #fff;
+  background-color:  #246cd1;
+  border-color:  #246cd1;
+}
+
+.btn-success:not(:disabled):not(.disabled):active, .btn-success:not(:disabled):not(.disabled).active,
+.show > .btn-success.dropdown-toggle {
+  color: #fff;
+  background-color: #194a90;
+  border-color: #0e294f;
+}
+
+.btn-success:not(:disabled):not(.disabled):active:focus, .btn-success:not(:disabled):not(.disabled).active:focus,
+.show > .btn-success.dropdown-toggle:focus {
+  box-shadow: 0 0 0 0.2rem#194a90;
+}
+
+
+.preloader {
+    align-items: center;
+    background: rgb(23, 22, 22);
+    display: flex;
+    height: 100vh;
+    justify-content: center;
+    left: 0;
+    position: fixed;
+    top: 0;
+    transition: opacity 0.3s linear;
+    width: 100%;
+    z-index: 9999;
+  }
+
+  /* Color de las pestañas cuando están activas (el link) */
+.nav-tabs .nav-link.active,
+.nav-tabs .nav-item.show .nav-link {
+  color: #495057;
+  background-color: #fff;
+  border-color: #dee2e6 #dee2e6 #fff;
+}

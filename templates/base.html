@@ -8,7 +8,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="author" content="Cristina Gomez-Martin">
-
+  <link rel="shortcut icon" type="image/png" href="{% static 'images/favicon.png'%}">
   <title>geno5mc</title>
 
   <!-- Bootstrap core CSS -->
@@ -18,8 +18,8 @@
   <link href="{% static 'vendor/fontawesome-free/css/all.min.css'%}" rel="stylesheet" type="text/css">
 
   <!-- Custom styles for this template -->
-  <link href="{% static 'css/sidebarStyle.css' %}" rel="stylesheet">
-  <link href="{% static 'css/myStyles.css' %}" rel="stylesheet">
+  <link href="{% static 'css/customStyles/stylesBase.css' %}" rel="stylesheet">
+  <link href="{% static 'css/customStyles/myStyles.css' %}" rel="stylesheet">
   {% block css %}{% endblock %}
 
 
@@ -30,7 +30,7 @@
     <div class="d-flex" id="wrapper">
            <!-- Sidebar -->
         <div class="bg-dark" id="sidebar-wrapper">
-        <div id="tittleBar" style="text-align: center;display:block;height: 50px;">
+        <div id="tittleBar">
             <a class="navbar-brand mr-1" href="{% url 'home' %}"><img src="{% static 'images/title_white.png'%}" width="180"></a>
         </div>
         <div class="list-group list-group-flush">
@@ -50,7 +50,7 @@
                 <i class="fas fa-fw fa-file"></i>
                 <span>Tour</span>
             </a>
-            <a href="#" class="list-group-item list-group-item-action bg-light" style="vertical-align: bottom;">
+            <a href="#" class="list-group-item list-group-item-action bg-light">
                 <i class="fas fa-fw fa-question"></i>
                 <span>About</span>
             </a>
@@ -62,7 +62,7 @@
         <!-- Page Content -->
         <div id="page-content-wrapper">
     
-            <nav class="navbar navbar-expand navbar-dark bg-dark" style='height: 50px;'>
+            <nav id="topNav" class="navbar navbar-expand navbar-dark bg-dark">
                 <button class="btn btn-link btn-sm text-white order-1 order-sm-0" id="menu-toggle" href="#">
                     <i class="fas fa-bars"></i>
                 </button>
@@ -91,6 +91,10 @@
       });
     </script>
   
+    <!-- Tour staff -->
+    <script src="{% static 'vendor/jquery-easing/jquery.easing.min.js'%}"></script>
+    <script src="{% static 'tour/intro.js' %}"></script>
+    
   </body>
   
   </html>

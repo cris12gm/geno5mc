@@ -10,28 +10,6 @@
 
 <div id="page-wrapper">
 
-    {% if traits %}
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="card" style="width: 25rem;">
-                    <div class="card-header"><center><h3><b>Query Trait</b></h3></center></div>
-                    <div class="card-body">
-                        <form action="{% url 'queryTrait' %}" method="post" onsubmit="ShowLoading()" id="formTrait">
-                            {% csrf_token %}
-                            <select id="traits" name="traitslist" class="selectpicker" data-live-search="true" form="formTrait">
-                                {% for trait in traits %}
-                                    <option value="{{trait}}">{{trait}}</option>
-                                {% endfor %}
-                            </select>
-                            <br><br>
-                            <button type="submit" id='submit_btn' class="btn btn-success btn-sm">Submit</button>
-                        </form>  
-                    </div>
-                </div>          
-            </div>
-        </div>
-    {% endif %}
-
     {% if selectedTrait %}
         <h1 >
             {{ selectedTrait }}
