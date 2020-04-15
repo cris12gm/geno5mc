@@ -80,26 +80,30 @@ def getAllFromSNP(snpId,associations,promoters,enhancers,tLights,topResultPromot
 
 
 def queryGeneDescription(request):
+    templateError = "error.html"
+    try:
+        geneID = request.GET.get('geneID', None).replace("buttonPromoters","")
+        description = getattr(genes.get_geneDescription(geneID),"description")
 
-    geneID = request.GET.get('geneID', None).replace("buttonPromoters","")
-    description = getattr(genes.get_geneDescription(geneID),"description")
+        dataGen = {}
+        dataGen["geneID"]=geneID
+        dataGen["geneDescription"]=description
 
-    dataGen = {}
-    dataGen["geneID"]=geneID
-    dataGen["geneDescription"]=description
-
-    return JsonResponse(dataGen)
-
+        return JsonResponse(dataGen)
+    except:
+        return render(request, templateError)
 def queryEnhancerDescription(request):
+    templateError = "error.html"
+    try:
+        enhancerID = request.GET.get('name', None).replace("buttonEnhancers","")
+        description = getattr(enhancers.get_enhancerData(enhancerID),"genes").replace(";",", ")
 
-    enhancerID = request.GET.get('name', None).replace("buttonEnhancers","")
-    description = getattr(enhancers.get_enhancerData(enhancerID),"genes").replace(";",", ")
-
-    dataGen = {}
-    dataGen["enhancerID"]="Genes regulated by: "+enhancerID
-    dataGen["enhancerGenes"]=description
-
-    return JsonResponse(dataGen)
+        dataGen = {}
+        dataGen["enhancerID"]="Genes regulated by: "+enhancerID
+        dataGen["enhancerGenes"]=description
+        return JsonResponse(dataGen)
+    except:
+        return render(request, templateError)
 
 
 class SNPAssociated(TemplateView):

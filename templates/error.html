@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block css %}
+    <link href="{% static 'css/customStyles/stylesError.css'%}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<div class="pageError" >
+    <div class="title404">404</div>
+    <div class="content404">
+        <h2>Oops! This Page Could Not Be Found</h2>
+
+        <a href="{% url 'home' %}" ><button class="btn btn-success btn-sm">GO HOME</button></a>
+    </div>
+</div>        
+{% endblock %}
