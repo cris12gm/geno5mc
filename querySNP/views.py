@@ -107,7 +107,7 @@ class SNPAssociated(TemplateView):
 
     def get(self, request): 
 
-        return redirect(settings.SUB_SITE+"/query/#gene")
+        return redirect(settings.SUB_SITE+"/query/#snp")
 
     def post(self, request):
         form = QuerySNP(request.POST)
@@ -159,7 +159,7 @@ class SNPAssociated(TemplateView):
 
 class SNPAssociatedGET(TemplateView):
 
-    template = 'querySNPWF.html'
+    template = 'querySNP.html'
         
 
     def get(self, request, snp):

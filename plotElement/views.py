@@ -271,25 +271,29 @@ class plotElements(TemplateView):
         return render(request, self.template, {})
 
     def get(self,request):
-        valoresGet = request.GET
-        element = valoresGet['element']
-        description = ""
-        plotElementDistance = []
-        if element == 'promoter':
-            plotElement,plotElementDistance = PlotPromoters(valoresGet['snp'],valoresGet['name'],valoresGet['start'],valoresGet['end'])
-            description = getattr(genes.get_geneDescription(valoresGet['name']),"description")
-        elif element == 'enhancer':
-            plotElement,plotElementDistance = PlotEnhancers(valoresGet['snp'],valoresGet['name'],valoresGet['start'],valoresGet['end'])
-        elif element== 'tLight':
-            plotElement = PlotTLights(valoresGet['snp'],valoresGet['name'])
-        return render(request, self.template, {
-            'description':description,
-            'plotElement':plotElement,
-            'plotElementDistance':plotElementDistance,
-            'snpID':valoresGet['snp'],
-            'name':valoresGet['name']
-            })
 
+        try:
+            valoresGet = request.GET
+            element = valoresGet['element']
+            description = ""
+            plotElementDistance = []
+            if element == 'promoter':
+                plotElement,plotElementDistance = PlotPromoters(valoresGet['snp'],valoresGet['name'],valoresGet['start'],valoresGet['end'])
+                description = getattr(genes.get_geneDescription(valoresGet['name']),"description")
+            elif element == 'enhancer':
+                plotElement,plotElementDistance = PlotEnhancers(valoresGet['snp'],valoresGet['name'],valoresGet['start'],valoresGet['end'])
+            elif element== 'tLight':
+                plotElement = PlotTLights(valoresGet['snp'],valoresGet['name'])
+            return render(request, self.template, {
+                'description':description,
+                'plotElement':plotElement,
+                'plotElementDistance':plotElementDistance,
+                'snpID':valoresGet['snp'],
+                'name':valoresGet['name']
+                })
+
+        except:
+            return redirect(settings.SUB_SITE+"/query")
 class plotElementsTour(TemplateView):
     template = "querySNP_Tour_2.html"
 
