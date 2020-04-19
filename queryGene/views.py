@@ -22,14 +22,20 @@ class Errors(Enum):
     NOT_VALID = 1
     NOT_ASSOCIATED = 2
 
+def queryExpression(request):
+    geneId = request.GET.get('geneID', None)
+    geneCode = getGencode.getGencodeID(geneId)
+    expression = requests.get("https://gtexportal.org/rest/v1/expression/geneExpression?datasetId=gtex_v7&gencodeId="+geneCode+"&format=json").json()['geneExpression']
+    gTEX = plotExpression(expression)
+
+    return JsonResponse(gTEX)
+
 class GenesAssociated(TemplateView):
     template = 'queryGene.html'
 
-    def get(self, request):  
-        form = QueryGene()
-        return render(request, self.template, {
-            'query_form': form
-        })
+    def get(self, request): 
+
+        return redirect(settings.SUB_SITE+"/query/#gene")
 
     def post(self, request):
         form = QueryGene(request.POST)
@@ -39,21 +45,19 @@ class GenesAssociated(TemplateView):
         promotersAssociated = []
         enhancersAssociated = []
         tLightsAssociated = []
-        gTEX = []
         description = ""
 
         if form.is_valid():
             geneId = form.cleaned_data.get('GeneId')
-            geneCode = getGencode.getGencodeID(geneId)
             
             #GET PROMOTERS
             promotersAssociated = snpsAssociated_FDR_promotersEPD.get_SNPs_Promoters(geneId)
 
             ##GET ENHANCERS
-            enhancersAssociated = snpsAssociated_FDR_enhancers.get_Enhancers(geneId)
+#            enhancersAssociated = snpsAssociated_FDR_enhancers.get_Enhancers(geneId)
 
             ##GET TLIGHTS
-            tLightsAssociated = snpsAssociated_FDR_trafficLights.get_trafficLights(geneId)
+#            tLightsAssociated = snpsAssociated_FDR_trafficLights.get_trafficLights(geneId)
             
             if geneId is not '':
                 if promotersAssociated is None and enhancersAssociated==None and tLightsAssociated==None:
@@ -63,9 +67,6 @@ class GenesAssociated(TemplateView):
                     else:
                         error = Errors.NOT_VALID
                 else:
-                    #Get Expression
-                    expression = requests.get("https://gtexportal.org/rest/v1/expression/geneExpression?datasetId=gtex_v7&gencodeId="+geneCode+"&format=json").json()['geneExpression']
-                    gTEX = plotExpression(expression)
                     # Añado a genes el count
                     if promotersAssociated is not None:
                         promotersAssociatedNew = []
@@ -90,14 +91,13 @@ class GenesAssociated(TemplateView):
             'enhancersAssociated': enhancersAssociated,
             'tLightsAssociated': tLightsAssociated,
             'description':description,
-            'gTEX':gTEX,
             'baseLink': baseLink,
             'query_form': form,
             'error': error
         })   
 
 class GenesAssociatedGET(TemplateView):
-    template = 'queryGeneWF.html'
+    template = 'queryGene.html'
 
     def get(self, request, gene):
 

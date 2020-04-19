@@ -52,6 +52,9 @@
                     <a class="nav-link" id="tLights-tab" data-toggle="tab" href="#tLights" role="tab" aria-controls="tLights" aria-selected="false"><h5>Traffic Lights</h5></a>
                 </li>
                 {% endif %}
+                <li class="nav-item ml-auto">
+                    <a class="nav-link" id="goBack-tab" href="{% url 'query' %}" role="tab" aria-selected="false"><h5>Back to Query</h5></a>
+                </li>
             </ul>
     
             <div class="tab-content" id="myTabContent">
@@ -59,18 +62,24 @@
                     <br>
                     {% include "querySNP/summary.html" %}
                 </div>
+                {% if promoters %}
                 <div class="tab-pane fade" id="promoters" role="tabpanel" aria-labelledby="promoters-tab">
                     <br>
                     {% include "querySNP/promoters.html" %}
                 </div>
+                {% endif %}
+                {% if enhancers %}
                 <div class="tab-pane fade" id="enhancers" role="tabpanel" aria-labelledby="enhancers-tab">
                     <br>
                     {% include "querySNP/enhancers.html" %}
                 </div>
+                {% endif %}
+                {% if tLights %}
                 <div class="tab-pane fade" id="tLights" role="tabpanel" aria-labelledby="tLights-tab">
                     <br>
                     {% include "querySNP/trafficLights.html" %}
                 </div>
+                {% endif %}
             </div>
         </div>
         {% endif %}
@@ -116,11 +125,12 @@
 <!-- This script show an image when is loading-->
 <script type="text/javascript">
     function ShowLoading(e) {
+        $("div.resultsPage").hide();
         var div = document.createElement('div');
         var img = document.createElement('img');
         img.src = "{% static 'images/wait.svg'%}";
         div.innerHTML = "<b><font color='#194a90' size='4'>Loading results, please wait</font></b>";
-        div.style.cssText = 'position: fixed; top: 20%; left: 40%; z-index: 5000; width: 422px; text-align: center; background: #FFFFFF;border-style: outset;';
+        div.style.cssText = 'position: fixed; top: 20%; left: 40%; z-index: 5000; width: 422px; text-align: center; background: #FFFFFF;';
 
         div.appendChild(img);
         document.body.appendChild(div);
@@ -222,8 +232,6 @@
         });
     });
 </script>
-
-
 
 <script src="{% static 'js/demo/datatables-demo.js'%}"></script>
 <script src="{% static 'vendor/datatables/jquery.dataTables.js'%}"></script>

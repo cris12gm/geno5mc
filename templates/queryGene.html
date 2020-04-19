@@ -1,33 +1,17 @@
 {% extends "base.html" %}
 {% load staticfiles %}
 
+{% block css %}
+<link href="{% static 'css/customStyles/stylesResults.css'%}" rel="stylesheet">
+{% endblock %}
+
 {% block content %}
-<div id="page-wrapper">
-    <div class="row">
-        <div class="col-lg-12">
-            <div class="card" style="width: 20rem;">
-                <div class="card-header"><center><h3><b>Query a Gene</b></h3></center></div>
-                <div class="card-body">
-                    <form action="{% url 'queryGene' %}" method="post" onsubmit="ShowLoading()" id="formGene">
-                        {% csrf_token %}
-                        {% for field in query_form %}
-                            <div class='form-group'>
-                                <label for="{{ field.name }}">{{ field.label }}</label>
-                                {{ field }}
-                            </div>
-                        {% endfor %}
-                        <button type="submit" id='submit_btn' class="btn btn-success btn-sm">Submit</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-    <br>
+<div id="page-wrapper" class="resultsPage">
     {% if error %}
         {% include "queryGene/error.html" %}
     {% endif %}
 
-    {%if promotersAssociated or enhancersAssociated or tLightsAssociated %}
+    {%if not error %}
     <div class="menu-hide">
         <ul class="nav nav-tabs" id="myTab" role="tablist">
             <li class="nav-item">
@@ -52,21 +36,23 @@
 
         <div class="tab-content" id="myTabContent">
             <div class="tab-pane fade show active" id="summary" role="tabpanel" aria-labelledby="summary-tab">
-                <br>
                 {% include "queryGene/summary.html" %}
             </div>
+            {% if promotersAssociated %}
             <div class="tab-pane fade" id="promoters" role="tabpanel" aria-labelledby="promoters-tab">
-                <br>
                 {% include "queryGene/promoters.html" %}
             </div>
+            {% endif %}
+            {% if enhancersAssociated %}
             <div class="tab-pane fade" id="enhancers" role="tabpanel" aria-labelledby="enhancers-tab">
-                <br>
                 {% include "queryGene/enhancers.html" %}
             </div>
+            {% endif %}
+            {% if tLightsAssociated %}
             <div class="tab-pane fade" id="tLights" role="tabpanel" aria-labelledby="tLights-tab">
-                <br>
                 {% include "queryGene/trafficLights.html" %}
             </div>
+            {% endif %}
         </div>
     </div>
     {% endif %}
@@ -75,7 +61,6 @@
     
 {% endblock %}
 {% block js %}
-<!-- Demo scripts for this page-->
 
 <!-- This script show an image when is loading-->
 <script type="text/javascript">

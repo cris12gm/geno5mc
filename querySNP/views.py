@@ -105,7 +105,6 @@ def queryEnhancerDescription(request):
     except:
         return render(request, templateError)
 
-
 class SNPAssociated(TemplateView):
     template = 'querySNP.html'    
 
