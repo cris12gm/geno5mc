@@ -40,7 +40,7 @@ $(document).ready(function() {
       "order":[[1,"desc"]]
   });
   $('#dataTableSNPs').DataTable({
-      "order":[[2,"asc"]]
+      "order":[[1,"desc"]]
   });
   $('#dataTableGenesMQ').DataTable({
     "order":[[3,"asc"]]
