@@ -35,6 +35,7 @@
                                 </div>
                             {% endfor %}
                             <button type="submit" id='submitSNP' class="btn btn-success btn-sm" >Submit</button>
+                            <button id="loadExSNP" class="btn btn-info btn-sm">Load Example</button>
                         </form>
                     </div>
                 </div>
@@ -56,6 +57,7 @@
                                     </div>
                                 {% endfor %}
                                 <button type="submit" id='submitGene' class="btn btn-success btn-sm">Submit</button>
+                                <button id="loadExGene" class="btn btn-info btn-sm">Load Example</button>
                             </form>
                     </div>
                 </div>
@@ -140,4 +142,22 @@
     });
 
 </script>
+
+<!-- This script charge the example on SNP tab -->
+<script>
+    $(document).ready(function(){
+
+        $('#loadExSNP').on('click', function(){
+            $('#id_SNPid').val("rs727563");
+            return false;
+        });
+
+        $('#loadExGene').on('click', function(){
+            $('#id_GeneId').val("CYTH4");
+            return false;
+        });
+
+       });
+</script>
+
 {% endblock %}
