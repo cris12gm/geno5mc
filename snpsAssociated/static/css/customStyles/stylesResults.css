@@ -1,3 +1,5 @@
+/* GENERAL */
+
 .resultsPage{
     margin-top:20px;
 }
@@ -9,6 +11,25 @@
     text-align:center;
 }
 
+.rowTable{
+    text-align:center;
+}
+
+.tabResult{
+    margin-top:20px;
+}
+
+/* SUMMARY */
+
 #topResults{
     margin-top:20px;
+}
+
+/* QUERY GENE */
+#barPlotPromotersGene{
+    overflow-x: auto;
+    width: 100%;
+}
+#titleBarPlotPromotersGene{
+    text-align:center;
 }

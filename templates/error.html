@@ -10,7 +10,15 @@
     <div class="content404">
         <h2>Oops! This Page Could Not Be Found</h2>
 
-        <a href="{% url 'home' %}" ><button class="btn btn-success btn-sm">GO HOME</button></a>
+        <button onclick="goBack()" class="btn btn-success btn-sm">GO BACK</button>
     </div>
 </div>        
 {% endblock %}
+{% block js %}
+<script>
+    function goBack() {
+      window.history.back();
+    }
+</script>
+{% endblock %}
+

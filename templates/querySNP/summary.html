@@ -33,18 +33,18 @@
                                     <table class="table table-bordered" id="dataTableTopResults_Promoter" width="100%" cellspacing="0">
                                         <thead>
                                             <tr>
-                                                <th class="titleTable"><span class="table_tooltip" title="Gene ID that is associated by its promoter. For more info about it, click on the gene ID">Gene</span></th>
-                                                <th class="titleTable" data-toggle="tooltip" title="Methylation of the CpGs associated that are in the promoter of each gene">Methylation</th>
-                                                <th class="titleTable" data-toggle="tooltip" title="Chromosome">chrom</th>
-                                                <th class="titleTable" data-toggle="tooltip" title="Start coordinate of the promoter">chromStart Promoter</th>
-                                                <th class="titleTable" data-toggle="tooltip" title="End coordinate of the promoter">chromEnd Promoter </th>
-                                                <th class="titleTable" data-toggle="tooltip" title="Number of CpGs that are associated and TLs in the promoter of each gene">num CpGs TLs</th>
+                                                <th class="titleTable"> <span class="table_tooltip" title="Gene ID that is associated by its promoter. For more info about it, click on the gene ID">Gene</span></th>
+                                                <th class="titleTable"> <span class="table_tooltip" title="Methylation of the CpGs associated that are in the promoter of each gene">Methylation</span></th>
+                                                <th class="titleTable"> <span class="table_tooltip" title="Chromosome">chrom</span></th>
+                                                <th class="titleTable"> <span class="table_tooltip" title="Start coordinate of the promoter">chromStart</span></th>
+                                                <th class="titleTable"> <span class="table_tooltip" title="End coordinate of the promoter">chromEnd</span></th>
+                                                <th class="titleTable"> <span class="table_tooltip" title="Number of CpGs that are associated and TLs in the promoter of each gene">Num CpGs TLs</span></th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             {% for field in topResultPromoter %}
                                             <tr>
-                                                <td class="tittleTable">
+                                                <td class="rowTable">
                                                     <a class="ajaxButtonGeneTop" href="#" id="buttonPromoters{{field.1.elementID}}" data-toggle="modal" data-target="#modalPromotersTop">
                                                         <span>{{ field.1.elementID }}</span>
                                                         <i class="fas fa-fw fa-info-circle"></i>
@@ -52,11 +52,11 @@
                                                     {% include "querySNP/modalPromotersTop.html" %}
                                                 </td>
                                                 <!-- <td><div style="text-align:center;"><button class="btn btn-success btn-sm" onclick="ShowLoading();window.location.href='{{ baseLink }}/queryGene/gene/{{ field.1.elementID }}'">Gene</button></div></td> -->
-                                                <td class="tittleTable"><div style="text-align:center;"><button class="btn btn-success btn-sm" id="buttonMeth{{field.1.elementID}}" onclick="ShowLoading();window.location.href='{{ baseLink }}/plotElement/?element=promoter;snp={{ snpInfo.snpID}};name={{field.1.elementID}};start={{field.1.chromStartElement}};end={{field.1.chromEndElement}}'">Methylation</button></div></td>
-                                                <td class="tittleTable">{{ field.1.chrom }}</td>
-                                                <td class="tittleTable">{{ field.1.chromStartElement }}</td>
-                                                <td class="tittleTable">{{ field.1.chromEndElement }}</td>
-                                                <td class="tittleTable">{{ field.0 }}</td>
+                                                <td class="rowTable"><div style="text-align:center;"><button class="btn btn-success btn-sm" id="buttonMeth{{field.1.elementID}}" onclick="ShowLoading();window.location.href='{{ baseLink }}/plotElement/?element=promoter;snp={{ snpInfo.snpID}};name={{field.1.elementID}};start={{field.1.chromStartElement}};end={{field.1.chromEndElement}}'">Methylation</button></div></td>
+                                                <td class="rowTable">{{ field.1.chrom }}</td>
+                                                <td class="rowTable">{{ field.1.chromStartElement }}</td>
+                                                <td class="rowTable">{{ field.1.chromEndElement }}</td>
+                                                <td class="rowTable">{{ field.0 }}</td>
                                             </tr>
                                             {% endfor %}
                                         </tbody>
@@ -76,29 +76,29 @@
                                     <table class="table table-bordered" id="dataTableTopResults_Enhancer" width="100%" cellspacing="0">
                                         <thead>
                                             <tr>
-                                                <th>Enhancer</th>
-                                                <th></th>
-                                                <th>chrom</th>
-                                                <th>chromStart Enhancer</th>
-                                                <th>chromEnd Enhancer </th>
-                                                <th>num CpGs TLs</th>
+                                                <th class="titleTable"> <span class="table_tooltip" title="Enhancer ID that is associated. For more info about it, click on the enhancer ID">Enhancer</span></th>
+                                                <th class="titleTable"> <span class="table_tooltip" title="Methylation of the CpGs associated that are in each enhancer">Methylation</span></th>
+                                                <th class="titleTable"> <span class="table_tooltip" title="Chromosome">chrom</span></th>
+                                                <th class="titleTable"> <span class="table_tooltip" title="Start coordinate of the enhancer">chromStart</span></th>
+                                                <th class="titleTable"> <span class="table_tooltip" title="End coordinate of the enhancer">chromEnd</span></th>
+                                                <th class="titleTable"> <span class="table_tooltip" title="Number of CpGs that are associated and TLs in each enhancer">Num CpGs TLs</span></th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             {% for field in topResultEnhancer %}
                                             <tr>
-                                                <td>
+                                                <td class="rowTable">
                                                     <a class="ajaxButtonEnhancerTop" href="#" id="buttonEnhancers{{field.1.elementID}}" data-toggle="modal" data-target="#modalEnhancersTop">
                                                         <span>{{ field.1.elementID }}</span>
                                                         <i class="fas fa-fw fa-info-circle"></i>
                                                     </a>
                                                     {% include "querySNP/modalEnhancersTop.html" %}
                                                 </td>
-                                                <td><div style="text-align:center;"><button class="btn btn-success btn-sm" onclick="ShowLoading();window.location.href='{{ baseLink }}/plotElement/?element=enhancer;snp={{ snpInfo.snpID}};name={{field.1.elementID}};start={{field.1.chromStartElement}};end={{field.1.chromEndElement}}'" onclick="ShowLoading()">Methylation</button></div></td>
-                                                <td>{{ field.1.chrom }}</td>
-                                                <td>{{ field.1.chromStartElement }}</td>
-                                                <td>{{ field.1.chromEndElement }}</td>
-                                                <td>{{ field.0 }}</td>
+                                                <td class="rowTable"><div style="text-align:center;"><button class="btn btn-success btn-sm" onclick="ShowLoading();window.location.href='{{ baseLink }}/plotElement/?element=enhancer;snp={{ snpInfo.snpID}};name={{field.1.elementID}};start={{field.1.chromStartElement}};end={{field.1.chromEndElement}}'" onclick="ShowLoading()">Methylation</button></div></td>
+                                                <td class="rowTable">{{ field.1.chrom }}</td>
+                                                <td class="rowTable">{{ field.1.chromStartElement }}</td>
+                                                <td class="rowTable">{{ field.1.chromEndElement }}</td>
+                                                <td class="rowTable">{{ field.0 }}</td>
                                             </tr>
                                             {% endfor %}
                                         </tbody>

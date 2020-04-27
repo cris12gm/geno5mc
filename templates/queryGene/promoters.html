@@ -1,6 +1,14 @@
 {% load staticfiles %}
 
-        <div class="table-responsive tableResult">
+<div class="card mb-3">
+    <div class="card-body">
+        <h6 id=titleBarPlotPromotersGene><b>SNPs with CpGs associated in the promoter of {{geneId}}</b></h6>
+        <div id="barPlotPromotersGene">
+            <center>{{ barPlotPromoters | safe}}</center>
+        </div>
+    </div>
+</div>
+        <!-- <div class="table-responsive tableResult">
             <table class="table table-bordered" id="dataTableSNPs" width="100%" cellspacing="0">
                 <thead>
                     <tr>
@@ -10,7 +18,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for field in promotersAssociated %}
+                    {% for field in promoters %}
                         <tr>
                             <td><a href="">{{ field.data.snpID}}</a></td>
                             <td>{{ field.count}}</td>
@@ -23,4 +31,4 @@
 
         </div>
     </div>
-</div>
+</div> -->

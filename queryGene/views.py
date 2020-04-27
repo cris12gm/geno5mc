@@ -12,7 +12,7 @@ from django.urls import reverse_lazy
 import requests
 
 from queryGene.plotExpression import plotExpression
-
+from queryGene.plotElements import plotPromoters, plotEnhancers, plotTrafficLights
 
 from .forms import QueryGene
 from .models import snpsAssociated_FDR_promotersEPD, snpsAssociated_FDR_chrom, getGeneID, snpsAssociated_FDR_enhancers, snpsAssociated_FDR_trafficLights, getGencode,genes
@@ -42,7 +42,8 @@ class GenesAssociated(TemplateView):
         error = None
         baseLink = settings.SUB_SITE+"/querySNP/snp/"
 
-        promotersAssociated = []
+        promoters = []
+        barPlotPromoters = ""
         enhancersAssociated = []
         tLightsAssociated = []
         description = ""
@@ -51,7 +52,9 @@ class GenesAssociated(TemplateView):
             geneId = form.cleaned_data.get('GeneId')
             
             #GET PROMOTERS
-            promotersAssociated = snpsAssociated_FDR_promotersEPD.get_SNPs_Promoters(geneId)
+            promoters = snpsAssociated_FDR_promotersEPD.get_SNPs_Promoters(geneId)
+            if promoters:
+                barPlotPromoters = plotPromoters(promoters)
 
             ##GET ENHANCERS
 #            enhancersAssociated = snpsAssociated_FDR_enhancers.get_Enhancers(geneId)
@@ -60,7 +63,7 @@ class GenesAssociated(TemplateView):
 #            tLightsAssociated = snpsAssociated_FDR_trafficLights.get_trafficLights(geneId)
             
             if geneId is not '':
-                if promotersAssociated is None and enhancersAssociated==None and tLightsAssociated==None:
+                if promoters is None and enhancersAssociated==None and tLightsAssociated==None:
                     geneInDB = getGeneID.get_Genes(geneId)
                     if geneInDB!=None:
                         error = Errors.NOT_ASSOCIATED
@@ -68,9 +71,9 @@ class GenesAssociated(TemplateView):
                         error = Errors.NOT_VALID
                 else:
                     # Añado a genes el count
-                    if promotersAssociated is not None:
+                    if promoters is not None:
                         promotersAssociatedNew = []
-                        for gene in promotersAssociated:
+                        for gene in promoters:
                             chromStart = snpsAssociated_FDR_chrom.get_SNP_chrom(gene[1].snpID).chromStart
                             info = {
                                 'data': gene[1],
@@ -79,7 +82,7 @@ class GenesAssociated(TemplateView):
                                 'distance': abs((gene[1].chromStartPromoter)-(chromStart))
                             }
                             promotersAssociatedNew.append(info)
-                        promotersAssociated = promotersAssociatedNew
+                        promoters = promotersAssociatedNew
                     #Get description
                     description = getattr(genes.get_geneDescription(geneId),"description")
         else:
@@ -87,7 +90,8 @@ class GenesAssociated(TemplateView):
 
         return render(request, self.template, {
             'geneId': geneId,
-            'promotersAssociated': promotersAssociated,
+            'promoters': promoters,
+            'barPlotPromoters':barPlotPromoters,
             'enhancersAssociated': enhancersAssociated,
             'tLightsAssociated': tLightsAssociated,
             'description':description,

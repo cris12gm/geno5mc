@@ -5,7 +5,7 @@ import sqlalchemy
 from sqlalchemy import create_engine, MetaData, Table, Column, String, Integer, Float
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
-from sqlalchemy import func
+from sqlalchemy import func,desc
 from config import KEY_snpsAssociated_annotation, KEY_snpsAssociated_FDR, KEY_hg38
 
 Base = declarative_base()
@@ -30,7 +30,7 @@ class snpsAssociated_FDR_promotersEPD(Base):
 
     def get_SNPs_Promoters(_id):
         session = createSessionSQL(KEY_snpsAssociated_annotation)
-        data = session.query(func.count(snpsAssociated_FDR_promotersEPD.snpID), snpsAssociated_FDR_promotersEPD).filter_by(geneID=_id).group_by(snpsAssociated_FDR_promotersEPD.snpID).all()
+        data = session.query(func.count(snpsAssociated_FDR_promotersEPD.snpID).label('total'), snpsAssociated_FDR_promotersEPD).filter_by(geneID=_id).group_by(snpsAssociated_FDR_promotersEPD.snpID).order_by(desc('total')).all()
         session.close()
         return data if len(data) > 1 else None
 

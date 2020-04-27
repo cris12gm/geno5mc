@@ -9,27 +9,26 @@
             </div>
             <div class="col-sm-5">
                 <center>
-                    <br>
-                    <div class="table-responsive">
+                    <div class="table-responsive resultsTable">
                         <table class="table table-bordered" id="dataTableEnhancersLite" width="80%" cellspacing="3" style="margin-right:100px;">
                             <thead>
                                 <tr>
-                                    <th colspan="2">Enhancer</th>
-                                    <th>Associated<br>CpGs</th>
+                                    <th class="titleTable" colspan="2"><span class="table_tooltip" title="Enhancer ID that is associated. For more info about it, click on the enhancer ID. In <i>Methylation</i> you can found the methylation of the CpGs associated that are in each enhancer">Enhancer</span></th>
+                                    <th class="titleTable"><span class="table_tooltip" title="Number of associated CpGs inside the enhancer">Associated<br>CpGs</span></th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {% for field in enhancers %}
                                 <tr>
-                                    <td>
+                                    <td class="rowTable">
                                         <a class="ajaxButtonEnhancer" href="#" id="buttonEnhancers{{field.1.enhancerID}}" data-toggle="modal" data-target="#modalEnhancers">
                                             <span>{{ field.1.enhancerID }}</span>
                                             <i class="fas fa-fw fa-info-circle"></i>
                                         </a>
                                         {% include "querySNP/modalEnhancers.html" %}
                                     </td>
-                                    <td><div style="text-align:center;"><button class="btn btn-success btn-sm" onclick="ShowLoading();window.location.href='{{ baseLink }}/plotElement/?element=enhancer;snp={{ snpInfo.snpID}};name={{field.1.enhancerID}};start={{field.1.chromStart}};end={{field.1.chromEnd}}'">Methylation</button></div></td>
-                                    <td>{{ field.0 }}</td>
+                                    <td class="rowTable"><div style="text-align:center;"><button class="btn btn-success btn-sm" onclick="ShowLoading();window.location.href='{{ baseLink }}/plotElement/?element=enhancer;snp={{ snpInfo.snpID}};name={{field.1.enhancerID}};start={{field.1.chromStart}};end={{field.1.chromEnd}}'">Methylation</button></div></td>
+                                    <td class="rowTable">{{ field.0 }}</td>
                                 </tr>
                                 {% endfor %}
                             </tbody>
@@ -38,7 +37,6 @@
                 </center>
             </div>
         </div>
-        <br>
         <hr>
         <div id="accordion">
             <div class="card">
@@ -56,30 +54,30 @@
                         <table class="table table-bordered" id="dataTableRegulation" width="100%" cellspacing="0">
                             <thead>
                                 <tr>
-                                    <th>Enhancer</th>
-                                    <th>Methylation</th>
-                                    <th>chrom</th>
-                                    <th>chromStart</th>
-                                    <th>chromEnd</th>
-                                    <th>Num. Associated CpGs</th>
+                                    <th class="titleTable"> <span class="table_tooltip" title="Enhancer ID that is associated. For more info about it, click on the enhancer ID">Enhancer</span></th>
+                                    <th class="titleTable"> <span class="table_tooltip" title="Methylation of the CpGs associated that are in each enhancer">Methylation</span></th>
+                                    <th class="titleTable"> <span class="table_tooltip" title="Chromosome">chrom</span></th>
+                                    <th class="titleTable"> <span class="table_tooltip" title="Start coordinate of the enhancer">chromStart</span></th>
+                                    <th class="titleTable"> <span class="table_tooltip" title="End coordinate of the enhancer">chromEnd</span></th>
+                                    <th class="titleTable"> <span class="table_tooltip" title="Number of CpGs that are associated in each enhancer">Associated CpGs</span></th>
 
                                 </tr>
                             </thead>
                             <tbody>
                                 {% for field in enhancers %}
                                 <tr>
-                                    <td>
+                                    <td class="rowTable">
                                         <a class="ajaxButtonEnhancer" href="#" id="buttonEnhancers{{field.1.enhancerID}}" data-toggle="modal" data-target="#modalEnhancers">
                                             <span>{{ field.1.enhancerID }}</span>
                                             <i class="fas fa-fw fa-info-circle"></i>
                                         </a>
                                         {% include "querySNP/modalEnhancers.html" %}
                                     </td>
-                                    <td><div style="text-align:center;"><button class="btn btn-success btn-sm" onclick="ShowLoading();window.location.href='{{ baseLink }}/plotElement/?element=enhancer;snp={{ snpInfo.snpID}};name={{field.1.enhancerID}};start={{field.1.chromStart}};end={{field.1.chromEnd}}'">Methylation</button></div></td>
-                                    <td>{{ field.1.chrom }}</td>
-                                    <td>{{ field.1.chromStart }}</td>
-                                    <td>{{ field.1.chromEnd }}</td>
-                                    <td>{{ field.0 }}</td>
+                                    <td class="rowTable"><button class="btn btn-success btn-sm" onclick="ShowLoading();window.location.href='{{ baseLink }}/plotElement/?element=enhancer;snp={{ snpInfo.snpID}};name={{field.1.enhancerID}};start={{field.1.chromStart}};end={{field.1.chromEnd}}'">Methylation</button></td>
+                                    <td class="rowTable">{{ field.1.chrom }}</td>
+                                    <td class="rowTable">{{ field.1.chromStart }}</td>
+                                    <td class="rowTable">{{ field.1.chromEnd }}</td>
+                                    <td class="rowTable">{{ field.0 }}</td>
 
                                 </tr>
                                 {% endfor %}

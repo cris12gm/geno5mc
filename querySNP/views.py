@@ -161,10 +161,8 @@ class SNPAssociated(TemplateView):
         })   
 
 class SNPAssociatedGET(TemplateView):
-
     template = 'querySNP.html'
         
-
     def get(self, request, snp):
 
         form = QuerySNP()

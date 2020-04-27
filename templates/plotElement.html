@@ -2,8 +2,7 @@
 {% load staticfiles %}
 
 {% block content %}
-    <button class="btn btn-success btn-sm" onclick="goBack()" >Go Back</button>
-    <br>
+    <button class="btn btn-success btn-sm" onclick="goBack()">Go Back</button>
     <center><h2><b>{{ name }}</b></h2></center>
     {% if description %}
         <div style="text-align:center;text-transform: capitalize;">{{ description }}</div>
@@ -12,7 +11,7 @@
         {{ plotElement | safe}}
     </div>
     {% if plotElementDistance %}
-        <hr><br>
+        <hr>
         <div name="plotElementDistance" style="overflow-x: auto;">
             <h4 style='text-align:center;'>Spatial distribution</h4>
             {{ plotElementDistance | safe}}
