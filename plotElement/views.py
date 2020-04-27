@@ -262,7 +262,6 @@ def PlotEnhancers(snpID,enhancerID,start,end):
 
     return div_obj, div_obj2
 
-
 class plotElements(TemplateView):
     template = "plotElement.html"
 
@@ -279,7 +278,7 @@ class plotElements(TemplateView):
             plotElementDistance = []
             if element == 'promoter':
                 plotElement,plotElementDistance = PlotPromoters(valoresGet['snp'],valoresGet['name'],valoresGet['start'],valoresGet['end'])
-                description = getattr(genes.get_geneDescription(valoresGet['name']),"description")
+                description = getattr(genes.get_geneDescription(valoresGet['name']),"description").capitalize()
             elif element == 'enhancer':
                 plotElement,plotElementDistance = PlotEnhancers(valoresGet['snp'],valoresGet['name'],valoresGet['start'],valoresGet['end'])
             elif element== 'tLight':
@@ -308,7 +307,7 @@ class plotElementsTour(TemplateView):
 
         if element == 'promoter':
             plotElement,plotElementDistance = PlotPromoters(valoresGet['snp'],valoresGet['name'],valoresGet['start'],valoresGet['end'])
-            description = getattr(genes.get_geneDescription(valoresGet['name']),"description")
+            description = getattr(genes.get_geneDescription(valoresGet['name']),"description").capitalize()
         elif element == 'enhancer':
             plotElement,plotElementDistance = PlotEnhancers(valoresGet['snp'],valoresGet['name'],valoresGet['start'],valoresGet['end'])
         elif element== 'tLight':

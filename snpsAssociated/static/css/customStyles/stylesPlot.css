@@ -1,0 +1,35 @@
+.buttonBack{
+    float: right;
+    margin-top: 10px;
+    color:#246cd1;
+    font-weight: bolder;
+}
+
+.buttonBack:focus, .buttonBack.focus {
+    color:#246cd1;
+}
+
+.buttonBack:hover {
+    color:#194a90;
+    background-color: #f1eded;;
+}
+
+.buttonSpatial{
+    font-weight: bolder;
+    margin-left:20px;
+    margin-top:5px;
+}
+
+.titlePlot{
+    text-align:center;
+    margin-top:20px;
+}
+
+.description_tooltip{
+    color:#194a90;
+}
+
+.plotElement{
+    overflow-x: auto;
+    width:90%;
+}

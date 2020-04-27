@@ -6,12 +6,12 @@
 .btn-success {
   color: #fff;
   background-color: #246cd1;
-  border-color: #194a90;
+  border-color: #246cd1;
 }
 
 .btn-success:hover {
   color: #fff;
-  background-color: #246cd1;
+  background-color: #194a90;
   border-color: #194a90;
 }
 
