@@ -21,10 +21,7 @@ def PlotTLights(snpID,geneID):
     cpgs = snpsAssociated_FDR_trafficLights.get_trafficLights(snpID,geneID)
     genotypes = getGenotype.getGenotypeCpG(snpID)
 
-
     #Get gene position
-
-    
 
     ref = str(getattr(genotypes,"reference"))+str(getattr(genotypes,"reference"))
     alt = str(getattr(genotypes,"alternative"))+str(getattr(genotypes,"alternative"))
@@ -51,9 +48,11 @@ def PlotTLights(snpID,geneID):
     hoverPosition = []
 
     for element in cpgs:
+        print (element)
         numSamples = numSamples + 1
         idCpG = element.chrom+"_"+str(element.chromStartTL)
-        valuesPlot_Position.append(element.chromStartCpG)
+        valuesPlot_Position.append(element.chromStartTL)
+        print (valuesPlot_Position)
         hoverPosition.append(idCpG)
         methylationCpG = getMethylation.getMethCpG(idCpG)
 
@@ -76,33 +75,33 @@ def PlotTLights(snpID,geneID):
     fig = px.strip(df, 'CpG ID', 'methRatio', 'Genotype', stripmode='group', hover_data=["Sample"], width=250*numSamples)
 
     fig.update_layout(
-        height=550,legend_orientation="h",xaxis_tickfont_size=14, legend_title='<b>Genotype</b>'
+        height=500,legend_orientation="h",xaxis_tickfont_size=14, legend_title='<b>Genotype</b>'
     )
     fig.update_xaxes(title_text='')
     fig.update_yaxes(title_text='<b>Meth Ratio</b>')
     div_obj = plot(fig, show_link=False, auto_open=False, output_type = 'div')
 
-    #Plot distances real distribution
-    fig_Distances = go.Figure(data = go.Scatter(x=valuesPlot_Position,y=valuesPlot_Position_y,mode='markers',hovertext=hoverPosition,hoverinfo="text"))
+    # #Plot distances real distribution
+    # fig_Distances = go.Figure(data = go.Scatter(x=valuesPlot_Position,y=valuesPlot_Position_y,mode='markers',hovertext=hoverPosition,hoverinfo="text"))
 
-    fig_Distances.update_yaxes(showticklabels=False,title_text='', range=[0,2])
-    fig_Distances.update_layout(yaxis_showgrid=False)
-    fig_Distances.update_xaxes(range=[int(start)-100,int(end)+100])
-    fig_Distances.add_shape(
-        # Rectangle reference to the axes
-            type="rect",
-            xref="x",
-            yref="y",
-            x0=start,
-            y0=0.5,
-            x1=end,
-            y1=1.5,
-            fillcolor="PaleTurquoise",
-            opacity=0.3,
-        )
-    div_obj2 = plot(fig_Distances,show_link=False, auto_open=False, output_type='div')
+    # fig_Distances.update_yaxes(showticklabels=False,title_text='', range=[0,2])
+    # fig_Distances.update_layout(yaxis_showgrid=False)
+    # fig_Distances.update_xaxes(range=[int(start)-100,int(end)+100])
+    # fig_Distances.add_shape(
+    #     # Rectangle reference to the axes
+    #         type="rect",
+    #         xref="x",
+    #         yref="y",
+    #         x0=start,
+    #         y0=0.5,
+    #         x1=end,
+    #         y1=1.5,
+    #         fillcolor="PaleTurquoise",
+    #         opacity=0.3,
+    #     )
+    # div_obj2 = plot(fig_Distances,show_link=False, auto_open=False, output_type='div')
 
-    return div_obj,div_obj2
+    return div_obj
 
 def PlotPromoters(snpID,geneID,start,end):
     cpgs = snpsAssociated_FDR_promotersEPD.get_SNPs_Promoters(snpID,geneID)
@@ -128,7 +127,7 @@ def PlotPromoters(snpID,geneID,start,end):
         samplesDict[name]=srx
 
     valuesPlot_Position=[]
-    valuesPlot_Position_y=[1]*len(cpgs)
+    # valuesPlot_Position_y=[1]*len(cpgs)
     hoverPosition = []
 
     for element in cpgs:
@@ -156,33 +155,33 @@ def PlotPromoters(snpID,geneID,start,end):
     fig = px.strip(df, 'CpG ID', 'methRatio', 'Genotype', stripmode='group', hover_data=["Sample"])
 
     fig.update_layout(
-        width=300*numSamples, height=550,legend_orientation="h",xaxis_tickfont_size=14, legend_title='<b>Genotype</b>'
+        width=300*numSamples, height=500,legend_orientation="h",xaxis_tickfont_size=14, legend_title='<b>Genotype</b>'
     )
     fig.update_xaxes(title_text='')
     fig.update_yaxes(title_text='<b>Meth Ratio</b>')
     div_obj = plot(fig, show_link=False, auto_open=False, output_type = 'div')
 
     #Plot distances real distribution
-    fig_Distances = go.Figure(data = go.Scatter(x=valuesPlot_Position,y=valuesPlot_Position_y,mode='markers',hovertext=hoverPosition,hoverinfo="text"))
+    # fig_Distances = go.Figure(data = go.Scatter(x=valuesPlot_Position,y=valuesPlot_Position_y,mode='markers',hovertext=hoverPosition,hoverinfo="text"))
 
-    fig_Distances.update_yaxes(showticklabels=False,title_text='', range=[0,2])
-    fig_Distances.update_layout(yaxis_showgrid=False)
-    fig_Distances.update_xaxes(range=[int(start)-100,int(end)+100])
-    fig_Distances.add_shape(
-        # Rectangle reference to the axes
-            type="rect",
-            xref="x",
-            yref="y",
-            x0=start,
-            y0=0.5,
-            x1=end,
-            y1=1.5,
-            fillcolor="PaleTurquoise",
-            opacity=0.3,
-        )
-    div_obj2 = plot(fig_Distances,show_link=False, auto_open=False, output_type='div')
+    # fig_Distances.update_yaxes(showticklabels=False,title_text='', range=[0,2])
+    # fig_Distances.update_layout(yaxis_showgrid=False)
+    # fig_Distances.update_xaxes(range=[int(start)-100,int(end)+100])
+    # fig_Distances.add_shape(
+    #     # Rectangle reference to the axes
+    #         type="rect",
+    #         xref="x",
+    #         yref="y",
+    #         x0=start,
+    #         y0=0.5,
+    #         x1=end,
+    #         y1=1.5,
+    #         fillcolor="PaleTurquoise",
+    #         opacity=0.3,
+    #     )
+    # div_obj2 = plot(fig_Distances,show_link=False, auto_open=False, output_type='div')
 
-    return div_obj,div_obj2
+    return div_obj
 
 def PlotEnhancers(snpID,enhancerID,start,end):
     cpgs = snpsAssociated_FDR_enhancers.get_Enhancers(snpID,enhancerID)
@@ -207,7 +206,7 @@ def PlotEnhancers(snpID,enhancerID,start,end):
     valuesPlot["Sample"] = []
     
     valuesPlot_Position=[]
-    valuesPlot_Position_y=[1]*len(cpgs)
+    # valuesPlot_Position_y=[1]*len(cpgs)
     hoverPosition = []
 
     for element in cpgs:
@@ -235,32 +234,32 @@ def PlotEnhancers(snpID,enhancerID,start,end):
     fig = px.strip(df, 'CpG ID', 'methRatio', 'Genotype', stripmode='group', hover_data=["Sample"])
     #stripmode='overlay' to group 
     fig.update_layout(
-        width=300*numSamples, height=550, legend_orientation="h",legend_title='<b> Genotype </b>',xaxis_tickfont_size=14
+        width=300*numSamples, height=500, legend_orientation="h",legend_title='<b> Genotype </b>',xaxis_tickfont_size=14
     )
     fig.update_xaxes(title_text='')
     fig.update_yaxes(title_text='<b>Meth Ratio</b>')
     div_obj = plot(fig, show_link=False, auto_open=False, output_type = 'div')
 
-    fig_Distances = go.Figure(data = go.Scatter(x=valuesPlot_Position,y=valuesPlot_Position_y,mode='markers',hovertext=hoverPosition,hoverinfo="text"))
+    # fig_Distances = go.Figure(data = go.Scatter(x=valuesPlot_Position,y=valuesPlot_Position_y,mode='markers',hovertext=hoverPosition,hoverinfo="text"))
 
-    fig_Distances.update_yaxes(showticklabels=False,title_text='', range=[0,2])
-    fig_Distances.update_layout(yaxis_showgrid=False)
-    fig_Distances.update_xaxes(range=[int(start)-1000,int(end)+1000])
-    fig_Distances.add_shape(
-        # Rectangle reference to the axes
-            type="rect",
-            xref="x",
-            yref="y",
-            x0=start,
-            y0=0.5,
-            x1=end,
-            y1=1.5,
-            fillcolor="PaleTurquoise",
-            opacity=0.3,
-        )
-    div_obj2 = plot(fig_Distances,show_link=False, auto_open=False, output_type='div')
+    # fig_Distances.update_yaxes(showticklabels=False,title_text='', range=[0,2])
+    # fig_Distances.update_layout(yaxis_showgrid=False)
+    # fig_Distances.update_xaxes(range=[int(start)-1000,int(end)+1000])
+    # fig_Distances.add_shape(
+    #     # Rectangle reference to the axes
+    #         type="rect",
+    #         xref="x",
+    #         yref="y",
+    #         x0=start,
+    #         y0=0.5,
+    #         x1=end,
+    #         y1=1.5,
+    #         fillcolor="PaleTurquoise",
+    #         opacity=0.3,
+    #     )
+    # div_obj2 = plot(fig_Distances,show_link=False, auto_open=False, output_type='div')
 
-    return div_obj, div_obj2
+    return div_obj
 
 class plotElements(TemplateView):
     template = "plotElement.html"
@@ -270,29 +269,29 @@ class plotElements(TemplateView):
         return render(request, self.template, {})
 
     def get(self,request):
-        templateError = "error.html"
-        try:
+        # templateError = "error.html"
+        # try:
             valoresGet = request.GET
             element = valoresGet['element']
             description = ""
-            plotElementDistance = []
+            # plotElementDistance = []
             if element == 'promoter':
-                plotElement,plotElementDistance = PlotPromoters(valoresGet['snp'],valoresGet['name'],valoresGet['start'],valoresGet['end'])
+                plotElement = PlotPromoters(valoresGet['snp'],valoresGet['name'],valoresGet['start'],valoresGet['end'])
                 description = getattr(genes.get_geneDescription(valoresGet['name']),"description").capitalize()
             elif element == 'enhancer':
-                plotElement,plotElementDistance = PlotEnhancers(valoresGet['snp'],valoresGet['name'],valoresGet['start'],valoresGet['end'])
+                plotElement = PlotEnhancers(valoresGet['snp'],valoresGet['name'],valoresGet['start'],valoresGet['end'])
             elif element== 'tLight':
                 plotElement = PlotTLights(valoresGet['snp'],valoresGet['name'])
             return render(request, self.template, {
                 'description':description,
+                'element':element,
                 'plotElement':plotElement,
-                'plotElementDistance':plotElementDistance,
+                # 'plotElementDistance':plotElementDistance,
                 'snpID':valoresGet['snp'],
                 'name':valoresGet['name']
                 })
-
-        except:
-            return render(request, templateError)
+        # except:
+        #     return render(request, templateError)
 class plotElementsTour(TemplateView):
     template = "querySNP_Tour_2.html"
 
@@ -306,10 +305,10 @@ class plotElementsTour(TemplateView):
         description = ""
 
         if element == 'promoter':
-            plotElement,plotElementDistance = PlotPromoters(valoresGet['snp'],valoresGet['name'],valoresGet['start'],valoresGet['end'])
+            plotElement = PlotPromoters(valoresGet['snp'],valoresGet['name'],valoresGet['start'],valoresGet['end'])
             description = getattr(genes.get_geneDescription(valoresGet['name']),"description").capitalize()
         elif element == 'enhancer':
-            plotElement,plotElementDistance = PlotEnhancers(valoresGet['snp'],valoresGet['name'],valoresGet['start'],valoresGet['end'])
+            plotElement = PlotEnhancers(valoresGet['snp'],valoresGet['name'],valoresGet['start'],valoresGet['end'])
         elif element== 'tLight':
             plotElement = PlotTLights(valoresGet['snp'],valoresGet['name'])
         return render(request, self.template, {
