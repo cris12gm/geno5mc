@@ -269,8 +269,8 @@ class plotElements(TemplateView):
         return render(request, self.template, {})
 
     def get(self,request):
-        # templateError = "error.html"
-        # try:
+         templateError = "error.html"
+         try:
             valoresGet = request.GET
             element = valoresGet['element']
             description = ""
@@ -290,8 +290,8 @@ class plotElements(TemplateView):
                 'snpID':valoresGet['snp'],
                 'name':valoresGet['name']
                 })
-        # except:
-        #     return render(request, templateError)
+         except:
+             return render(request, templateError)
 class plotElementsTour(TemplateView):
     template = "querySNP_Tour_2.html"
 
