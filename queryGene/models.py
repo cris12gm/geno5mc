@@ -43,7 +43,7 @@ class snpsAssociated_FDR_enhancers(Base):
 
     def get_Enhancers(_id):
         session = createSessionSQL(KEY_snpsAssociated_annotation)
-        data = session.query(snpsAssociated_FDR_enhancers).filter_by(geneID=_id).order_by(snpsAssociated_FDR_enhancers.numOverlaps.desc()).limit(20).all()
+        data = session.query(snpsAssociated_FDR_enhancers).filter_by(geneID=_id).order_by(snpsAssociated_FDR_enhancers.numOverlaps.desc()).all()
         session.close()
         return data if len(data) > 0 else None
 
@@ -56,7 +56,7 @@ class snpsAssociated_FDR_trafficLights(Base):
 
     def get_trafficLights(_id):
         session = createSessionSQL(KEY_snpsAssociated_annotation)
-        data = session.query(snpsAssociated_FDR_trafficLights).filter_by(gene=_id).all()
+        data = session.query(snpsAssociated_FDR_trafficLights).filter_by(gene=_id).order_by(snpsAssociated_FDR_trafficLights.numOverlaps.desc()).all()
         session.close()
         return data if len(data) > 0 else None
 

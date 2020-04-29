@@ -33,3 +33,21 @@
 #titleBarPlotPromotersGene{
     text-align:center;
 }
+#barPlotEnhancersGene{
+    overflow-x: auto;
+    width: 100%;
+}
+#titleBarPlotEnhancersGene{
+    text-align:center;
+}
+#barPlotTLightsGene{
+    overflow-x: auto;
+    width: 100%;
+}
+#titleBarPlotTLightsGene{
+    text-align:center;
+}
+.buttonGTEX{
+    font-weight: bolder;
+    float: right;
+}

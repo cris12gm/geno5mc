@@ -1,20 +1,42 @@
 {% load staticfiles %}
-<div class="table-responsive">
-    <hr>
-    <table class="table table-bordered" id="dataTableRegulation" width="100%" cellspacing="0">
-        <thead>
-            <tr>
-                <th>SNP ID</th>
-                <th>Num. Associated CpGs in its enhancers</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for field in enhancersAssociated %}
-            <tr>
-                <td><a href="{{ baseLink }}{{ field.snpID }}">{{ field.snpID}}</a></td>
-                <td>{{ field.numOverlaps}}</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+
+<div class="card mb-3">
+    <div class="card-body">
+        <h6 id=titleBarPlotEnhancersGene><b>SNPs with CpGs associated in the enhancers of {{geneId}}</b></h6>
+        <div id="barPlotEnhancersGene">
+            <center>{{ barPlotEnhancers | safe}}</center>
+        </div>
+        <hr>
+        <div id="accordionEnhancers">
+            <div class="card">
+                <div class="card-header" id="headingTableEnhancers">
+                    <h5 class"mb-0">
+                        <button class="btn btn-link" data-toggle="collapse" data-target="#collapseEnhancers" aria-expanded="false" aria-controls="collapseEnhancers">
+                            See full result table
+                        </button>
+                    </h5>
+                </div>
+                <div id="collapseEnhancers" class="collapse" aria-labelledby="headingTableEnhancers" data-parent="#accordionEnhancers">
+                    <div class="card-body">
+                        <div class="table-responsive tableResult">
+                            <table class="table table-bordered" id="dataTableSNPsEnhancer" width="100%" cellspacing="0">
+                                <thead>
+                                    <th class="titleTable">SNP ID</th>
+                                    <th class="titleTable">Num. Associated CpGs</th>
+                                </thead>
+                                <tbody>
+                                    {% for field in enhancers %}
+                                    <tr>
+                                        <td class="rowTable"><a href="{{ baseLink }}{{ field.snpID }}">{{ field.snpID }}</a></td>
+                                        <td class="rowTable">{{ field.numOverlaps }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

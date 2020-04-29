@@ -25,10 +25,13 @@ class Errors(Enum):
 def queryExpression(request):
     geneId = request.GET.get('geneID', None)
     geneCode = getGencode.getGencodeID(geneId)
-    expression = requests.get("https://gtexportal.org/rest/v1/expression/geneExpression?datasetId=gtex_v7&gencodeId="+geneCode+"&format=json").json()['geneExpression']
+    expression = requests.get("https://gtexportal.org/rest/v1/expression/geneExpression?datasetId=gtex_v7&gencodeId="+geneCode+"&format=json").json()['geneExpression']    
     gTEX = plotExpression(expression)
 
-    return JsonResponse(gTEX)
+    dataGen["geneID"]=geneId
+    dataGen["plot"]=gTEX
+
+    return JsonResponse(dataGen)
 
 class GenesAssociated(TemplateView):
     template = 'queryGene.html'
@@ -57,10 +60,14 @@ class GenesAssociated(TemplateView):
                 barPlotPromoters = plotPromoters(promoters)
 
             ##GET ENHANCERS
-#            enhancersAssociated = snpsAssociated_FDR_enhancers.get_Enhancers(geneId)
+            enhancers = snpsAssociated_FDR_enhancers.get_Enhancers(geneId)
+            if enhancers:
+                barPlotEnhancers = plotEnhancers(enhancers)
 
             ##GET TLIGHTS
-#            tLightsAssociated = snpsAssociated_FDR_trafficLights.get_trafficLights(geneId)
+            tLights = snpsAssociated_FDR_trafficLights.get_trafficLights(geneId)
+            if tLights:
+                barPlotTLights = plotTrafficLights(tLights)
             
             if geneId is not '':
                 if promoters is None and enhancersAssociated==None and tLightsAssociated==None:
@@ -92,8 +99,10 @@ class GenesAssociated(TemplateView):
             'geneId': geneId,
             'promoters': promoters,
             'barPlotPromoters':barPlotPromoters,
-            'enhancersAssociated': enhancersAssociated,
-            'tLightsAssociated': tLightsAssociated,
+            'enhancers': enhancers,
+            'barPlotEnhancers':barPlotEnhancers,
+            'tLights': tLights,
+            'barPlotTLights':barPlotTLights,
             'description':description,
             'baseLink': baseLink,
             'query_form': form,

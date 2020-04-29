@@ -1,5 +1,6 @@
 // Call the dataTables jQuery plugin
 $(document).ready(function() {
+  // QuerySNP
   $('#dataTablePromoters').DataTable({
     "order":[[5, "desc"]]
   });
@@ -39,9 +40,6 @@ $(document).ready(function() {
   $('#dataTableTL').DataTable({
       "order":[[1,"desc"]]
   });
-  $('#dataTableSNPs').DataTable({
-      "order":[[1,"desc"]]
-  });
   $('#dataTableGenesMQ').DataTable({
     "order":[[3,"asc"]]
   });
@@ -60,5 +58,16 @@ $(document).ready(function() {
   $('#dataTableTopResults_Enhancer').DataTable({
     "order":[[5,"desc"]]
   });
+  // QueryGene
+  $('#dataTableSNPsPromoter').DataTable({
+    "order":[[1,"desc"]]
+  });
+  $('#dataTableSNPsEnhancer').DataTable({
+    "order":[[1,"desc"]]
+  });
+  $('#dataTableSNPsTLights').DataTable({
+    "order":[[1,"desc"]]
+  });
+  // QueryTrait
   $('#dataTableQueryTrait').DataTable({});
 }); 

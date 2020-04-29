@@ -1,24 +1,45 @@
 {% load staticfiles %}
-<div class="card">
+
+<div class="card mb-3">
     <div class="card-body">
-        <div class="table-responsive">
-            <hr>
-            <table class="table table-bordered" id="dataTableTL" width="100%" cellspacing="0">
-                <thead>
-                    <tr>
-                        <th>SNP ID</th>
-                        <th>Num. TLs that are Associated CpGs</th>
-                    </tr>
-                </thead>
-                <tbody>
-                {% for field in tLightsAssociated %}
-                    <tr>
-                        <td><a href="{{ baseLink }}{{ field.snpID }}">{{ field.snpID}}</a></td>
-                        <td>{{ field.numOverlaps}}</td>
-                    </tr>
-                {% endfor %}
-                </tbody>
-            </table>
+        <h6 id=titleBarPlotTLightsGene><b>SNPs with CpGs associated that are TLs of {{geneId}}</b></h6>
+        <div id="barPlotTLightsGene">
+            <center>{{ barPlotTLights | safe}}</center>
+        </div>
+        <hr>
+        <div id="accordionTLights">
+            <div class="card">
+                <div class="card-header" id="headingTableTLights">
+                    <h5 class="mb-0">
+                        <button class="btn btn-link" data-toggle="collapse" data-target="#collapseTLights" aria-expanded="false" aria-controls="collapseTLights">
+                            See full result table
+                          </button>
+                    </h5>
+                </div>
+                <div id="collapseTLights" class="collapse" aria-labelledby="headingTableTLights" data-parent="#accordionTLights">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <hr>
+                            <table class="table table-bordered" id="dataTableSNPsTLights" width="100%" cellspacing="0">
+                                <thead>
+                                    <tr>
+                                        <th class="titleTable">SNP ID</th>
+                                        <th class="titleTable">Num. TLs that are Associated CpGs</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                {% for field in tLights %}
+                                    <tr>
+                                        <td class="rowTable"><a href="{{ baseLink }}{{ field.snpID }}">{{ field.snpID}}</a></td>
+                                        <td class="rowTable">{{ field.numOverlaps}}</td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>

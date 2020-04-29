@@ -22,12 +22,12 @@
                 <a class="nav-link" id="promoters-tab" data-toggle="tab" href="#promoters" role="tab" aria-controls="promoters" aria-selected="false"><h5>Promoter</h5></a>
             </li>
             {% endif %}
-            {% if enhancersAssociated %}
+            {% if enhancers %}
             <li class="nav-item">
                 <a class="nav-link" id="enhancers-tab" data-toggle="tab" href="#enhancers" role="tab" aria-controls="enhancers" aria-selected="false"><h5>Enhancers</h5></a>
             </li>
             {% endif %}
-            {% if tLightsAssociated %}
+            {% if tLights%}
             <li class="nav-item">
                 <a class="nav-link" id="tLights-tab" data-toggle="tab" href="#tLights" role="tab" aria-controls="tLights" aria-selected="false"><h5>Traffic Lights</h5></a>
             </li>
@@ -43,12 +43,12 @@
                 {% include "queryGene/promoters.html" %}
             </div>
             {% endif %}
-            {% if enhancersAssociated %}
+            {% if enhancers %}
             <div class="tab-pane fade tabResult" id="enhancers" role="tabpanel" aria-labelledby="enhancers-tab">
                 {% include "queryGene/enhancers.html" %}
             </div>
             {% endif %}
-            {% if tLightsAssociated %}
+            {% if tLights %}
             <div class="tab-pane fade tabResult" id="tLights" role="tabpanel" aria-labelledby="tLights-tab">
                 {% include "queryGene/trafficLights.html" %}
             </div>
@@ -101,6 +101,23 @@
         Plotly.relayout( obj.id, { 'xaxis.autorange': true, 'yaxis.autorange': true });
         });
     })
+</script>
+
+<!-- Script for modal -->
+<script>
+    $('.ajaxButtonGTEx').on('click', function (e) {
+        $.ajax({
+        url: '{% url "ajax_gtex" %}',
+        data: {
+            "geneID" : this.id
+        },
+        dataType: 'json',
+        success: function (data) {
+            $("#modalLabelGTEx").html(data.geneID);
+            // $("#modalGTExDescription").html(data.plot);
+        }
+        });
+    });
 </script>
 
 <script src="{% static 'js/demo/datatables-demo.js'%}"></script>

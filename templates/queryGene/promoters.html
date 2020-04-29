@@ -6,29 +6,42 @@
         <div id="barPlotPromotersGene">
             <center>{{ barPlotPromoters | safe}}</center>
         </div>
-    </div>
-</div>
-        <!-- <div class="table-responsive tableResult">
-            <table class="table table-bordered" id="dataTableSNPs" width="100%" cellspacing="0">
-                <thead>
-                    <tr>
-                        <th>SNP ID</th>
-                        <th>Num. Associated CpGs in Promoter Region</th>
-                        <th>Distance Gene - SNP (pb)</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for field in promoters %}
-                        <tr>
-                            <td><a href="">{{ field.data.snpID}}</a></td>
-                            <td>{{ field.count}}</td>
-                            <td>{{ field.distance}}</td>
-                        </tr>
-                    {% endfor %}
-                    </tbody>
-
-            </table>
-
+        <hr>
+        <div id="accordionPromoters">
+            <div class="card">
+                <div class="card-header" id="headingTablePromoters">
+                    <h5 class="mb-0">
+                        <button class="btn btn-link" data-toggle="collapse" data-target="#collapsePromoters" aria-expanded="false" aria-controls="collapsePromoters">
+                            See full result table
+                          </button>
+                    </h5>
+                </div>
+                <div id="collapsePromoters" class="collapse" aria-labelledby="headingTablePromoters" data-parent="#accordionPromoters">
+                    <div class="card-body">
+                        <div class="table-responsive tableResult">
+                            <table class="table table-bordered" id="dataTableSNPsPromoter" width="100%" cellspacing="0">
+                                <thead>
+                                    <tr>
+                                        <th class="titleTable">SNP ID</th>
+                                        <th class="titleTable">Num. Associated CpGs in Promoter Region</th>
+                                        <th class="titleTable">Distance Gene - SNP (pb)</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for field in promoters %}
+                                        <tr>
+                                            <td class="rowTable"><a href="">{{ field.data.snpID}}</a></td>
+                                            <td class="rowTable">{{ field.count}}</td>
+                                            <td class="rowTable">{{ field.distance}}</td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-</div> -->
+</div>
+
