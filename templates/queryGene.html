@@ -109,11 +109,11 @@
         $.ajax({
         url: '{% url "ajax_gtex" %}',
         data: {
-            "geneID" : this.id
+            "geneCode" : this.id
         },
         dataType: 'json',
         success: function (data) {
-            $("#modalLabelGTEx").html(data.geneID);
+            $("#modalLabelGTEx").html(data.geneCode);
             // $("#modalGTExDescription").html(data.plot);
         }
         });

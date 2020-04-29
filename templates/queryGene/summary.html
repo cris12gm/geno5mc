@@ -1,7 +1,6 @@
 <div class="card mb-3">             
     <div class="card-body">
-        <a class="ajaxButtonGTEx" href="#" id="buttonGTEx{{ geneId }}" data-toggle="modal" data-target="#modalGTEx">
-                                                        
+        <a class="ajaxButtonGTEx" href="#" id="buttonGTEx{{ geneId }}" data-toggle="modal" data-target="#modalGTEx">                                                        
             <button class="btn btn-info btn-sm buttonGTEX">View expression on GTEx</button>
         </a>
         {% include "queryGene/modalGTEx.html" %}
@@ -9,6 +8,10 @@
         {% if description %}
             <div style="text-transform: capitalize;">{{ description }}</div>
         {% endif %}
+        {% if geneCode %}
+            <button class="btn btn-light btn-sm" onclick='window.open("https://www.ensembl.org/Homo_sapiens/Gene/Summary?g={{ geneCode}}","_blank")'>Ensembl</button>
+        {% endif %}
+            <button class="btn btn-light btn-sm" onclick='window.location.href="https://www.genecards.org/cgi-bin/carddisp.pl?gene={{ geneId}}"'>Gene Card</button>
         
     </div>
 </div>

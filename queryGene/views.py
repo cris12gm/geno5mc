@@ -23,8 +23,9 @@ class Errors(Enum):
     NOT_ASSOCIATED = 2
 
 def queryExpression(request):
-    geneId = request.GET.get('geneID', None)
-    geneCode = getGencode.getGencodeID(geneId)
+    dataGen = {}
+    geneCode = request.GET.get('geneCode', None)
+    print(geneCode)
     expression = requests.get("https://gtexportal.org/rest/v1/expression/geneExpression?datasetId=gtex_v7&gencodeId="+geneCode+"&format=json").json()['geneExpression']    
     gTEX = plotExpression(expression)
 
@@ -46,14 +47,20 @@ class GenesAssociated(TemplateView):
         baseLink = settings.SUB_SITE+"/querySNP/snp/"
 
         promoters = []
+        enhancers = []
+        tLights = []
         barPlotPromoters = ""
-        enhancersAssociated = []
-        tLightsAssociated = []
+        barPlotEnhancers = ""
+        barPlotTLights = ""
         description = ""
+        geneCode = ""
 
         if form.is_valid():
             geneId = form.cleaned_data.get('GeneId')
-            
+            try:
+                geneCode = getGencode.getGencodeID(geneId)
+            except:
+                pass
             #GET PROMOTERS
             promoters = snpsAssociated_FDR_promotersEPD.get_SNPs_Promoters(geneId)
             if promoters:
@@ -70,7 +77,7 @@ class GenesAssociated(TemplateView):
                 barPlotTLights = plotTrafficLights(tLights)
             
             if geneId is not '':
-                if promoters is None and enhancersAssociated==None and tLightsAssociated==None:
+                if promoters is None and enhancers==None and tLights==None:
                     geneInDB = getGeneID.get_Genes(geneId)
                     if geneInDB!=None:
                         error = Errors.NOT_ASSOCIATED
@@ -97,6 +104,7 @@ class GenesAssociated(TemplateView):
 
         return render(request, self.template, {
             'geneId': geneId,
+            'geneCode': geneCode,
             'promoters': promoters,
             'barPlotPromoters':barPlotPromoters,
             'enhancers': enhancers,
