@@ -42,7 +42,9 @@ class GenesAssociated(TemplateView):
     def post(self, request):
         form = QueryGene(request.POST)
         error = None
-        baseLink = settings.SUB_SITE+"/querySNP/snp/"
+        similars = ""
+
+        baseLink = settings.SUB_SITE
 
         promoters = []
         enhancers = []
@@ -81,9 +83,8 @@ class GenesAssociated(TemplateView):
                         error = Errors.NOT_ASSOCIATED
                     else:
                         error = Errors.NOT_VALID
-
                         ##Si no es válido, busco similares
-                        print (geneId)
+                        similar = getGeneID.getSimilar("%"+geneId+"%")
                 else:
                     # Añado a genes el count
                     if promoters is not None:
@@ -115,7 +116,8 @@ class GenesAssociated(TemplateView):
             'description':description,
             'baseLink': baseLink,
             'query_form': form,
-            'error': error
+            'error': error,
+            'similar':similar
         })   
 
 class GenesAssociatedGET(TemplateView):

@@ -30,7 +30,7 @@
                                 <tbody>
                                 {% for field in tLights %}
                                     <tr>
-                                        <td class="rowTable"><a href="{{ baseLink }}{{ field.snpID }}">{{ field.snpID}}</a></td>
+                                        <td class="rowTable"><a href="{{ baseLink }}/querySNP/snp/{{ field.snpID }}">{{ field.snpID}}</a></td>
                                         <td class="rowTable">{{ field.numOverlaps}}</td>
                                     </tr>
                                 {% endfor %}

@@ -71,6 +71,12 @@ class getGeneID(Base):
         session.close()
         return data[0] if len(data) is 1 else None
 
+    def getSimilar(_id):
+        session = createSessionSQL(KEY_snpsAssociated_annotation)
+        data = session.query(getGeneID).filter(getGeneID.geneID.like(_id)).all()
+        session.close()
+        return data 
+
 class snpsAssociated_FDR_chrom(Base):
     __tablename__ = "snpsAssociated_FDR_chrom"
 
