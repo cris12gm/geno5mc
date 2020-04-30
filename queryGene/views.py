@@ -90,7 +90,8 @@ class GenesAssociated(TemplateView):
                                 groupL = geneId[i]+geneId[i+1]+geneId[i+2]
                                 try:
                                     similarG = getGeneID.getSimilar("%"+groupL+"%")
-                                    similar.append(similarG)
+                                    for element in similarG:
+                                        similar.append(element)
                                 except:
                                     continue
                         except:
@@ -132,7 +133,6 @@ class GenesAssociated(TemplateView):
                 pass
             if len(similar)>20:
                 similar = "tooLong"
-
         return render(request, self.template, {
             'geneId': geneId,
             'geneCode': geneCode,
