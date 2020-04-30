@@ -52,7 +52,6 @@ class GenesAssociated(TemplateView):
         barPlotPromoters = ""
         barPlotEnhancers = ""
         barPlotTLights = ""
-        description = ""
         geneCode = ""
 
         if form.is_valid():
@@ -112,11 +111,26 @@ class GenesAssociated(TemplateView):
                             promotersAssociatedNew.append(info)
                         promoters = promotersAssociatedNew
                     #Get description
-                    description = getattr(genes.get_geneDescription(geneId),"description")
+                    try:
+                        description = getattr(genes.get_geneDescription(geneId),"description")
+                    except:
+                        description = ""
         else:
             error = Errors.NOT_VALID
             ##Si no es válido, busco similares
             similar = getGeneID.getSimilar("%"+geneId+"%")
+            try:
+                for i in range(0,len(geneId)):
+                    groupL = geneId[i]+geneId[i+1]+geneId[i+2]
+                    try:
+                        similarG = getGeneID.getSimilar("%"+groupL+"%")
+                        similar.append(similarG)
+                    except:
+                        continue
+            except:
+                pass
+            if len(similar)>20:
+                similar = "tooLong"
 
         return render(request, self.template, {
             'geneId': geneId,
