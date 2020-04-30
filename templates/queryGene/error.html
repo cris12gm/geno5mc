@@ -4,23 +4,36 @@
         <b>Important info</b>
     </div>            
     <div class="card-body">
-        <div id="errorGestion">
-            {{ error | errorGestionGene}}
+        <div class="row">
+            <div class="col-10">
+                <div id="errorGestion">
+                    {{ error | errorGestionGene}}
+                </div>
+                <div id="similarGestion" class="mt-3">
+                    {% if similar %}
+                        {% if similar != "tooLong" %}
+                            Maybe you wanted to search:
+                            {% for item in similar %}
+                                <div><a href="{{baseLink}}/queryGene/gene/{{item.geneID}}">{{ item.geneID }}</a></div>
+                            {% endfor %}
+                            If not, you can try a <button class="btn btn-success" onclick='window.location.href="{% url 'query' %}/#gene"'>New query</button>
+                        {% else %}
+                            We have found many results similar to your query, please try a more specific one.
+                            <button class="btn btn-success" onclick='window.location.href="{% url 'query' %}/#gene"'>New query</button>
+                        {% endif %}
+                    {% endif %}
+                </div>
+            </div>
+            <div class="col-2">
+                <div class="card">
+                    <div class="card-header">
+                        Your query
+                    </div>
+                    <div class="card-body">
+                        <div class="queryContent">{{ geneId }}</div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div id="similarGestion" class="mt-3">
-            {% if similar %}
-                {% if similar != "tooLong" %}
-                    Maybe you wanted to search:
-                    {% for item in similar %}
-                        <div><a href="{{baseLink}}/queryGene/gene/{{item.geneID}}">{{ item.geneID }}</a></div>
-                    {% endfor %}
-                    If not, you can try a <button class="btn btn-success" onclick='window.location.href="{% url 'query' %}/#gene"'>New query</button>
-                {% else %}
-                    We have found many results similar to your query (<i>{{geneId}}</i>), please try a more specific one.
-                    <button class="btn btn-success" onclick='window.location.href="{% url 'query' %}/#gene"'>New query</button>
-                {% endif %}
-            {% endif %}
-        </div>
-        
     </div>
 </div>
