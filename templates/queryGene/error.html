@@ -21,6 +21,7 @@
                 <div id="errorGestion">
                     {{ error | errorGestionGene}}
                 </div>
+                <button class="btn btn-success" onclick='window.location.href="{% url 'query' %}/#gene"'>New query</button>
             {% endif %}
 
         </div>
