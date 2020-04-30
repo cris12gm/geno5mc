@@ -53,6 +53,7 @@ class GenesAssociated(TemplateView):
         barPlotEnhancers = ""
         barPlotTLights = ""
         geneCode = ""
+        description = ""
 
         if form.is_valid():
             geneId = form.cleaned_data.get('GeneId')
