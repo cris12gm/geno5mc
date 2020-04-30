@@ -21,19 +21,13 @@
         </div>
         <div class = "row">
             <div class= "col-6">
-                <div id="cardIndex" class="card text-black bg-info">
-                    <div class="card-body">
-                        <h4 class="card-title">Take a tour!</h4>
-                        <a href="{% url 'querySNP' %}tour" ><button id="buttonTour" class="btn btn-success btn-sm" onclick="ShowLoadingTour()">Go</button></a>
-                    </div>
+                <div class="buttonIndex">
+                    <a href="{% url 'querySNP' %}tour"><button id="buttonTour" class="btn btn-info btn-lg" onclick="ShowLoadingTour()">Take a tour!</button></a>
                 </div>
             </div>
             <div class= "col-6">
-                <div id="cardIndex" class="card text-black bg-info">
-                    <div class="card-body">
-                        <h4 class="card-title">Start querying our DB</h4>
-                        <a href="{% url 'query' %}" ><button id="buttonQuery" class="btn btn-success btn-sm" onclick="ShowLoading()">Go</button></a>
-                    </div>
+                <div class="buttonIndex">
+                    <a href="{% url 'query' %}" ><button id="buttonQuery" class="btn btn-success btn-lg" onclick="ShowLoading()">Start querying our DB</button></a>
                 </div>
             </div>
         </div>

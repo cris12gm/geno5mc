@@ -11,5 +11,16 @@
   margin-left:auto;
   margin-top:50px;
   margin-bottom:40px;
+}
 
+.buttonIndex{
+  text-align: center;
+}
+
+#buttonTour{
+  font-weight: bold;
+}
+
+#buttonQuery{
+  font-weight: bold;
 }

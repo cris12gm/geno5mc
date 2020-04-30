@@ -9,7 +9,7 @@ def plotExpression(inputDic):
                 name =  element['tissueSiteDetailId'].replace("_"," "),
                 showlegend=False)
         valuesPlot.append(datosSample)
-
+    
     div_obj = plot(valuesPlot, show_link=False, auto_open=False, output_type = 'div')
 
     return div_obj

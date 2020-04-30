@@ -24,12 +24,10 @@ class Errors(Enum):
 
 def queryExpression(request):
     dataGen = {}
-    geneCode = request.GET.get('geneCode', None)
-    print(geneCode)
+    geneCode = request.GET.get('geneCode', None).replace("buttonGTEx","")
     expression = requests.get("https://gtexportal.org/rest/v1/expression/geneExpression?datasetId=gtex_v7&gencodeId="+geneCode+"&format=json").json()['geneExpression']    
     gTEX = plotExpression(expression)
 
-    dataGen["geneID"]=geneId
     dataGen["plot"]=gTEX
 
     return JsonResponse(dataGen)
@@ -83,6 +81,9 @@ class GenesAssociated(TemplateView):
                         error = Errors.NOT_ASSOCIATED
                     else:
                         error = Errors.NOT_VALID
+
+                        ##Si no es válido, busco similares
+                        print (geneId)
                 else:
                     # Añado a genes el count
                     if promoters is not None:
