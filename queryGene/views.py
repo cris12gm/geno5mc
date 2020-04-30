@@ -42,7 +42,7 @@ class GenesAssociated(TemplateView):
     def post(self, request):
         form = QueryGene(request.POST)
         error = None
-        similar = ""
+        similarV = []
 
         baseLink = settings.SUB_SITE
 
@@ -97,7 +97,11 @@ class GenesAssociated(TemplateView):
                         except:
                             pass
                         if len(similar)>20:
-                            similar = "tooLong"
+                            similarV = "tooLong"
+                        elif len(similar)>0:
+                            for element in similar:
+                                similarV.append(getattr(element,"geneID"))
+                            similarV = set(similarV)                        
                 else:
                     # Añado a genes el count
                     if promoters is not None:
@@ -133,6 +137,10 @@ class GenesAssociated(TemplateView):
                 pass
             if len(similar)>20:
                 similar = "tooLong"
+            elif len(similar)>0:
+                for element in similar:
+                    similarV.append(getattr(element,"geneID"))
+                similarV = set(similarV) 
         return render(request, self.template, {
             'geneId': geneId,
             'geneCode': geneCode,
@@ -146,7 +154,7 @@ class GenesAssociated(TemplateView):
             'baseLink': baseLink,
             'query_form': form,
             'error': error,
-            'similar':similar
+            'similar':similarV
         })   
 
 class GenesAssociatedGET(TemplateView):
