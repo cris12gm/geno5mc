@@ -4,36 +4,24 @@
         <b>Important info</b>
     </div>            
     <div class="card-body">
-        <div class="row">
-            <div class="col-10">
+        <div id="similarGestion" class="mt-3">
+            {% if similar != "" %}
+                {% if similar == "tooLong" %}
+                    {{ geneId}} is not a valid Gene ID, please try a 
+                    <button class="btn btn-success" onclick='window.location.href="{% url 'query' %}/#gene"'>New query</button>
+                {% else %}
+                    Your query "{{ geneId }} did not produce any match, maybe you meant:
+                    {% for item in similar %}
+                        <div><a href="{{baseLink}}/queryGene/gene/{{item.geneID}}">{{ item.geneID }}</a></div>
+                    {% endfor %}
+                    If not, you can try a <button class="btn btn-success" onclick='window.location.href="{% url 'query' %}/#gene"'>New query</button>
+                {% endif %}
+            {% elif similar == "" %}
                 <div id="errorGestion">
                     {{ error | errorGestionGene}}
                 </div>
-                <div id="similarGestion" class="mt-3">
-                    {% if similar != "" %}
-                        {% if similar == "tooLong" %}
-                            We have found many results similar to your query, please try a more specific one.
-                            <button class="btn btn-success" onclick='window.location.href="{% url 'query' %}/#gene"'>New query</button>
-                        {% else %}
-                            Maybe you wanted to search:
-                            {% for item in similar %}
-                                <div><a href="{{baseLink}}/queryGene/gene/{{item.geneID}}">{{ item.geneID }}</a></div>
-                            {% endfor %}
-                            If not, you can try a <button class="btn btn-success" onclick='window.location.href="{% url 'query' %}/#gene"'>New query</button>
-                        {% endif %}
-                    {% endif %}
-                </div>
-            </div>
-            <div class="col-2">
-                <div class="card">
-                    <div class="card-header">
-                        Your query
-                    </div>
-                    <div class="card-body">
-                        <div class="queryContent">{{ geneId }}</div>
-                    </div>
-                </div>
-            </div>
+            {% endif %}
+
         </div>
     </div>
 </div>
