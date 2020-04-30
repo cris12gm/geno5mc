@@ -9,11 +9,16 @@
         </div>
         <div id="similarGestion" class="mt-3">
             {% if similar %}
-                Maybe you wanted to search:
-                {% for item in similar %}
-                    <div><a href="{{baseLink}}/queryGene/gene/{{item.geneID}}">{{ item.geneID }}</a></div>
-                {% endfor %}
-        If not, you can try a <button class="btn btn-success" onclick='window.location.href="{% url 'query' %}/#gene"'>New query</button>
+                {% if similar != "tooLong" %}
+                    Maybe you wanted to search:
+                    {% for item in similar %}
+                        <div><a href="{{baseLink}}/queryGene/gene/{{item.geneID}}">{{ item.geneID }}</a></div>
+                    {% endfor %}
+                    If not, you can try a <button class="btn btn-success" onclick='window.location.href="{% url 'query' %}/#gene"'>New query</button>
+                {% else %}
+                    We have found many results similar to your query (<i>{{geneId}}</i>), please try a more specific one.
+                    <button class="btn btn-success" onclick='window.location.href="{% url 'query' %}/#gene"'>New query</button>
+                {% endif %}
             {% endif %}
         </div>
         
