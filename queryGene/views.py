@@ -51,75 +51,85 @@ class GenesAssociated(TemplateView):
         tLights = []
         topResults = []
         barPlotPromoters = ""
+        countPromoters = ""
         barPlotEnhancers = ""
+        countEnhancers = ""
         barPlotTLights = ""
+        countTLights = ""
         geneCode = ""
         description = ""
 
         if form.is_valid():
             geneId = form.cleaned_data.get('GeneId')
+
+            #GET GENCODE
             try:
                 geneCode = getGencode.getGencodeID(geneId)
             except:
                 pass
+
             #GET PROMOTERS
             promoters = snpsAssociated_FDR_promotersEPD.get_SNPs_Promoters(geneId)
             if promoters:
                 barPlotPromoters = plotPromoters(promoters)
                 countPromoters = len(promoters)
+            
             ##GET ENHANCERS
             enhancers = snpsAssociated_FDR_enhancers.get_Enhancers(geneId)
             if enhancers:
                 barPlotEnhancers = plotEnhancers(enhancers)
                 countEnhancers = len(enhancers)
+            
             ##GET TLIGHTS
             tLights = snpsAssociated_FDR_trafficLights.get_trafficLights(geneId)
             if tLights:
                 barPlotTLights = plotTrafficLights(tLights)
                 countTLights = len(tLights)
+            
             ##GET TOP RESULTS
             topResults = topResultsGenes.get_TopResultsGene(geneId)
             topResultsEdited = []
-            for element in topResults:
-                snpID = getattr(element,'snpID')
-                overlaps = getattr(element,'classElement').replace("E","Enhancer").replace("T","Traffic Lights").replace("P","Promoter").replace(";",", ")
-                score = getattr(element,'score')
-                topResultsEdited.append([snpID,overlaps,score])
+            if topResults:
+                for element in topResults:
+                    snpID = getattr(element,'snpID')
+                    overlaps = getattr(element,'classElement').replace("E","Enhancer").replace("T","Traffic Lights").replace("P","Promoter").replace(";",", ")
+                    score = getattr(element,'score')
+                    topResultsEdited.append([snpID,overlaps,score])
 
-            if geneId is not '':
-                if promoters is None and enhancers==None and tLights==None:
-                    geneInDB = getGeneID.get_Genes(geneId)
-                    if geneInDB!=None:
-                        error = Errors.NOT_ASSOCIATED
-                    else:
-                        error = Errors.NOT_VALID
-                        ##Si no es válido, busco similares
-                        if "*" in geneId:
-                            similar = getGeneID.getSimilar(geneId.replace("*","%"))
-                        else:
-                            similar = getGeneID.getSimilar("%"+geneId+"%")
-                            try:
-                                for i in range(0,len(geneId)):
-                                    groupL = geneId[i]+geneId[i+1]+geneId[i+2]
-                                    try:
-                                        similarG = getGeneID.getSimilar("%"+groupL+"%")
-                                        for element in similarG:
-                                            similar.append(element)
-                                    except:
-                                        continue
-                            except:
-                                pass
-                        if len(similar)>20:
-                            similarV = "tooLong"
-                        elif len(similar)>0:
-                            for element in similar:
-                                similarV.append(getattr(element,"geneID"))
-                            similarV = set(similarV)                        
+            if promoters is None and enhancers==None and tLights==None:
+                geneInDB = getGeneID.get_Genes(geneId)
+                if geneInDB!=None:
+                    error = Errors.NOT_ASSOCIATED
                 else:
-                    try:
-                        description = getattr(genes.get_geneDescription(geneId),"description")
-                    except:
-                        description = ""
+                    error = Errors.NOT_VALID
+                
+                    ##Si no es válido, busco similares
+                    if "*" in geneId:
+                        similar = getGeneID.getSimilar(geneId.replace("*","%"))
+                    else:
+                        similar = getGeneID.getSimilar("%"+geneId+"%")
+                        try:
+                            for i in range(0,len(geneId)):
+                                groupL = geneId[i]+geneId[i+1]+geneId[i+2]
+                                try:
+                                    similarG = getGeneID.getSimilar("%"+groupL+"%")
+                                    for element in similarG:
+                                        similar.append(element)
+                                except:
+                                    continue
+                        except:
+                            pass
+                    if len(similar)>20:
+                        similarV = "tooLong"
+                    elif len(similar)>0:
+                        for element in similar:
+                            similarV.append(getattr(element,"geneID"))
+                        similarV = set(similarV)                        
+            else:
+                try:
+                    description = getattr(genes.get_geneDescription(geneId),"description")
+                except:
+                    description = ""
         else:
             error = Errors.NOT_VALID
             ##Si no es válido, busco similares
@@ -171,67 +181,134 @@ class GenesAssociatedGET(TemplateView):
 
         form = QueryGene()
         error = None
-        promotersAssociated = []
-        enhancersAssociated = []
-        tLightsAssociated = []
+        similarV = []
+
+        baseLink = settings.SUB_SITE
+
+        promoters = []
+        enhancers = []
+        tLights = []
+        topResults = []
+        barPlotPromoters = ""
+        countPromoters = ""
+        barPlotEnhancers = ""
+        countEnhancers = ""
+        barPlotTLights = ""
+        countTLights = ""
+        geneCode = ""
         description = ""
-        gTEX = []
 
-        baseLink = settings.SUB_SITE+"/querySNP/snp/"
-        geneId = gene
-        geneCode = getGencode.getGencodeID(geneId)
+        geneId = gene 
+        
+        if geneId:
+            #GET GENCODE
+            try:
+                geneCode = getGencode.getGencodeID(geneId)
+            except:
+                pass
 
-        ##GET PROMOTERS
-        promotersAssociated = snpsAssociated_FDR_promotersEPD.get_SNPs_Promoters(geneId)
+            #GET PROMOTERS
+            promoters = snpsAssociated_FDR_promotersEPD.get_SNPs_Promoters(geneId)
+            if promoters:
+                barPlotPromoters = plotPromoters(promoters)
+                countPromoters = len(promoters)
+            
+            ##GET ENHANCERS
+            enhancers = snpsAssociated_FDR_enhancers.get_Enhancers(geneId)
+            if enhancers:
+                barPlotEnhancers = plotEnhancers(enhancers)
+                countEnhancers = len(enhancers)
+            
+            ##GET TLIGHTS
+            tLights = snpsAssociated_FDR_trafficLights.get_trafficLights(geneId)
+            if tLights:
+                barPlotTLights = plotTrafficLights(tLights)
+                countTLights = len(tLights)
+            
+            ##GET TOP RESULTS
+            topResults = topResultsGenes.get_TopResultsGene(geneId)
+            topResultsEdited = []
+            if topResults:
+                for element in topResults:
+                    snpID = getattr(element,'snpID')
+                    overlaps = getattr(element,'classElement').replace("E","Enhancer").replace("T","Traffic Lights").replace("P","Promoter").replace(";",", ")
+                    score = getattr(element,'score')
+                    topResultsEdited.append([snpID,overlaps,score])
 
-        ##GET ENHANCERS
-
-        enhancersAssociated = snpsAssociated_FDR_enhancers.get_Enhancers(geneId)
-
-        ##GET TLIGHTS
-
-        tLightsAssociated = snpsAssociated_FDR_trafficLights.get_trafficLights(geneId)
-
-        ##GET TOPRESULTS
-
-        if geneId is not '':
-            #Check if gene is not associated or not in our DB
-            if promotersAssociated is None and enhancersAssociated==None and tLightsAssociated==None:
+            if promoters is None and enhancers==None and tLights==None:
                 geneInDB = getGeneID.get_Genes(geneId)
                 if geneInDB!=None:
                     error = Errors.NOT_ASSOCIATED
                 else:
                     error = Errors.NOT_VALID
+                
+                    ##Si no es válido, busco similares
+                    if "*" in geneId:
+                        similar = getGeneID.getSimilar(geneId.replace("*","%"))
+                    else:
+                        similar = getGeneID.getSimilar("%"+geneId+"%")
+                        try:
+                            for i in range(0,len(geneId)):
+                                groupL = geneId[i]+geneId[i+1]+geneId[i+2]
+                                try:
+                                    similarG = getGeneID.getSimilar("%"+groupL+"%")
+                                    for element in similarG:
+                                        similar.append(element)
+                                except:
+                                    continue
+                        except:
+                            pass
+                    if len(similar)>20:
+                        similarV = "tooLong"
+                    elif len(similar)>0:
+                        for element in similar:
+                            similarV.append(getattr(element,"geneID"))
+                        similarV = set(similarV)                        
             else:
-                #Get Expression
-                expression = requests.get("https://gtexportal.org/rest/v1/expression/geneExpression?datasetId=gtex_v7&gencodeId="+geneCode+"&format=json").json()['geneExpression']
-                gTEX = plotExpression(expression)
-                # Añado a promoters el count
-                if promotersAssociated:
-                    promotersAssociatedNew = []
-                    for gene in promotersAssociated:
-                        chromStart = snpsAssociated_FDR_chrom.get_SNP_chrom(gene[1].snpID).chromStart
-                        info = {
-                            'data': gene[1],
-                            'count': gene[0],
-                            'link': settings.SUB_SITE+"/querySNP/snp/"+gene[1].snpID,
-                            'distance': abs((gene[1].chromStartPromoter)-(chromStart))
-                        }
-                        promotersAssociatedNew.append(info)
-                    promotersAssociated = promotersAssociatedNew
-                #Get description
-                description = getattr(genes.get_geneDescription(geneId),"description")
-
+                try:
+                    description = getattr(genes.get_geneDescription(geneId),"description")
+                except:
+                    description = ""
         else:
             error = Errors.NOT_VALID
+            ##Si no es válido, busco similares
+
+            if "*" in geneId:
+                similar = getGeneID.getSimilar(geneId.replace("*","%"))
+            else:
+                similar = getGeneID.getSimilar("%"+geneId+"%")
+                try:
+                    for i in range(0,len(geneId)):
+                        groupL = geneId[i]+geneId[i+1]+geneId[i+2]
+                        try:
+                            similarG = getGeneID.getSimilar("%"+groupL+"%")
+                            similar.append(similarG)
+                        except:
+                            continue
+                except:
+                    pass
+            if len(similar)>20:
+                similar = "tooLong"
+            elif len(similar)>0:
+                for element in similar:
+                    similarV.append(getattr(element,"geneID"))
+                similarV = set(similarV) 
         return render(request, self.template, {
             'geneId': geneId,
-            'promotersAssociated': promotersAssociated,
-            'enhancersAssociated': enhancersAssociated,
-            'tLightsAssociated': tLightsAssociated,
+            'geneCode': geneCode,
+            'topResults': topResultsEdited,
+            'promoters': promoters,
+            'barPlotPromoters':barPlotPromoters,
+            'countPromoters':countPromoters,
+            'enhancers': enhancers,
+            'barPlotEnhancers':barPlotEnhancers,
+            'countEnhancers':countEnhancers,
+            'tLights': tLights,
+            'barPlotTLights':barPlotTLights,
+            'countTLights':countTLights,
             'description':description,
             'baseLink': baseLink,
-            'gTEX':gTEX,
             'query_form': form,
-            'error': error
+            'error': error,
+            'similar':similarV
         })   
