@@ -24,15 +24,13 @@
                                     <tr>
                                         <th class="titleTable">SNP ID</th>
                                         <th class="titleTable">Num. Associated CpGs in Promoter Region</th>
-                                        <th class="titleTable">Distance Gene - SNP (pb)</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {% for field in promoters %}
                                         <tr>
-                                            <td class="rowTable"><a href="">{{ field.data.snpID}}</a></td>
-                                            <td class="rowTable">{{ field.count}}</td>
-                                            <td class="rowTable">{{ field.distance}}</td>
+                                            <td class="rowTable"><a href="">{{ field.snpID}}</a></td>
+                                            <td class="rowTable">{{ field.numOverlaps}}</td>
                                         </tr>
                                     {% endfor %}
                                 </tbody>

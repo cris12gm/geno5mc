@@ -106,6 +106,7 @@
 <!-- Script for modal -->
 <script>
     $('.ajaxButtonGTEx').on('click', function (e) {
+        $("#modalGTExExpression").html("<img style='display: block;margin: 0 auto;' src='{% static 'images/wait.svg'%}'>")
         $.ajax({
         url: '{% url "ajax_gtex" %}',
         data: {

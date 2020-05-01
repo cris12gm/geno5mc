@@ -10,9 +10,9 @@ def plotPromoters(inputDict):
     yValues = []
     numSamples = 0
     for element in inputDict:
-        xValue = "<a href='"+baseLink+element[1].snpID+"'>"+element[1].snpID+"</a>"
+        xValue = "<a href='"+baseLink+element.snpID+"'>"+element.snpID+"</a>"
         xValues.append(xValue)
-        yValues.append(element[0])
+        yValues.append(element.numOverlaps)
         numSamples = numSamples + 1
     ancho = 100+(numSamples*50)
     layout = go.Layout(width=ancho, height=400,bargap=0.1)

@@ -17,20 +17,15 @@ def createSessionSQL (keyFile):
     return session
 
 class snpsAssociated_FDR_promotersEPD(Base):
-    __tablename__ = "snpsAssociated_FDR_promotersEPD"
+    __tablename__ = "snpsAssociated_FDR_promotersEPD_filtered"
 
-    geneID = sqlalchemy.Column(String(200))
-    chrom = sqlalchemy.Column(String(200))
-    chromStartPromoter = sqlalchemy.Column(Integer)
-    chromEndPromoter = sqlalchemy.Column(Integer)
-    chromStartCpG = sqlalchemy.Column(Integer, primary_key=True)
-    snpID = sqlalchemy.Column(String(200), primary_key=True)
-    promoterID = sqlalchemy.Column(String(200), primary_key=True)
-    description = sqlalchemy.Column(String(500))
+    snpID = sqlalchemy.Column(String(20), primary_key=True)
+    gene = sqlalchemy.Column(String(20), primary_key=True)
+    numOverlaps = sqlalchemy.Column(String(20))
 
     def get_SNPs_Promoters(_id):
         session = createSessionSQL(KEY_snpsAssociated_annotation)
-        data = session.query(func.count(snpsAssociated_FDR_promotersEPD.snpID).label('total'), snpsAssociated_FDR_promotersEPD).filter_by(geneID=_id).group_by(snpsAssociated_FDR_promotersEPD.snpID).order_by(desc('total')).all()
+        data = session.query(snpsAssociated_FDR_promotersEPD).filter_by(gene=_id).order_by(snpsAssociated_FDR_promotersEPD.numOverlaps.desc()).all()
         session.close()
         return data if len(data) > 1 else None
 
@@ -115,3 +110,17 @@ class genes(Base):
         data = session.query(genes).filter_by(geneID=_id).all()
         session.close()
         return data[0] if len(data)>0 else None
+
+class topResultsGenes(Base):
+    __tablename__ = "snpsAssociated_FDR_topResultsGene"
+
+    geneID = sqlalchemy.Column(String(100),primary_key=True)
+    snpID = sqlalchemy.Column(String(100),primary_key=True)
+    classElement = sqlalchemy.Column(String(10))
+    score = sqlalchemy.Column(Integer)
+
+    def get_TopResultsGene(_id):
+        session = createSessionSQL(KEY_snpsAssociated_annotation)
+        data = session.query(topResultsGenes).filter_by(geneID=_id).order_by(topResultsGenes.score.desc()).all()
+        session.close()
+        return data if len(data)>0 else None

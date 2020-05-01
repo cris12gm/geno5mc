@@ -59,6 +59,9 @@ $(document).ready(function() {
     "order":[[5,"desc"]]
   });
   // QueryGene
+  $('#dataTableSNPsTopResults').DataTable({
+    "order":[[2,"desc"]]
+  });
   $('#dataTableSNPsPromoter').DataTable({
     "order":[[1,"desc"]]
   });
