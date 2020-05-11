@@ -120,11 +120,14 @@ class GenesAssociated(TemplateView):
                         except:
                             pass
                     if len(similar)>20:
-                        similarV = "tooLong"
-                    elif len(similar)>0:
+                        similar = getGeneID.getSimilar(geneId+"%")
+
+                    if len(similar)>0 and len(similar)<30:
                         for element in similar:
                             similarV.append(getattr(element,"geneID"))
-                        similarV = set(similarV)                        
+                        similarV = set(similarV)
+                    else:
+                        similarV = "tooLong"
             else:
                 try:
                     description = getattr(genes.get_geneDescription(geneId),"description")
@@ -148,12 +151,15 @@ class GenesAssociated(TemplateView):
                             continue
                 except:
                     pass
-            if len(similar)>20:
-                similar = "tooLong"
-            elif len(similar)>0:
-                for element in similar:
-                    similarV.append(getattr(element,"geneID"))
-                similarV = set(similarV) 
+                if len(similar)>20:
+                    similar = getGeneID.getSimilar(geneId+"%")
+
+                if len(similar)>0 and len(similar)<30:
+                    for element in similar:
+                        similarV.append(getattr(element,"geneID"))
+                        similarV = set(similarV)
+                else:
+                    similarV = "tooLong"
         return render(request, self.template, {
             'geneId': geneId,
             'geneCode': geneCode,
@@ -259,11 +265,14 @@ class GenesAssociatedGET(TemplateView):
                         except:
                             pass
                     if len(similar)>20:
-                        similarV = "tooLong"
-                    elif len(similar)>0:
+                        similar = getGeneID.getSimilar(geneId+"%")
+
+                    if len(similar)>0 and len(similar)<30:
                         for element in similar:
                             similarV.append(getattr(element,"geneID"))
-                        similarV = set(similarV)                        
+                        similarV = set(similarV)
+                    else:
+                        similarV = "tooLong"                     
             else:
                 try:
                     description = getattr(genes.get_geneDescription(geneId),"description")
