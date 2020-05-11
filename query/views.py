@@ -38,3 +38,23 @@ class SNPAssociatedQuery(TemplateView):
             'traits':traitsList
         })
     
+class SNPAssociatedQueryTour(TemplateView):
+    template = 'tour_1.html'
+
+    def get(self, request):  
+        formSNP = QuerySNP()
+        formGene = QueryGene()
+
+        traits = PhenotypeGenotypeTraits.get_All_Traits()
+        traitsList = []
+
+        for element in traits:
+            trait = getattr(element,"trait")
+            traitsList.append(trait)
+
+        return render(request, self.template, {
+            'formSNP':formSNP,
+            'formGene':formGene,
+            'traits':traitsList
+        })
+    
