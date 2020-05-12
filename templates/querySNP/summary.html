@@ -1,14 +1,33 @@
 <div class="card mb-3" >             
     <div class="card-body">
-        <div id="infoSNP">
-            <h2><a href="https://www.ncbi.nlm.nih.gov/snp/{{snpInfo.snpID}}" target="_blank">{{snpInfo.snpID}}</a></h2>
-            <b>Position:</b> {{ snpInfo.chrom }}:{{ snpInfo.chromStart }}
-            <br>
-            <b>Reference Allele: </b> {{ snpInfo.reference }}
-            <br>
-            <b>Alternative Allele: </b> {{ snpInfo.alternative }}
-            <br><hr>
-            <a href='{{ linkFileAssociations }}' download><button class="btn btn-success btn-sm">Download all associations</button></a>
+        <div class="row" id="infoSNP">
+            <div class="col-10">
+                <h2><a href="https://www.ncbi.nlm.nih.gov/snp/{{snpInfo.snpID}}" target="_blank">{{snpInfo.snpID}}</a></h2>
+                <b>Position:</b> {{ snpInfo.chrom }}:{{ snpInfo.chromStart }}
+                <br>
+                <b>Reference Allele: </b> {{ snpInfo.reference }}
+                <br>
+                <b>Alternative Allele: </b> {{ snpInfo.alternative }}
+                <br>
+                <a href='{{ linkFileAssociations }}' download><button class="btn btn-success btn-sm">Download all associations</button></a>
+            </div>
+            <div class="col-2">
+                {% if traits %}
+                    <div class="card">
+                        <div class="card-header">
+                            <b>Related Traits</b>
+                        </div>
+                        <div class="card-body">
+
+                            <ul class="list-group">
+                                {% for trait in traits %}
+                                <li class="list-group-item">{{ trait.trait }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
         </div>
         {% if topResultPromoter or topResultEnhancer %}
         <div id="topResults">

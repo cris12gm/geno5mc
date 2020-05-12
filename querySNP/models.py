@@ -186,3 +186,15 @@ class enhancers(Base):
         session.close()
         return data[0] if len(data)>0 else None
 
+class PhenotypeGenotypeFDR(Base):
+    __tablename__ = "PheGenI_FDR"
+
+    snpID = sqlalchemy.Column(String(30), primary_key=True)
+    trait = sqlalchemy.Column(String(100), primary_key=True)
+    
+    def get_SNP_Trait(_id):
+        session = createSessionSQL(KEY_snpsAssociated_annotation)
+        data = session.query(PhenotypeGenotypeFDR).filter_by(snpID=_id).all()
+        session.close()
+        return data if len(data) > 0 else None
+
