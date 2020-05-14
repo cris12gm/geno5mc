@@ -1,0 +1,36 @@
+<!-- Modal -->
+<div class="modal fade" id="modalPromoter" tabindex="-1" role="dialog" aria-labelledby="modalLabelPromoter" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <div class="modal-title">
+            test2
+          </div>
+        </div>
+        <div class="modal-body modalPromoterBody">
+          <div class="row">
+            <div class="col-lg-3">
+              <div class="form-group">
+                <label >Select promoter:</label>
+                <select class="form-control" id="promoterIDs">
+                  {% for promoter in promoterIDs %}
+                    <option> {{ promoter.promoterID }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-12">
+              <div id="modalPromoterPlot">
+              </div>
+            </div>
+          </div>
+          
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+</div>

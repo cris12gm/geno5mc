@@ -12,10 +12,10 @@ from django.urls import reverse_lazy
 import requests
 
 from queryGene.plotExpression import plotExpression
-from queryGene.plotElements import plotPromoters, plotEnhancers, plotTrafficLights
+from queryGene.plotElements import plotEnhancers, plotTrafficLights, plotPromoter
 
 from .forms import QueryGene
-from .models import snpsAssociated_FDR_promotersEPD, snpsAssociated_FDR_chrom, getGeneID, snpsAssociated_FDR_enhancers, snpsAssociated_FDR_trafficLights, getGencode,genes,topResultsGenes
+from .models import snpsAssociated_FDR_promotersEPD, snpsAssociated_FDR_chrom, getGeneID, snpsAssociated_FDR_enhancers, snpsAssociated_FDR_trafficLights, getGencode,genes,topResultsGenes,getMethylation
 
 class Errors(Enum):
     NO_ERROR = 0
@@ -31,6 +31,17 @@ def queryExpression(request):
     dataGen["plot"]=gTEX
 
     return JsonResponse(dataGen)
+
+def queryPlotPromoter(request):
+    dataPlot = {}
+
+    promoterID = request.GET.get('promoterID', None)
+
+    plot = plotPromoter(promoterID)
+    
+    dataPlot['plot']=plot
+
+    return JsonResponse(dataPlot)
 
 class GenesAssociated(TemplateView):
     template = 'queryGene.html'
@@ -52,6 +63,7 @@ class GenesAssociated(TemplateView):
         topResults = []
         barPlotPromoters = ""
         countPromoters = ""
+        methylationPromoter = ""
         barPlotEnhancers = ""
         countEnhancers = ""
         barPlotTLights = ""
@@ -70,10 +82,12 @@ class GenesAssociated(TemplateView):
 
             #GET PROMOTERS
             promoters = snpsAssociated_FDR_promotersEPD.get_SNPs_Promoters(geneId)
-            if promoters:
-                barPlotPromoters = plotPromoters(promoters)
-                countPromoters = len(promoters)
+            promoterIDs = snpsAssociated_FDR_promotersEPD.get_Promoters_Gene(geneId)
             
+            #if promoters:
+                #barPlotPromoters = plotPromoters(promoters)
+                #countPromoters = len(promoters)
+                #methylationPromoter = plotMeth("promoter",promoters)            
             ##GET ENHANCERS
             enhancers = snpsAssociated_FDR_enhancers.get_Enhancers(geneId)
             if enhancers:
@@ -165,8 +179,10 @@ class GenesAssociated(TemplateView):
             'geneCode': geneCode,
             'topResults': topResultsEdited,
             'promoters': promoters,
+            'promoterIDs':promoterIDs,
             'barPlotPromoters':barPlotPromoters,
             'countPromoters':countPromoters,
+            'methylationPromoter':methylationPromoter,
             'enhancers': enhancers,
             'barPlotEnhancers':barPlotEnhancers,
             'countEnhancers':countEnhancers,

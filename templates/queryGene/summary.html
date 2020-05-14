@@ -25,54 +25,18 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-5 mt-3">
-                <div class="card">
+            <div class = "col-12">
+                <div class="card mt-3">
                     <div class="card-body">
-                        {% if countPromoters %}
-                            <p><i class="fas fa-circle fa-xs iconoTR"></i> {{ countPromoters }} SNPs have CpG Associated in the Promoter of {{ geneId }}</p>
-                        {% endif %}
-                        {% if countEnhancers %}
-                            <p><i class="fas fa-circle fa-xs iconoTR"></i> {{ countEnhancers }} SNPs have CpG Associated in the Enhancers of {{ geneId }}</p>
-                        {% endif %}
-                        {% if countTLights %}
-                            <p><i class="fas fa-circle fa-xs iconoTR"></i> {{ countTLights }} SNPs have CpG Associated that are Traffic Lights of {{ geneId }}</p>
-                        {% endif %}
+                        <div style="overflow-x: auto;">
+                            <a class="ajaxButtonPromoter" id="buttonPlot{{ geneId }}" data-toggle="modal" data-target="#modalPromoter">
+                                <button class="btn btn-info btn-sm buttonPromoter">View methylation</button>
+                            </a>
+                            {% include "queryGene/modalPromoterPlot.html" %}
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-        {% if topResults %}
-            <div class="row">
-                <div id="topResults" class="col-12">
-                    <div class="card">
-                        <div class="card-header" id="headingTopResults">
-                            <h5 id="titleTopResultsGene"> TOP RESULTS </h5>
-                        </div>
-                        <div class="card-body">
-                            <div class="table-responsive tableResult">
-                                <table class="table table-bordered" id="dataTableSNPsTopResults" width="100%" cellspacing="0">
-                                    <thead>
-                                        <tr>
-                                            <th class="titleTable">SNP ID</th>
-                                            <th class="titleTable">Elements of the Gene that are associated</th>
-                                            <th class="titleTable">Score</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {% for field in topResults %}
-                                            <tr>
-                                                <td class="rowTable"><a href="{{ baseLink }}/querySNP/snp/{{ field.0 }}">{{ field.0}}</a></td>
-                                                <td class="rowTable">{{ field.1}}</td>
-                                                <td class="rowTable">{{ field.2}}</td>
-                                            </tr>
-                                        {% endfor %}
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>      
-        {% endif %}         
     </div>
 </div>

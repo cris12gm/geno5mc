@@ -1,0 +1,78 @@
+<div class="card mb-3">             
+    <div class="card-body">
+        <div class="row">
+            <div class="col-10">
+                <h2>{{geneId}}</h2>
+                {% if description %}
+                    <div style="text-transform: capitalize;">{{ description }}</div>           
+                {% endif %}
+            </div>
+            <div class="col-2">
+                {% if geneCode %}
+                <div class="row justify-content-center mb-2">
+                    <a class="ajaxButtonGTEx" href="#" id="buttonGTEx{{ geneCode }}" data-toggle="modal" data-target="#modalGTEx">                                                        
+                        <button class="btn btn-info btn-sm buttonGTEX">View expression on GTEx</button>
+                    </a>
+                    {% include "queryGene/modalGTEx.html" %}
+                </div>
+                {% endif %}
+                <div class="row justify-content-center">
+                    {% if geneCode %}
+                        <button class="btn btn-info btn-sm mx-1" onclick='window.open("https://www.ensembl.org/Homo_sapiens/Gene/Summary?g={{ geneCode}}","_blank")'>Ensembl</button>
+                    {% endif %}
+                    <button class="btn btn-info btn-sm mx-1" onclick='window.open("https://www.genecards.org/cgi-bin/carddisp.pl?gene={{ geneId}}","_blank")'>Gene Card</button>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-5 mt-3">
+                <div class="card">
+                    <div class="card-body">
+                        {% if countPromoters %}
+                            <p><i class="fas fa-circle fa-xs iconoTR"></i> {{ countPromoters }} SNPs have CpG Associated in the Promoter of {{ geneId }}</p>
+                        {% endif %}
+                        {% if countEnhancers %}
+                            <p><i class="fas fa-circle fa-xs iconoTR"></i> {{ countEnhancers }} SNPs have CpG Associated in the Enhancers of {{ geneId }}</p>
+                        {% endif %}
+                        {% if countTLights %}
+                            <p><i class="fas fa-circle fa-xs iconoTR"></i> {{ countTLights }} SNPs have CpG Associated that are Traffic Lights of {{ geneId }}</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% if topResults %}
+            <div class="row">
+                <div id="topResults" class="col-12">
+                    <div class="card">
+                        <div class="card-header" id="headingTopResults">
+                            <h5 id="titleTopResultsGene"> TOP RESULTS </h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive tableResult">
+                                <table class="table table-bordered" id="dataTableSNPsTopResults" width="100%" cellspacing="0">
+                                    <thead>
+                                        <tr>
+                                            <th class="titleTable">SNP ID</th>
+                                            <th class="titleTable">Elements of the Gene that are associated</th>
+                                            <th class="titleTable">Score</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for field in topResults %}
+                                            <tr>
+                                                <td class="rowTable"><a href="{{ baseLink }}/querySNP/snp/{{ field.0 }}">{{ field.0}}</a></td>
+                                                <td class="rowTable">{{ field.1}}</td>
+                                                <td class="rowTable">{{ field.2}}</td>
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>      
+        {% endif %}         
+    </div>
+</div>

@@ -119,6 +119,32 @@
         });
     });
 </script>
+<script>
+    
+    var plotPromoter = function(e) {
+        $("#modalPromoterPlot").html("<img style='display: block;margin: 0 auto;' src='{% static 'images/wait.svg'%}'>");  
+        $.ajax({
+                url: '{% url "ajax_promoter" %}',
+                data: {
+                    "promoterID" : $("#promoterIDs").val(),
+                },
+                dataType: 'json',
+                success: function (data) {
+                    $("#modalPromoterPlot").html(data.plot);
+                }
+            });
+    }
+
+    $('.ajaxButtonPromoter').on('click', function (e) {
+        plotPromoter();
+    });
+
+
+    $('#promoterIDs').on('change', function (e) {  
+       plotPromoter();
+    });
+</script>
+
 
 <script src="{% static 'js/demo/datatables-demo.js'%}"></script>
 <script src="{% static 'vendor/datatables/jquery.dataTables.js'%}"></script>
