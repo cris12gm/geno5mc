@@ -81,45 +81,36 @@ class GenesAssociated(TemplateView):
                 pass
 
             #GET PROMOTERS
-
-            promoterIDs = snpsAssociated_FDR_promotersEPD.get_Promoters_Gene(geneId)
-            countPromoters = len(promoterIDs)
-            
             promoters = snpsAssociated_FDR_promotersEPD.get_SNPs_Promoters(geneId)
+            promoterIDs = snpsAssociated_FDR_promotersEPD.get_Promoters_Gene(geneId)
             
-            ##Proceso promotores
-
-            promotersOut = {}
-            for element in promoters:
-                cpg = element.chromStartCpG
-                snpID = element.snpID
-                promoterID = element.promoterID
-                try:
-                    snps = promotersOut[promoterID,cpg]
-                    snps = snps+", "+snpID
-                except:
-                    snps = snpID
-                
-                promotersOut[promoterID,cpg] = snps
+            #if promoters:
+                #barPlotPromoters = plotPromoters(promoters)
+                #countPromoters = len(promoters)
+                #methylationPromoter = plotMeth("promoter",promoters)            
+            ##GET ENHANCERS
+            # enhancers = snpsAssociated_FDR_enhancers.get_Enhancers(geneId)
+            # if enhancers:
+            #     barPlotEnhancers = plotEnhancers(enhancers)
+            #     countEnhancers = len(enhancers)
             
-
             ##GET TLIGHTS
-            # tLights = snpsAssociated_FDR_trafficLights.get_trafficLights(geneId)
-            # # if tLights:
-            #     barPlotTLights = plotTrafficLights(tLights)
-            #     countTLights = len(tLights)
+            tLights = snpsAssociated_FDR_trafficLights.get_trafficLights(geneId)
+            if tLights:
+                barPlotTLights = plotTrafficLights(tLights)
+                countTLights = len(tLights)
             
             ##GET TOP RESULTS
             # topResults = topResultsGenes.get_TopResultsGene(geneId)
             # topResultsEdited = []
             # if topResults:
-                # for element in topResults:
-                #     snpID = getattr(element,'snpID')
-                #     overlaps = getattr(element,'classElement').replace("E","Enhancer").replace("T","Traffic Lights").replace("P","Promoter").replace(";",", ")
-                #     score = getattr(element,'score')
-                #     topResultsEdited.append([snpID,overlaps,score])
+                for element in topResults:
+                    snpID = getattr(element,'snpID')
+                    overlaps = getattr(element,'classElement').replace("E","Enhancer").replace("T","Traffic Lights").replace("P","Promoter").replace(";",", ")
+                    score = getattr(element,'score')
+                    topResultsEdited.append([snpID,overlaps,score])
 
-            if promoters is None and tLights==None:
+            if promoters is None and enhancers==None and tLights==None:
                 geneInDB = getGeneID.get_Genes(geneId)
                 if geneInDB!=None:
                     error = Errors.NOT_ASSOCIATED
@@ -188,7 +179,14 @@ class GenesAssociated(TemplateView):
             'geneCode': geneCode,
             'promoterIDs':promoterIDs,
             'countPromoters':countPromoters,
-            'promoters': promotersOut,
+            # 'topResults': topResultsEdited,
+            'promoters': promoters,
+            'barPlotPromoters':barPlotPromoters,
+            'countPromoters':countPromoters,
+            'methylationPromoter':methylationPromoter,
+            # 'enhancers': enhancers,
+            # 'barPlotEnhancers':barPlotEnhancers,
+            # 'countEnhancers':countEnhancers,
             'tLights': tLights,
             'barPlotTLights':barPlotTLights,
             'countTLights':countTLights,

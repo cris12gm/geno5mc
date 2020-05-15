@@ -1,9 +1,58 @@
 {% load staticfiles %}
+<div id="promoters">
 
-<div class="card mb-3">
-    <div class="card-body">
+    <h2 class="ml-3">Promoter</h2>
+
+    <div id="contentPromoters" class="ml-5">
+        <div>
+            The gene {{ geneId }} has {{ countPromoters }} promoters:
+            <ul class="list mt-2 mb-2">
+            {% for prom in promoterIDs %}
+                <li class="list item"><b>{{ prom.promoterID }}</b>  ({{ prom.chrom }}:{{ prom.chromStartPromoter }}-{{ prom.chromEndPromoter }})</li>
+            {% endfor %}
+            </ul>
+        </div>
         
-        <button class="btn btn-info">See promoter methylation</button>
+        <div style="overflow-x: auto;">
+            <a class="ajaxButtonPromoter" id="buttonPlot{{ geneId }}" data-toggle="modal" data-target="#modalPromoter">
+                <button class="btn btn-info btn-sm buttonPromoter">View promoters methylation</button>
+            </a>
+            {% include "queryGene/modalPromoterPlot.html" %}
+        </div>        
+        
+        <div id="resultsByCpG" class="mt-5">
+            <div class="card">
+                <div class="card-header">
+                    <b>Associated CpGs in the promoters of {{ geneId }} </b>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive tableResult">
+                        <table class="table table-bordered" id="dataTableSNPsPromoter" width="100%" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <th class="titleTable">Promoter ID</th>
+                                    <th class="titleTable">chromStart CpG</th>
+                                    <th class="titleTable">SNPs</th>
+                                    
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for key,value in promoters.items %}
+                                    <tr>
+                                        <td class="rowTable">{{ key.0 }}</td>
+                                        <td class="rowTable">{{ key.1 }}</td>
+                                        <td class="rowTable">{{ value }}</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
     </div>
+    
 </div>
+
 
