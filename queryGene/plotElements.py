@@ -23,7 +23,7 @@ def plotEnhancers(inputDict):
     
     layout = go.Layout(width=ancho,height=400,bargap=0.1)
     fig = go.Figure(data=[
-        go.Bar(name='Enhancers with CpG associated', x=xValues, y=yValues, marker_color='rgb(55, 83, 109)')],layout=layout)
+        go.Bar(name='Associated CpGs in Enhancers', x=xValues, y=yValues, marker_color='rgb(55, 83, 109)')],layout=layout)
     fig.update_layout(xaxis_tickangle=-45 ,xaxis_tickfont_size=12)
     fig.update_yaxes(title_text='<b>Count CpGs</b>')
 
@@ -47,7 +47,7 @@ def plotTrafficLights(inputDict):
 
     layout = go.Layout(width=ancho,height=400,bargap=0.1)
     fig = go.Figure(data=[
-        go.Bar(name='Genes with CpG associated that are Traffic Lights', x=xValues, y=yValues, marker_color='rgb(55, 83, 109)')],layout=layout)
+        go.Bar(name='Genes with Associated CpGs that are Traffic Lights', x=xValues, y=yValues, marker_color='rgb(55, 83, 109)')],layout=layout)
     fig.update_layout(barmode='group', xaxis_tickangle=-45, xaxis_tickfont_size=12)
     fig.update_yaxes(title_text='<b>Count CpGs</b>')
 

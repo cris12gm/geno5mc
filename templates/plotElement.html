@@ -10,13 +10,13 @@
     <div class="row justify-content-center">
         <div class="titlePlot">
             {% if element == 'promoter' %}
-                <h2>Methylation of CpGs Associated in the promoter of <b>{{ name }}</b>
+                <h2>Methylation of Associated CpGs in the promoter of <b>{{ name }}</b>
                     <span class="description_tooltip" title="{{ description }}"><i class="fas fa-xs fa-info-circle"></i></span>
                 </h2>
             {% elif element == 'tLight' %}
-                <h2>Methylation of CpGs Associated that are TLs of <b>{{ name }}</b>
+                <h2>Methylation of Associated CpGs that are TLs of <b>{{ name }}</b>
             {% elif element == 'enhancer' %}
-                <h2>Methylation of CpGs Associated in <b>{{ name }}</b>
+                <h2>Methylation of Associated CpGs in <b>{{ name }}</b>
             {% endif %}
         </div>
     </div>
