@@ -83,24 +83,25 @@ class GenesAssociated(TemplateView):
             #GET PROMOTERS
 
             promoterIDs = snpsAssociated_FDR_promotersEPD.get_Promoters_Gene(geneId)
-            countPromoters = len(promoterIDs)
+            if promoterIDs:
+                countPromoters = len(promoterIDs)
             
             promoters = snpsAssociated_FDR_promotersEPD.get_SNPs_Promoters(geneId)
             
             ##Proceso promotores
-
-            promotersOut = {}
-            for element in promoters:
-                cpg = element.chromStartCpG
-                snpID = element.snpID
-                promoterID = element.promoterID
-                try:
-                    snps = promotersOut[promoterID,cpg]
-                    snps = snps+", "+snpID
-                except:
-                    snps = snpID
-                
-                promotersOut[promoterID,cpg] = snps
+            if promoters:
+                promotersOut = {}
+                for element in promoters:
+                    cpg = element.chromStartCpG
+                    snpID = element.snpID
+                    promoterID = element.promoterID
+                    try:
+                        snps = promotersOut[promoterID,cpg]
+                        snps = snps+", "+snpID
+                    except:
+                        snps = snpID
+                    
+                    promotersOut[promoterID,cpg] = snps
             
 
             ##GET TLIGHTS

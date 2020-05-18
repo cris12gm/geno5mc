@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block css %}
+<link href="{% static 'css/customStyles/stylesResults.css'%}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<div id="page-wrapper" class="resultsPage">
+    {% if error %}
+        {% include "queryRegion/error.html" %}
+    {% endif %}
+    
+    {%if not error %}
+    <div class="menu-hide">
+        <div class="card mb-3">
+            <div class="card-body">
+                <div class="row ml-2">
+                    <h2>{{ region }}</h2>
+                </div>
+                <div class="row ml-2">
+                    <div style="overflow-x: auto;">
+                        <a class="ajaxButtonRegion" id="buttonPlot{{ region }}" data-toggle="modal" data-target="#modalRegionPlot">
+                            <button class="btn btn-info btn-sm buttonRegion">View region methylation</button>
+                        </a>
+                        {% include "queryRegion/modalRegionPlot.html" %}
+                    </div>
+                </div>
+                <div class="row ml-2 mt-5" id="resultsByCpG">
+                    <div class="card">
+                        <div class="card-header">
+                            <b>Associated CpGs in the region</b>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive tableResult">
+                                <table class="table table-bordered" id="dataTableSNPsPromoter" width="100%" cellspacing="0">
+                                    <thead>
+                                        <tr>
+                                            <th class="titleTable">chromStart CpG</th>
+                                            <th class="titleTable">SNPs</th>
+                                            
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for key,value in associations.items %}
+                                            <tr>
+                                                <td class="rowTable">{{ key }}</td>
+                                                <td class="rowTable">
+                                                    {{ value.0 }}
+                                                    {% if value.2 > 5 %}
+                                                        ,...
+                                                        <a class="ajaxButtonRegionSNP" id="buttonSNP_{{ value.1 }}" data-toggle="modal" data-target="#modalRegionSNP">
+                                                            <button class="btn btn-info btn-sm buttonRegion">View more</button>
+                                                        </a>
+                                                        {% include "queryRegion/modalRegionSNP.html" %}
+                                                    {% endif %}
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>  
+            </div>
+        </div>
+    </div>
+    {% endif %}
+    
+
+</div>
+{% endblock %}
+{% block js %}
+
+<!-- Script for modal of View More -->
+<script>
+    $('.ajaxButtonRegionSNP').on('click', function (e) {
+        $.ajax({
+        url: '{% url "ajax_regionViewMore" %}',
+        data: {
+            "snps" : this.id
+        },
+        dataType: 'json',
+        success: function (data) {
+            $("#modalRegionSNP-content").html(data.snps);
+        }
+        });
+    });
+</script>
+
+<!-- Script for modal of View Methylation -->
+
+<script>
+    $('.ajaxButtonRegion').on('click', function (e) {
+        $.ajax({
+        url: '{% url "ajax_ButtonRegion" %}',
+        data: {
+            "region" : this.id,
+            "associated" : "{{ associations }}"
+        },
+        dataType: 'json',
+        success: function (data) {
+            $("#modalRegionPlot-content").html(data.plot);
+        }
+        });
+    });
+</script>
+{% endblock %}

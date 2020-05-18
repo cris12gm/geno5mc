@@ -1,0 +1,15 @@
+{% load errorGestionRegion %}
+<div class="card mb-3">   
+    <div class="card-header">
+        <b>Important info</b>
+    </div>            
+    <div class="card-body">
+        <div id="errorGestion">
+            {{ error | errorGestionRegion}}
+        </div>
+        <div id="yourQuery" class="mt-2 mb-2">
+            <b>Your Query: </b>{{ region }}
+        </div>
+        <button class="btn btn-success" onclick='window.location.href="{% url 'query' %}/#region"'>New query</button>
+    </div>
+</div>
