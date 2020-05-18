@@ -75,6 +75,6 @@ $(document).ready(function() {
   $('#dataTableQueryTrait').DataTable({});
   // QueryRegion
   $('#dataTableRegion').DataTable({
-    "order":[[0,"desc"]]
+    "order":[[0,"asc"]]
   });
 }); 
