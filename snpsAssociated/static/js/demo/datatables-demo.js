@@ -73,4 +73,8 @@ $(document).ready(function() {
   });
   // QueryTrait
   $('#dataTableQueryTrait').DataTable({});
+  // QueryRegion
+  $('#dataTableRegion').DataTable({
+    "order":[[0,"desc"]]
+  });
 }); 
