@@ -97,7 +97,7 @@
         url: '{% url "ajax_ButtonRegion" %}',
         data: {
             "region" : this.id,
-            "associated" : "{{ associations }}"
+            "associated" : "{{ cpgs }}"
         },
         dataType: 'json',
         success: function (data) {

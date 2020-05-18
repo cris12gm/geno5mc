@@ -30,11 +30,10 @@ def queryPlotMeth(request):
     dataOut = {}
 
     region = request.GET.get('region',None).replace("buttonPlot","").replace(" ","-")
-    associated = request.GET.get('associated',None)
-    print (associated)
-    plot = plotRegion(region)
+    associated = eval(request.GET.get('associated',None))
+    plot = plotRegion(region,associated)
 
-    dataOut['plot']="test"
+    dataOut['plot']="<center>"+plot+"</center>"
     return JsonResponse(dataOut)
 
 class RegionAssociated(TemplateView):
@@ -47,6 +46,7 @@ class RegionAssociated(TemplateView):
     def post(self, request):
         
         region = ""
+        cpgs = []
         error = ""
         associations = {}
 
@@ -67,6 +67,7 @@ class RegionAssociated(TemplateView):
             associationsRaw = snpsAssociated_FDR_chr_table(chrom).get_Associated_Region(chromStart,chromEnd)
             for element in associationsRaw:
                 cpg = element.chromStart
+                cpgs.append(cpg)
                 try:
                     snps,allsnps,button = associations[cpg]
                      
@@ -80,8 +81,10 @@ class RegionAssociated(TemplateView):
                     allsnps = element.snpID
                     button = 1
                 associations[cpg] = snps,allsnps,button
+            cpgs = set(cpgs)
         return render(request, self.template, {
             'region':region,
             'associations':associations,
+            'cpgs':cpgs,
             'error':error
         })   

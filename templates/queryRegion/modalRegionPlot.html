@@ -1,6 +1,7 @@
+{% load staticfiles %}
 <!-- Modal -->
 <div class="modal fade" id="modalRegionPlot" tabindex="-1" role="dialog" aria-labelledby="modalLabelRegionPlot" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-dialog modal-xl" role="document">
       <div class="modal-content">
         <div class="modal-header">
           <div class="modal-title">
@@ -9,6 +10,7 @@
         </div>
         <div class="modal-body">
           <div id="modalRegionPlot-content">
+            <img style='display: block;margin: 0 auto;' src='{% static 'images/wait.svg'%}'>
           </div>
         </div>
         <div class="modal-footer">
