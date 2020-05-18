@@ -58,7 +58,7 @@ class RegionAssociated(TemplateView):
         region = chrom+" "+chromStart+"-"+chromEnd
         ###Check length
 
-        if length>1000:
+        if length>10000:
             error = Errors.VERY_LONG
         elif int(chromEnd)<int(chromStart):
             error = Errors.START_END
