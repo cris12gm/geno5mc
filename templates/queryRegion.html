@@ -21,7 +21,7 @@
                 <div class="row ml-2">
                     <div style="overflow-x: auto;">
                         <a class="ajaxButtonRegion" id="buttonPlot{{ region }}" data-toggle="modal" data-target="#modalRegionPlot">
-                            <button class="btn btn-info btn-sm buttonRegion">View region methylation</button>
+                            <button class="btn btn-success btn-sm buttonRegion">View region methylation</button>
                         </a>
                         {% include "queryRegion/modalRegionPlot.html" %}
                     </div>
@@ -50,7 +50,7 @@
                                                     {% if value.2 > 5 %}
                                                         ,...
                                                         <a class="ajaxButtonRegionSNP" id="buttonSNP_{{ value.1 }}" data-toggle="modal" data-target="#modalRegionSNP">
-                                                            <button class="btn btn-info btn-sm buttonRegion">View more</button>
+                                                            <button class="btn btn-success btn-sm buttonRegion">View more</button>
                                                         </a>
                                                         {% include "queryRegion/modalRegionSNP.html" %}
                                                     {% endif %}

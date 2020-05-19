@@ -54,3 +54,20 @@
 #topNav {
   height: 50px;
 }
+
+
+/* Color Styles */
+
+.bg-dark {
+  background-color: #293241 !important;
+}
+
+.bg-light {
+  background-color: #FEFAFD !important;
+}
+
+a.bg-light:hover, a.bg-light:focus,
+button.bg-light:hover,
+button.bg-light:focus {
+  background-color: #E5E1E4 !important;
+}
