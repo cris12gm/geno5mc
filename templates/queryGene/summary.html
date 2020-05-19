@@ -26,22 +26,35 @@
         </div>
         <div class="row">
             <ul class="nav nav-pills mb-3 mt-3 ml-2" id="pills-tab" role="tablist">
+                {% if promoters %}
                 <li class="nav-item">
                     <a class="nav-link active" id="pills-promoter-tab" data-toggle="pill" href="#pills-promoter" role="tab" aria-controls="pills-promoter" aria-selected="true">Promoter</a>
                 </li>
+                {% endif %}
+                {% if tLights and promoters%}
                 <li class="nav-item">
                     <a class="nav-link" id="pills-tlights-tab" data-toggle="pill" href="#pills-tlights" role="tab" aria-controls="pills-tlights" aria-selected="false">Traffic Lights</a>
                 </li>
+                {% endif %}
+                {% if tLights and not promoters %}
+                <li class="nav-item">
+                    <a class="nav-link active" id="pills-tlights-tab" data-toggle="pill" href="#pills-tlights" role="tab" aria-controls="pills-tlights" aria-selected="false">Traffic Lights</a>
+                </li>
+                {% endif %}
             </ul>
         </div>
         <div class="row">
             <div class="tab-content" id="pills-tabContent">
+                {% if promoters %}
                 <div class="tab-pane fade show active" id="pills-promoter" role="tabpanel" aria-labelledby="pills-promoter-tab">
                     {% include "queryGene/promoters.html" %}
                 </div>
+                {% endif %}
+                {% if tLights %}
                 <div class="tab-pane fade" id="pills-tlights" role="tabpanel" aria-labelledby="pills-tlights-tab">
                     {% include "queryGene/trafficLights.html" %}
                 </div>
+                {% endif %}
             </div>
         </div>
     </div>

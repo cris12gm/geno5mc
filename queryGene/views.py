@@ -57,7 +57,7 @@ class GenesAssociated(TemplateView):
 
         baseLink = settings.SUB_SITE
 
-        promoters = []
+        promotersOut = []
         enhancers = []
         tLights = []
         topResults = []
@@ -105,20 +105,11 @@ class GenesAssociated(TemplateView):
             
 
             ##GET TLIGHTS
-            # tLights = snpsAssociated_FDR_trafficLights.get_trafficLights(geneId)
+            tLights = snpsAssociated_FDR_trafficLights.get_trafficLights(geneId)
             # # if tLights:
             #     barPlotTLights = plotTrafficLights(tLights)
             #     countTLights = len(tLights)
             
-            ##GET TOP RESULTS
-            # topResults = topResultsGenes.get_TopResultsGene(geneId)
-            # topResultsEdited = []
-            # if topResults:
-                # for element in topResults:
-                #     snpID = getattr(element,'snpID')
-                #     overlaps = getattr(element,'classElement').replace("E","Enhancer").replace("T","Traffic Lights").replace("P","Promoter").replace(";",", ")
-                #     score = getattr(element,'score')
-                #     topResultsEdited.append([snpID,overlaps,score])
 
             if promoters is None and tLights==None:
                 geneInDB = getGeneID.get_Genes(geneId)
