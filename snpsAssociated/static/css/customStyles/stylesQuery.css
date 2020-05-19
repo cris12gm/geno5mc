@@ -18,6 +18,14 @@
     text-align:center;
 }
 
+.formQueryRegion{
+    margin-top: 10px;
+    margin-left:10px;
+    margin-bottom:10px;
+    text-align:center;
+}
+
+
 .cardTrait {
     width: 25rem;
 }

@@ -92,7 +92,8 @@
                 <div class="column">
                     <div class="card cardQuery cardRegion">
                         <p class="card-header headerCardQuery">Introduce a <b>Genomic Region</b> to view its associations</p>
-                        <form action="{% url 'queryRegion' %}" method="post" id="formRegion" onsubmit="ShowLoading()" class="formQuery">
+                        <p id="errorsForm" class="text-danger text-center ml-2 mr-2 font-weight-light"></p>
+                        <form action="{% url 'queryRegion' %}" method="post" id="formRegion" onsubmit="return checkformRegion();" name = "formRegion" class="formQueryRegion">
                             {% csrf_token %}
                             <select placeholder="chrom" name="chrom" id="chrom" class="chrom_select" onchange='changeChrom()' required>
                                 <option value ="" selected disabled>chrom</option>
@@ -106,6 +107,7 @@
                             <div class="mt-2">
                                 <button type="submit" id='submitRegion' class="btn btn-success btn-sm">Submit</button>
                                 <button id="loadExRegion" class="btn btn-info btn-sm">Load Example</button>
+                                <button type="reset" class="btn btn-secondary btn-sm">Reset</button>
                             </div>
                         </form>
                     </div>
@@ -165,7 +167,7 @@
             $("#submitSNP").attr("disabled", true);
             $("#submitGene").attr("disabled", true);
             $("#submitTrait").attr("disabled", true);
-            $("div.menu-hide").hide()
+            $("div.menu-hide").hide();
             //
             return true;
         });
@@ -203,6 +205,31 @@
         var chrom = document.getElementById("chrom").value;
         var chromEnd = chrom.split("_")[1];
         document.getElementById("chromEnd").setAttribute("max",chromEnd)
+    }
+</script>
+
+<script>
+    function checkformRegion()    {        
+        var myForm = document.formRegion;
+        if((myForm.chromEnd.value-myForm.chromStart.value)>10000){
+            var newEnd = parseInt(myForm.chromStart.value, 10) + 10000;
+            document.getElementById("errorsForm").innerHTML = "Your query has more than the maximum of 10kb ("+(myForm.chromEnd.value-myForm.chromStart.value)+"pb), chromEnd has been changed to "+(newEnd);
+            myForm.chromEnd.value = newEnd
+            return false
+        }
+        else if (myForm.chromEnd.value<myForm.chromStart.value){
+            var newEnd = myForm.chromStart.value
+            myForm.chromStart.value = myForm.chromEnd.value
+            myForm.chromEnd.value = newEnd
+            document.getElementById("errorsForm").innerHTML = "Your chromStart coordinate ("+myForm.chromStart.value+") is higher than the chromEnd coordinate ("+myForm.chromEnd.value+"), it has been interchanged, please submit again.";
+            return false
+        }
+        else{
+            ShowLoading();
+            $("div.menu-hide").hide();
+            return true
+        }
+        
     }
 </script>
 
