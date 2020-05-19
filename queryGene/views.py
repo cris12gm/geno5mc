@@ -196,18 +196,19 @@ class GenesAssociatedGET(TemplateView):
 
     def get(self, request, gene):
 
-        form = QueryGene()
+        form = QueryGene(request.POST)
         error = None
         similarV = []
 
         baseLink = settings.SUB_SITE
 
-        promoters = []
+        promotersOut = []
         enhancers = []
         tLights = []
         topResults = []
         barPlotPromoters = ""
         countPromoters = ""
+        methylationPromoter = ""
         barPlotEnhancers = ""
         countEnhancers = ""
         barPlotTLights = ""
@@ -216,113 +217,88 @@ class GenesAssociatedGET(TemplateView):
         description = ""
 
         geneId = gene 
+
+        #GET GENCODE
+        try:
+            geneCode = getGencode.getGencodeID(geneId)
+        except:
+            pass
+
+        #GET PROMOTERS
+
+        promoterIDs = snpsAssociated_FDR_promotersEPD.get_Promoters_Gene(geneId)
+        if promoterIDs:
+            countPromoters = len(promoterIDs)
         
-        if geneId:
-            #GET GENCODE
-            try:
-                geneCode = getGencode.getGencodeID(geneId)
-            except:
-                pass
-
-            #GET PROMOTERS
-            promoters = snpsAssociated_FDR_promotersEPD.get_SNPs_Promoters(geneId)
-            if promoters:
-                barPlotPromoters = plotPromoters(promoters)
-                countPromoters = len(promoters)
-            
-            ##GET ENHANCERS
-            enhancers = snpsAssociated_FDR_enhancers.get_Enhancers(geneId)
-            if enhancers:
-                barPlotEnhancers = plotEnhancers(enhancers)
-                countEnhancers = len(enhancers)
-            
-            ##GET TLIGHTS
-            tLights = snpsAssociated_FDR_trafficLights.get_trafficLights(geneId)
-            if tLights:
-                barPlotTLights = plotTrafficLights(tLights)
-                countTLights = len(tLights)
-            
-            ##GET TOP RESULTS
-            topResults = topResultsGenes.get_TopResultsGene(geneId)
-            topResultsEdited = []
-            if topResults:
-                for element in topResults:
-                    snpID = getattr(element,'snpID')
-                    overlaps = getattr(element,'classElement').replace("E","Enhancer").replace("T","Traffic Lights").replace("P","Promoter").replace(";",", ")
-                    score = getattr(element,'score')
-                    topResultsEdited.append([snpID,overlaps,score])
-
-            if promoters is None and enhancers==None and tLights==None:
-                geneInDB = getGeneID.get_Genes(geneId)
-                if geneInDB!=None:
-                    error = Errors.NOT_ASSOCIATED
-                else:
-                    error = Errors.NOT_VALID
+        promoters = snpsAssociated_FDR_promotersEPD.get_SNPs_Promoters(geneId)
+        
+        ##Proceso promotores
+        if promoters:
+            promotersOut = {}
+            for element in promoters:
+                cpg = element.chromStartCpG
+                snpID = element.snpID
+                promoterID = element.promoterID
+                try:
+                    snps = promotersOut[promoterID,cpg]
+                    snps = snps+", "+snpID
+                except:
+                    snps = snpID
                 
-                    ##Si no es válido, busco similares
-                    if "*" in geneId:
-                        similar = getGeneID.getSimilar(geneId.replace("*","%"))
-                    else:
-                        similar = getGeneID.getSimilar("%"+geneId+"%")
-                        try:
-                            for i in range(0,len(geneId)):
-                                groupL = geneId[i]+geneId[i+1]+geneId[i+2]
-                                try:
-                                    similarG = getGeneID.getSimilar("%"+groupL+"%")
-                                    for element in similarG:
-                                        similar.append(element)
-                                except:
-                                    continue
-                        except:
-                            pass
-                    if len(similar)>20:
-                        similar = getGeneID.getSimilar(geneId+"%")
+                promotersOut[promoterID,cpg] = snps
+        
 
-                    if len(similar)>0 and len(similar)<30:
-                        for element in similar:
-                            similarV.append(getattr(element,"geneID"))
-                        similarV = set(similarV)
-                    else:
-                        similarV = "tooLong"                     
+        ##GET TLIGHTS
+        tLights = snpsAssociated_FDR_trafficLights.get_trafficLights(geneId)
+        # # if tLights:
+        #     barPlotTLights = plotTrafficLights(tLights)
+        #     countTLights = len(tLights)
+        
+
+        if promoters is None and tLights==None:
+            geneInDB = getGeneID.get_Genes(geneId)
+            if geneInDB!=None:
+                error = Errors.NOT_ASSOCIATED
             else:
-                try:
-                    description = getattr(genes.get_geneDescription(geneId),"description")
-                except:
-                    description = ""
+                error = Errors.NOT_VALID
+            
+                ##Si no es válido, busco similares
+                if "*" in geneId:
+                    similar = getGeneID.getSimilar(geneId.replace("*","%"))
+                else:
+                    similar = getGeneID.getSimilar("%"+geneId+"%")
+                    try:
+                        for i in range(0,len(geneId)):
+                            groupL = geneId[i]+geneId[i+1]+geneId[i+2]
+                            try:
+                                similarG = getGeneID.getSimilar("%"+groupL+"%")
+                                for element in similarG:
+                                    similar.append(element)
+                            except:
+                                continue
+                    except:
+                        pass
+                if len(similar)>20:
+                    similar = getGeneID.getSimilar(geneId+"%")
+
+                if len(similar)>0 and len(similar)<30:
+                    for element in similar:
+                        similarV.append(getattr(element,"geneID"))
+                    similarV = set(similarV)
+                else:
+                    similarV = "tooLong"
         else:
-            error = Errors.NOT_VALID
-            ##Si no es válido, busco similares
-
-            if "*" in geneId:
-                similar = getGeneID.getSimilar(geneId.replace("*","%"))
-            else:
-                similar = getGeneID.getSimilar("%"+geneId+"%")
-                try:
-                    for i in range(0,len(geneId)):
-                        groupL = geneId[i]+geneId[i+1]+geneId[i+2]
-                        try:
-                            similarG = getGeneID.getSimilar("%"+groupL+"%")
-                            similar.append(similarG)
-                        except:
-                            continue
-                except:
-                    pass
-            if len(similar)>20:
-                similar = "tooLong"
-            elif len(similar)>0:
-                for element in similar:
-                    similarV.append(getattr(element,"geneID"))
-                similarV = set(similarV) 
+            try:
+                description = getattr(genes.get_geneDescription(geneId),"description")
+            except:
+                description = ""
+        
         return render(request, self.template, {
             'geneId': geneId,
             'geneCode': geneCode,
-            'topResults': topResultsEdited,
-            'promoters': promoters,
-            'barPlotPromoters':barPlotPromoters,
+            'promoterIDs':promoterIDs,
             'countPromoters':countPromoters,
-            'enhancers': enhancers,
-            'barPlotEnhancers':barPlotEnhancers,
-            'countEnhancers':countEnhancers,
+            'promoters': promotersOut,
             'tLights': tLights,
             'barPlotTLights':barPlotTLights,
             'countTLights':countTLights,
