@@ -92,7 +92,7 @@
                 <div class="column">
                     <div class="card cardQuery cardRegion">
                         <p class="card-header headerCardQuery">Introduce a <b>Genomic Region</b> to view its associations</p>
-                        <p id="errorsForm" class="text-danger text-center ml-2 mr-2 font-weight-light"></p>
+                        <p id="errorsForm" class="text-danger text-center ml-2 mr-2 mt-2 font-weight-light"></p>
                         <form action="{% url 'queryRegion' %}" method="post" id="formRegion" onsubmit="return checkformRegion();" name = "formRegion" class="formQueryRegion">
                             {% csrf_token %}
                             <select placeholder="chrom" name="chrom" id="chrom" class="chrom_select" onchange='changeChrom()' required>
