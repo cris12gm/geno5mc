@@ -1,7 +1,7 @@
 <div class="card mb-3" >             
     <div class="card-body">
         <div class="row" id="infoSNP">
-            <div class="col-10">
+            <div class="col-8">
                 <h2><a href="https://www.ncbi.nlm.nih.gov/snp/{{snpInfo.snpID}}" target="_blank">{{snpInfo.snpID}}</a></h2>
                 <b>Position:</b> {{ snpInfo.chrom }}:{{ snpInfo.chromStart }}
                 <br>
@@ -11,7 +11,7 @@
                 <br>
                 <a href='{{ linkFileAssociations }}' download><button class="btn btn-success btn-sm">Download all associations</button></a>
             </div>
-            <div class="col-2">
+            <div class="col-4">
                 {% if traits %}
                     <div class="card">
                         <div class="card-header">

@@ -8,25 +8,6 @@
 {% block content %}
 
     <div id="page-wrapper" class="resultsPage">
-        <!-- <div class="row">
-            <div class="col-lg-12">
-                <div class="card" style="width: 18rem;">
-                    <div class="card-header"><center><h3><b>Query a SNP</b></h3></center></div>
-                    <div class="card-body">
-                       <form action="{% url 'querySNP' %}" method="POST" onsubmit="ShowLoading()" id="formSNP">
-                            {% csrf_token %}
-                            {% for field in query_form %}
-                                <div class='form-group'>
-                                    <label for="{{ field.name }}">{{ field.label }}</label>
-                                    {{ field }}
-                                </div>
-                            {% endfor %}
-                            <button type="submit" id='submit_btn' class="btn btn-success btn-sm" >Submit</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div> -->
         {% if error %}
             {% include "querySNP/error.html" %}
         {% endif %}
@@ -136,25 +117,10 @@
 </script>
 
 
-<!-- This script cancel submit button when the form is loading and hides menu-->
-<!-- This script also hides the menu when you press buttons in topResults-->
-<script>
-    $(document).ready(function () {
-        $("#formSNP").submit(function (e) {
-            //disable the submit button
-            $("#submit_btn").attr("disabled", true);
-            $("div.menu-hide").hide()
-            //
-            return true;
-        });
-    });
-
-</script>
 <script>
     $(function () {
         $('.table_tooltip').tooltip({ container:'body',placement:'left',html:true});
     });
-
 </script>
 
 <script>
@@ -230,7 +196,6 @@
     });
 </script>
 
-<script src="{% static 'js/tooltip.js' %}"></script>
 
 {% endblock %}
 

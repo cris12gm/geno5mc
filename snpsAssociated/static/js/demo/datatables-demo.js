@@ -5,7 +5,6 @@ $(document).ready(function() {
     "order":[[5, "desc"]]
   });
   $('#dataTablePromotersLite').removeAttr('width').DataTable({
-    "pageLength" : 6,
     "order":[[1, "desc"]],
     "searching": false,
     "bLengthChange":false,

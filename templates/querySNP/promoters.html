@@ -2,15 +2,16 @@
     <div class="card-body">
         <div class="row" cellspacing="10">
             <div class="col-sm-7" id="barPlotPromotersAll">
-                <center><b>Associated CpGs in promoters</b></center>
+                <center><b>Associated CpGs in promoters</b>
                 <div style="overflow-x: auto;" id="barPlotPromoters">
                     {{ barPlotPromoters | safe}}
                 </div>
+            </center>
             </div>
             <div class="col-sm-5">  
                 <center>
                     <div class="table-responsive resultsTable">
-                        <table class="table table-bordered" id="dataTablePromotersLite" width="80%" cellspacing="3" style="margin-right:100px;">
+                        <table class="table table-hover table-sm" id="dataTablePromotersLite" width="80%" cellspacing="3" style="margin-right:100px;">
                             <thead>
                                 <tr>
                                     <th class="titleTable" colspan="2"><span class="table_tooltip" title="Gene ID that is associated by its promoter. For more info about it, click on the gene ID. In <i>Methylation</i> you can found the methylation of the Associated CpGs that are in the promoter of each gene">Gene</span></th>
@@ -35,6 +36,11 @@
                         </table>
                     </div>
                 </center>
+                <div class="float-right">
+                    <button type="button" class="promoterLite_table_copy_btn btn btn-default btn-sm" data-clipboard-target="#dataTablePromotersLite">
+                        <i class="fas fa-copy iconTables"></i> Copy table
+                    </button>
+                </div>
             </div>
         </div>
         <hr>
@@ -51,7 +57,7 @@
               <div id="collapseOne" class="collapse" aria-labelledby="headingTable" data-parent="#accordion">
                 <div class="card-body">
                     <div class="table-responsive">
-                        <table class="table table-bordered" id="dataTablePromoters" width="100%" cellspacing="0">
+                        <table class="table table-bordered table-sm" id="dataTablePromoters" width="100%" cellspacing="0">
                             <thead>
                                 <tr>
                                     <th class="titleTable"> <span class="table_tooltip" title="Gene ID that is associated by its promoter. For more info about it, click on the gene ID">Gene</span></th>

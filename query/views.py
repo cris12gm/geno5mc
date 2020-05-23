@@ -9,7 +9,7 @@ from django.views.generic.edit import CreateView
 from django.views.generic import FormView, DetailView, TemplateView
 from django.http import JsonResponse
 from django.urls import reverse_lazy
-from .forms import QuerySNP,QueryGene
+from .forms import QueryGene
 from .models import PhenotypeGenotypeTraits,chromosomes
 from sqlalchemy import inspect
 
@@ -22,7 +22,6 @@ class SNPAssociatedQuery(TemplateView):
     template = 'query.html'
 
     def get(self, request):  
-        formSNP = QuerySNP()
         formGene = QueryGene()
 
         chroms = chromosomes.get_All_Chroms()
@@ -35,7 +34,6 @@ class SNPAssociatedQuery(TemplateView):
             traitsList.append(trait)
 
         return render(request, self.template, {
-            'formSNP':formSNP,
             'formGene':formGene,
             'chroms':chroms,
             'traits':traitsList

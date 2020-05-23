@@ -63,7 +63,7 @@
                 <i class="fas fa-fw fa-file"></i>
                 <span>Tour</span>
             </a>
-            <a href="#" class="list-group-item list-group-item-action bg-light">
+            <a href="{% url 'about' %}" class="list-group-item list-group-item-action bg-light">
                 <i class="fas fa-fw fa-question"></i>
                 <span>About</span>
             </a>
@@ -93,9 +93,11 @@
         </div>
     </div>
     <!-- Bootstrap core JavaScript -->
+    <script src="{% static 'js/popper.min.js' %}"></script>
     <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
     <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
     <script src="{% static 'js/bootstrap.min.js' %}"></script>
+
   
     <!-- Menu Toggle Script -->
     <script>
@@ -113,6 +115,7 @@
     <script src="{% static 'js/demo/datatables-demo.js'%}"></script>
     <script src="{% static 'vendor/datatables/jquery.dataTables.js'%}"></script>
     <script src="{% static 'vendor/datatables/dataTables.bootstrap4.js'%}"></script>
+
     {% block js %}{% endblock %}
   </body>
   

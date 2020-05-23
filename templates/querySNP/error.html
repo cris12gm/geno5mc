@@ -4,6 +4,12 @@
         <b>Important info</b>
     </div>               
     <div class="card-body">
-        {{ error | errorGestionSNP}}
+        <div id="errorGestion">
+            {{ error | errorGestionSNP}}
+        </div>
+        <div id="yourQuery" class="mt-2 mb-2">
+            <b>Your Query: </b>{{ snpInfo.snpID }}
+        </div>
+        <button class="btn btn-success" onclick='window.location.href="{% url 'query' %}#snp"'>New query</button>
     </div>
 </div>

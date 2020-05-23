@@ -30,13 +30,12 @@
                 <div class="column">
                     <div class="card cardQuery">
                         <p class="card-header headerCardQuery" >Introduce a <b>SNP ID</b> to view its associations</p>
-                        <form action="{% url 'querySNP' %}" method="POST"  id="formSNP" onsubmit="ShowLoading()" class="formQuery">
+                        <p id="errorsFormSNP" class="text-danger text-center ml-2 mr-2 mt-2 font-weight-light"></p>
+                        <form action="{% url 'querySNP' %}" method="POST"  id="formSNP" onsubmit="return checkformSNP();" class="formQuery">
                             {% csrf_token %}
-                            {% for field in formSNP %}
-                                <div class='form-group'">
-                                    {{ field }}
-                                </div>
-                            {% endfor %}
+                            <div class='form-group'">
+                                <input type="text" name="SNPid" maxlength="15" required id="SNPid">
+                            </div>
                             <button type="submit" id='submitSNP' class="btn btn-success btn-sm" >Submit</button>
                             <button id="loadExSNP" class="btn btn-info btn-sm">Load Example</button>
                         </form>
@@ -92,8 +91,8 @@
                 <div class="column">
                     <div class="card cardQuery cardRegion">
                         <p class="card-header headerCardQuery">Introduce a <b>Genomic Region</b> to view its associations</p>
-                        <p id="errorsForm" class="text-danger text-center ml-2 mr-2 mt-2 font-weight-light"></p>
-                        <form action="{% url 'queryRegion' %}" method="post" id="formRegion" onsubmit="return checkformRegion();" name = "formRegion" class="formQueryRegion">
+                        <p id="errorsFormRegion" class="text-danger text-center ml-2 mr-2 mt-2 font-weight-light"></p>
+                        <form action="{% url 'queryRegion' %}" method="post" id="formRegion" onsubmit="return checkformRegion();" name = "formRegion" class="formQuery">
                             {% csrf_token %}
                             <select placeholder="chrom" name="chrom" id="chrom" class="chrom_select" onchange='changeChrom()' required>
                                 <option value ="" selected disabled>chrom</option>
@@ -160,7 +159,7 @@
 </script>
 
 <!-- This script cancel submit button when the form is loading and hides menu-->
-<script>
+<!-- <script>
     $(document).ready(function () {
         $(".formQuery").submit(function (e) {
             //disable the submit button
@@ -173,14 +172,14 @@
         });
     });
 
-</script>
+</script> -->
 
 <!-- This script charge the example on SNP tab -->
 <script>
     $(document).ready(function(){
 
         $('#loadExSNP').on('click', function(){
-            $('#id_SNPid').val("rs727563");
+            $('#SNPid').val("rs727563");
             return false;
         });
 
@@ -213,7 +212,7 @@
         var myForm = document.formRegion;
         if((myForm.chromEnd.value-myForm.chromStart.value)>10000){
             var newEnd = parseInt(myForm.chromStart.value, 10) + 10000;
-            document.getElementById("errorsForm").innerHTML = "Your query has more than the maximum of 10kb ("+(myForm.chromEnd.value-myForm.chromStart.value)+"pb), chromEnd has been changed to "+(newEnd);
+            document.getElementById("errorsFormRegion").innerHTML = "Your query has more than the maximum of 10kb ("+(myForm.chromEnd.value-myForm.chromStart.value)+"pb), chromEnd has been changed to "+(newEnd);
             myForm.chromEnd.value = newEnd
             return false
         }
@@ -221,7 +220,7 @@
             var newEnd = myForm.chromStart.value
             myForm.chromStart.value = myForm.chromEnd.value
             myForm.chromEnd.value = newEnd
-            document.getElementById("errorsForm").innerHTML = "Your chromStart coordinate ("+myForm.chromStart.value+") is higher than the chromEnd coordinate ("+myForm.chromEnd.value+"), it has been interchanged, please submit again.";
+            document.getElementById("errorsFormRegion").innerHTML = "Your chromStart coordinate ("+myForm.chromStart.value+") is higher than the chromEnd coordinate ("+myForm.chromEnd.value+"), it has been interchanged, please submit again.";
             return false
         }
         else{
@@ -230,6 +229,21 @@
             return true
         }
         
+    }
+
+    function checkformSNP(){
+        var snpID = document.getElementById('SNPid').value;
+        var regex = new RegExp("rs[0-9]{1,15}");
+        var test = regex.test(snpID);
+        if (test == true) {
+            ShowLoading();
+            $("div.menu-hide").hide();
+            return true
+        }
+        else{
+            document.getElementById("errorsFormSNP").innerHTML="The provided ID is not a valid SNP ID, please try a new one";
+            return false
+        }
     }
 </script>
 

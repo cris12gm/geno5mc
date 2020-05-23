@@ -17,7 +17,7 @@ def plotPromoters(inputDict):
     ancho = 100+(numSamples*50)
     layout = go.Layout(width=ancho, height=500,bargap=0.1)
     fig = go.Figure(data=[
-        go.Bar(name='Genes with Associated CpGs in its promoter', x=xValues, y=yValues, marker_color='rgb(55, 83, 109)')],layout=layout)
+        go.Bar(name='Genes with Associated CpGs in its promoter', x=xValues, y=yValues, marker_color='rgb(25, 74, 144)')],layout=layout)
 
     fig.update_layout(xaxis_tickangle=-45,xaxis_tickfont_size=12)
     fig.update_yaxes(title_text='<b>Count CpGs</b>')
@@ -39,7 +39,7 @@ def plotEnhancers(inputDict):
     
     layout = go.Layout(width=ancho,height=500,bargap=0.1)
     fig = go.Figure(data=[
-        go.Bar(name='Associated CpGs in Enhancers', x=xValues, y=yValues, marker_color='rgb(55, 83, 109)')],layout=layout)
+        go.Bar(name='Associated CpGs in Enhancers', x=xValues, y=yValues, marker_color='rgb(25, 74, 144)')],layout=layout)
     fig.update_layout(xaxis_tickangle=-45 ,xaxis_tickfont_size=12)
     fig.update_yaxes(title_text='<b>Count CpGs</b>')
     div_obj = plot(fig, show_link=False, auto_open=False, include_plotlyjs=True, output_type = 'div')
@@ -61,7 +61,7 @@ def plotTrafficLights(inputDict):
 
     layout = go.Layout(width=ancho,height=500,bargap=0.1)
     fig = go.Figure(data=[
-        go.Bar(name='Genes with Associated CpGs that are Traffic Lights', x=xValues, y=yValues, marker_color='rgb(55, 83, 109)')],layout=layout)
+        go.Bar(name='Genes with Associated CpGs that are Traffic Lights', x=xValues, y=yValues, marker_color='rgb(25, 74, 144)')],layout=layout)
     fig.update_layout(barmode='group', xaxis_tickangle=-45, xaxis_tickfont_size=12)
     fig.update_yaxes(title_text='<b>Count CpGs</b>')
     div_obj = plot(fig, show_link=False, auto_open=False, include_plotlyjs=True, output_type = 'div')

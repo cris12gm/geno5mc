@@ -23,12 +23,14 @@ class Errors(Enum):
     NOT_VALID = 1
     NOT_ASSOCIATED = 2
 
-def getAllFromSNP(snpId,associations,promoters,enhancers,tLights,topResultPromoter,topResultEnhancer,snpInfo,linkFileAssociations,error):
+def getAllFromSNP(snpId,associations,promoters,enhancers,tLights,topResultPromoter,topResultEnhancer,snpInfo,linkFileAssociations,traits,error):
     snpInfo = snpsAssociated_FDR_chrom.get_SNP_chrom(snpId)
     if snpInfo is None:
         checkid = getSNPID.get_SNP(snpId)
         if checkid!=None:
             error = Errors.NOT_ASSOCIATED
+            snpInfo = {}
+            snpInfo["snpID"] = snpId
         else:
             error = Errors.NOT_VALID
     else:
@@ -38,6 +40,9 @@ def getAllFromSNP(snpId,associations,promoters,enhancers,tLights,topResultPromot
         
         fileNameAssociations = settings.MEDIA_ROOT+str(datetime.now()).split(".")[0].replace(" ","_").replace(":","_")+"_"+snpId+".txt"
         f = open(fileNameAssociations,'w')
+        header = "chrom\tchromStart\tsnpID\tchromStartSNP\trefBase\taltBase\theteroBase\tuRefBase\tuAltBase\tuHeteroBase\tiRefBase\tiAltBase\tother\tmethCount\tnumSamples\tpValue\tqValue\n"
+        f.write(header)
+
         for element in associations:
             inst = inspect(element)
             attr_names = [c_attr.key for c_attr in inst.mapper.column_attrs]
@@ -80,7 +85,6 @@ def getAllFromSNP(snpId,associations,promoters,enhancers,tLights,topResultPromot
         traits = PhenotypeGenotypeFDR.get_SNP_Trait(snpInfo.snpID)
         
     return snpInfo,associations,promoters,enhancers,tLights,topResultPromoter,topResultEnhancer,linkFileAssociations,traits,error
-
 
 def queryGeneDescription(request):
     templateError = "error.html"
@@ -136,7 +140,7 @@ class SNPAssociated(TemplateView):
         if form.is_valid():
             snpId = form.cleaned_data.get('SNPid')
             if snpId is not '':
-                snpInfo,associations,promoters,enhancers,tLights,topResultPromoter,topResultEnhancer,linkFileAssociations,traits,error=getAllFromSNP(snpId,associations,promoters,enhancers,tLights,topResultPromoter,topResultEnhancer,snpInfo,linkFileAssociations,error)
+                snpInfo,associations,promoters,enhancers,tLights,topResultPromoter,topResultEnhancer,linkFileAssociations,traits,error=getAllFromSNP(snpId,associations,promoters,enhancers,tLights,topResultPromoter,topResultEnhancer,snpInfo,linkFileAssociations,traits,error)
                 if promoters:
                     barPlotPromoters = plotPromoters(promoters)
                 if enhancers:
