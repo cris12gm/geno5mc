@@ -51,7 +51,7 @@
                 <div class="column">
                     <div class="card cardQuery">
                         <p class="card-header headerCardQuery">Introduce a <b>Gene ID</b> to view its associations</p>
-                            <form action="{% url 'queryGene' %}" method="post" id="formGene" onsubmit="ShowLoading()" class="formQuery">
+                            <form action="{% url 'queryGene' %}" method="post" id="formGene" onsubmit="return checkformGene()" class="formQuery">
                                 {% csrf_token %}
                                 {% for field in formGene %}
                                     <div class='form-group'>
@@ -73,7 +73,7 @@
                 <div class="col-lg-12">
                     <div class="card cardQuery cardTrait">
                         <p class="card-header headerCardQuery">Select a <b>trait</b> to view its associations</p>
-                        <form action="{% url 'queryTrait' %}" method="post" onsubmit="ShowLoading()" id="formTrait" class="formQuery">
+                        <form action="{% url 'queryTrait' %}" method="post" onsubmit="return checkformTrait()" id="formTrait" class="formQuery">
                             {% csrf_token %}
                             <select id="traits" name="traitslist" class="selectpicker" data-live-search="true" form="formTrait">
                                 {% for trait in traits %}
@@ -158,22 +158,6 @@
     
 </script>
 
-<!-- This script cancel submit button when the form is loading and hides menu-->
-<!-- <script>
-    $(document).ready(function () {
-        $(".formQuery").submit(function (e) {
-            //disable the submit button
-            $("#submitSNP").attr("disabled", true);
-            $("#submitGene").attr("disabled", true);
-            $("#submitTrait").attr("disabled", true);
-            $("div.menu-hide").hide();
-            //
-            return true;
-        });
-    });
-
-</script> -->
-
 <!-- This script charge the example on SNP tab -->
 <script>
     $(document).ready(function(){
@@ -244,6 +228,18 @@
             document.getElementById("errorsFormSNP").innerHTML="The provided ID is not a valid SNP ID, please try a new one";
             return false
         }
+    }
+
+    function checkformGene(){
+        ShowLoading();
+        $("div.menu-hide").hide();
+        return true
+    }
+
+    function checkformTrait(){
+        ShowLoading();
+        $("div.menu-hide").hide();
+        return true   
     }
 </script>
 

@@ -14,7 +14,6 @@ $(document).ready(function() {
     ]
   });
   $('#dataTableEnhancersLite').removeAttr('width').DataTable({
-    "pageLength" : 6,
     "order":[[1, "desc"]],
     "searching": false,
     "bLengthChange":false,
@@ -24,7 +23,6 @@ $(document).ready(function() {
     ]
   });
   $('#dataTableTLightsLite').removeAttr('width').DataTable({
-    "pageLength" : 6,
     "order":[[1, "desc"]],
     "searching": false,
     "bLengthChange":false,

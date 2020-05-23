@@ -193,7 +193,7 @@ class SNPAssociatedGET(TemplateView):
         error = ""
 
         if snpId is not '':
-            snpInfo,associations,promoters,enhancers,tLights,topResultPromoter,topResultEnhancer,linkFileAssociations,traits,error=getAllFromSNP(snpId,associations,promoters,enhancers,tLights,topResultPromoter,topResultEnhancer,snpInfo,linkFileAssociations,error)
+            snpInfo,associations,promoters,enhancers,tLights,topResultPromoter,topResultEnhancer,linkFileAssociations,traits,error=getAllFromSNP(snpId,associations,promoters,enhancers,tLights,topResultPromoter,topResultEnhancer,snpInfo,linkFileAssociations,traits,error)
             if promoters:
                 barPlotPromoters = plotPromoters(promoters)
             if enhancers:

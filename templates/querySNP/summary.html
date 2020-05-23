@@ -34,13 +34,13 @@
             <div class="card">
                 <div class="card-header" id="headingTopResults">
                 <h5 class="mb-0">
-                  <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                  <button class="btn btn-link" data-toggle="collapse" data-target="#collapseTR" aria-expanded="true" aria-controls="collapseTR">
                     <h4><b>TOP RESULTS</b></h4>
                   </button>
                 </h5>
                 </div>
           
-                <div id="collapseOne" class="collapse show" aria-labelledby="headingTopResults" data-parent="#accordion">
+                <div id="collapseTR" class="collapse show" aria-labelledby="headingTopResults" data-parent="#accordion">
                     <div class="card-body">
                         {% if topResultPromoter %}
                         <div class = "card" id="cardPromoters">
@@ -49,7 +49,7 @@
                             </div>
                             <div class="card-body">
                                 <div class="table-responsive" id="topResultPromoter-table">
-                                    <table class="table table-bordered" id="dataTableTopResults_Promoter" width="100%" cellspacing="0">
+                                    <table class="table table-hover" id="dataTableTopResults_Promoter" width="100%" cellspacing="0">
                                         <thead>
                                             <tr>
                                                 <th class="titleTable"> <span class="table_tooltip" title="Gene ID that is associated by its promoter. For more info about it, click on the gene ID">Gene</span></th>
@@ -92,7 +92,7 @@
                             </div>
                             <div class="card-body">
                                 <div class="table-responsive" id="test">
-                                    <table class="table table-bordered" id="dataTableTopResults_Enhancer" width="100%" cellspacing="0">
+                                    <table class="table table-hover" id="dataTableTopResults_Enhancer" width="100%" cellspacing="0">
                                         <thead>
                                             <tr>
                                                 <th class="titleTable"> <span class="table_tooltip" title="Enhancer ID that is associated. For more info about it, click on the enhancer ID">Enhancer</span></th>
