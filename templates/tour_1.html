@@ -9,7 +9,7 @@
 
 {% block content %}
 
-<div class="menu-hide">
+<div class="menu-hide" id="menu-hide">
     <h1 class="titlePag"> QUERY DB</h1>
     <hr>
     <ul class="nav nav-tabs" id="tabsQuery" role="tablist">
@@ -117,21 +117,6 @@
     tour.start();
 </script>
 
-<!-- This script show an image when is loading-->
-<script type="text/javascript">
-    function ShowLoading(e) {
-        var div = document.createElement('div');
-        var img = document.createElement('img');
-        img.src = "{% static 'images/wait.svg'%}";
-        div.innerHTML = "<b><font color='#194a90' size='4'>Loading results, please wait</font></b>";
-        div.style.cssText = 'position: fixed; top: 20%; left: 40%; z-index: 5000; width: 422px; text-align: center; background: #FFFFFF;';
-
-        div.appendChild(img);
-        document.body.appendChild(div);
-        return true;
-    }
-    
-</script>
 
 <!-- This script cancel submit button when the form is loading and hides menu-->
 <script>

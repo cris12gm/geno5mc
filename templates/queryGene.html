@@ -12,7 +12,7 @@
     {% endif %}
 
     {%if not error %}
-    <div class="menu-hide">
+    <div class="menu-hide" id="menu-hide">
         {% include "queryGene/summary.html" %}
     </div>
     {% endif %}
@@ -21,36 +21,6 @@
     
 {% endblock %}
 {% block js %}
-
-<!-- This script show an image when is loading-->
-<script type="text/javascript">
-    function ShowLoading(e) {
-        var div = document.createElement('div');
-        var img = document.createElement('img');
-        img.src = "{% static 'images/wait.svg'%}";
-        div.innerHTML = "<b><font color='#194a90' size='2'>Loading results, please be patient</font></b>";
-        div.style.cssText = 'position: fixed; top: 20%; left: 40%; z-index: 5000; width: 422px; text-align: center; background: #FFFFFF;';
-      
-        div.appendChild(img);
-        document.body.appendChild(div);
-        return true;
-    }
-</script>
-      
-<!-- This script cancel submit button when the form is loading-->
-<script>
-    $(document).ready(function () {
-        $("#formGene").submit(function (e) {
-
-            //disable the submit button
-            $("#submit_btn").attr("disabled", true);
-            $("div.menu-hide").hide()
-            //
-            return true;
-        });
-    });
-
-</script>
 
 <!-- Plotly - relayout -->
 <script>

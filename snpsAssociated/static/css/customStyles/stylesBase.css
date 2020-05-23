@@ -71,3 +71,7 @@ button.bg-light:hover,
 button.bg-light:focus {
   background-color: #E5E1E4 !important;
 }
+
+.menu-hide{
+  display: none;
+}
