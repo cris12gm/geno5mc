@@ -16,6 +16,54 @@ import plotly.graph_objs as go
 from plotly.offline import plot
 import plotly.express as px
 import pandas as pd
+from datetime import datetime
+import requests
+
+def downloadMethData(input,typeElement,name,snp):
+
+    outfile = settings.MEDIA_ROOT+str(datetime.now()).split(".")[0].replace(" ","_").replace(":","_")+"_"+typeElement+"_"+name+"_"+snp+".txt"
+    linkDownload = outfile.replace(settings.MEDIA_ROOT,settings.MEDIA_URL)
+
+    output = {}
+    CpGs = input['CpG ID']
+    methRatio = input['methRatio']
+    samples = input['Sample']
+    genotype = input['Genotype']
+
+    i = 0
+    header = "Sample\tGenotype"
+    cpgsAvailable = {}
+    for i in range(len(samples)):
+        try:
+            values = output[samples[i],genotype[i]]
+        except:
+            values = {}
+        values[CpGs[i]] = methRatio[i]
+        cpgsAvailable[CpGs[i]] = ""
+
+        output[samples[i],genotype[i]] = values
+        i = i + 1
+
+    fileToWrite = open(outfile,'w')
+
+    for cpg in cpgsAvailable:
+        header = header+"\t"+cpg
+    
+    fileToWrite.write(header+"\n")
+    
+    for sample,genotype in output:
+        linea = sample+"\t"+genotype
+        values = output[sample,genotype]
+        for cpg in cpgsAvailable:
+            try:
+                methRatio = values[cpg]
+            except:
+                methRatio = "NA"
+            linea = linea+"\t"+str(methRatio)
+        linea = linea+"\n"
+        fileToWrite.write(linea)
+
+    return linkDownload
 
 def PlotTLights(snpID,geneID):
     cpgs = snpsAssociated_FDR_trafficLights.get_trafficLights(snpID,geneID)
@@ -44,15 +92,12 @@ def PlotTLights(snpID,geneID):
 
     #For position Plot
     valuesPlot_Position=[]
-    valuesPlot_Position_y=[1]*len(cpgs)
     hoverPosition = []
 
     for element in cpgs:
-        print (element)
         numSamples = numSamples + 1
         idCpG = element.chrom+"_"+str(element.chromStartTL)
         valuesPlot_Position.append(element.chromStartTL)
-        print (valuesPlot_Position)
         hoverPosition.append(idCpG)
         methylationCpG = getMethylation.getMethCpG(idCpG)
 
@@ -81,27 +126,7 @@ def PlotTLights(snpID,geneID):
     fig.update_yaxes(title_text='<b>Meth Ratio</b>')
     div_obj = plot(fig, show_link=False, auto_open=False, output_type = 'div')
 
-    # #Plot distances real distribution
-    # fig_Distances = go.Figure(data = go.Scatter(x=valuesPlot_Position,y=valuesPlot_Position_y,mode='markers',hovertext=hoverPosition,hoverinfo="text"))
-
-    # fig_Distances.update_yaxes(showticklabels=False,title_text='', range=[0,2])
-    # fig_Distances.update_layout(yaxis_showgrid=False)
-    # fig_Distances.update_xaxes(range=[int(start)-100,int(end)+100])
-    # fig_Distances.add_shape(
-    #     # Rectangle reference to the axes
-    #         type="rect",
-    #         xref="x",
-    #         yref="y",
-    #         x0=start,
-    #         y0=0.5,
-    #         x1=end,
-    #         y1=1.5,
-    #         fillcolor="PaleTurquoise",
-    #         opacity=0.3,
-    #     )
-    # div_obj2 = plot(fig_Distances,show_link=False, auto_open=False, output_type='div')
-
-    return div_obj
+    return div_obj,valuesPlot
 
 def PlotPromoters(snpID,geneID,start,end):
     cpgs = snpsAssociated_FDR_promotersEPD.get_SNPs_Promoters(snpID,geneID)
@@ -127,7 +152,6 @@ def PlotPromoters(snpID,geneID,start,end):
         samplesDict[name]=srx
 
     valuesPlot_Position=[]
-    # valuesPlot_Position_y=[1]*len(cpgs)
     hoverPosition = []
 
     for element in cpgs:
@@ -161,27 +185,7 @@ def PlotPromoters(snpID,geneID,start,end):
     fig.update_yaxes(title_text='<b>Meth Ratio</b>')
     div_obj = plot(fig, show_link=False, auto_open=False, output_type = 'div')
 
-    #Plot distances real distribution
-    # fig_Distances = go.Figure(data = go.Scatter(x=valuesPlot_Position,y=valuesPlot_Position_y,mode='markers',hovertext=hoverPosition,hoverinfo="text"))
-
-    # fig_Distances.update_yaxes(showticklabels=False,title_text='', range=[0,2])
-    # fig_Distances.update_layout(yaxis_showgrid=False)
-    # fig_Distances.update_xaxes(range=[int(start)-100,int(end)+100])
-    # fig_Distances.add_shape(
-    #     # Rectangle reference to the axes
-    #         type="rect",
-    #         xref="x",
-    #         yref="y",
-    #         x0=start,
-    #         y0=0.5,
-    #         x1=end,
-    #         y1=1.5,
-    #         fillcolor="PaleTurquoise",
-    #         opacity=0.3,
-    #     )
-    # div_obj2 = plot(fig_Distances,show_link=False, auto_open=False, output_type='div')
-
-    return div_obj
+    return div_obj, valuesPlot
 
 def PlotEnhancers(snpID,enhancerID,start,end):
     cpgs = snpsAssociated_FDR_enhancers.get_Enhancers(snpID,enhancerID)
@@ -206,7 +210,6 @@ def PlotEnhancers(snpID,enhancerID,start,end):
     valuesPlot["Sample"] = []
     
     valuesPlot_Position=[]
-    # valuesPlot_Position_y=[1]*len(cpgs)
     hoverPosition = []
 
     for element in cpgs:
@@ -240,26 +243,7 @@ def PlotEnhancers(snpID,enhancerID,start,end):
     fig.update_yaxes(title_text='<b>Meth Ratio</b>')
     div_obj = plot(fig, show_link=False, auto_open=False, output_type = 'div')
 
-    # fig_Distances = go.Figure(data = go.Scatter(x=valuesPlot_Position,y=valuesPlot_Position_y,mode='markers',hovertext=hoverPosition,hoverinfo="text"))
-
-    # fig_Distances.update_yaxes(showticklabels=False,title_text='', range=[0,2])
-    # fig_Distances.update_layout(yaxis_showgrid=False)
-    # fig_Distances.update_xaxes(range=[int(start)-1000,int(end)+1000])
-    # fig_Distances.add_shape(
-    #     # Rectangle reference to the axes
-    #         type="rect",
-    #         xref="x",
-    #         yref="y",
-    #         x0=start,
-    #         y0=0.5,
-    #         x1=end,
-    #         y1=1.5,
-    #         fillcolor="PaleTurquoise",
-    #         opacity=0.3,
-    #     )
-    # div_obj2 = plot(fig_Distances,show_link=False, auto_open=False, output_type='div')
-
-    return div_obj
+    return div_obj,valuesPlot
 
 class plotElements(TemplateView):
     template = "plotElement.html"
@@ -270,24 +254,29 @@ class plotElements(TemplateView):
 
     def get(self,request):
          templateError = "error.html"
+
          try:
             valoresGet = request.GET
             element = valoresGet['element']
             description = ""
-            # plotElementDistance = []
+            linkDownload = ""
+
             if element == 'promoter':
-                plotElement = PlotPromoters(valoresGet['snp'],valoresGet['name'],valoresGet['start'],valoresGet['end'])
+                plotElement,valuesPlot = PlotPromoters(valoresGet['snp'],valoresGet['name'],valoresGet['start'],valoresGet['end'])
                 description = getattr(genes.get_geneDescription(valoresGet['name']),"description").capitalize()
+                linkDownload = downloadMethData(valuesPlot,"promoter",valoresGet['name'],valoresGet['snp'])
             elif element == 'enhancer':
-                plotElement = PlotEnhancers(valoresGet['snp'],valoresGet['name'],valoresGet['start'],valoresGet['end'])
+                plotElement,valuesPlot = PlotEnhancers(valoresGet['snp'],valoresGet['name'],valoresGet['start'],valoresGet['end'])
+                linkDownload = downloadMethData(valuesPlot,"enhancer",valoresGet['name'],valoresGet['snp'])
             elif element== 'tLight':
-                plotElement = PlotTLights(valoresGet['snp'],valoresGet['name'])
+                plotElement,valuesPlot = PlotTLights(valoresGet['snp'],valoresGet['name'])
+                linkDownload = downloadMethData(valuesPlot,"tLight",valoresGet['name'],valoresGet['snp'])
             return render(request, self.template, {
                 'description':description,
                 'element':element,
                 'plotElement':plotElement,
-                # 'plotElementDistance':plotElementDistance,
                 'snpID':valoresGet['snp'],
+                'linkDownload':linkDownload,
                 'name':valoresGet['name']
                 })
          except:

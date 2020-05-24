@@ -58,16 +58,9 @@ class GenesAssociated(TemplateView):
         baseLink = settings.SUB_SITE
 
         promotersOut = []
-        enhancers = []
         tLights = []
-        topResults = []
-        barPlotPromoters = ""
         countPromoters = ""
         methylationPromoter = ""
-        barPlotEnhancers = ""
-        countEnhancers = ""
-        barPlotTLights = ""
-        countTLights = ""
         geneCode = ""
         description = ""
 
@@ -182,8 +175,6 @@ class GenesAssociated(TemplateView):
             'countPromoters':countPromoters,
             'promoters': promotersOut,
             'tLights': tLights,
-            'barPlotTLights':barPlotTLights,
-            'countTLights':countTLights,
             'description':description,
             'baseLink': baseLink,
             'query_form': form,
