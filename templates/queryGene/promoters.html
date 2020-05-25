@@ -5,10 +5,15 @@
 
     <div id="contentPromoters" class="ml-5">
         <div>
-            The gene {{ geneId }} has {{ countPromoters }} promoters:
+            The gene {{ geneId }} has {{ countPromoters }} promoters, {{countPromotersAssociated}} have at least one Associated CpG (highlighted in <b>bold</b>):
             <ul class="list mt-2 mb-2">
-            {% for prom in promoterIDs %}
-                <li class="list item"><b>{{ prom.promoterID }}</b>  ({{ prom.chrom }}:{{ prom.chromStartPromoter }}-{{ prom.chromEndPromoter }})</li>
+            {% for prom in allPromoters %}
+                {% if prom.associated %}
+                    <li class="list item"><b>{{ prom.id }}</b>  ({{ prom.chrom }}:{{ prom.chromStart }}-{{ prom.chromEnd }})</li>
+                {% else %}
+                    <li class="list item">{{ prom.id }}  ({{ prom.chrom }}:{{ prom.chromStart }}-{{ prom.chromEnd }})</li>
+                {% endif %}
+                
             {% endfor %}
             </ul>
         </div>

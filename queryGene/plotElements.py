@@ -6,29 +6,7 @@ from sqlalchemy import inspect
 
 from django.conf import settings
 
-from .models import getMethylation,snpsAssociated_FDR_promotersEPD
-
-def plotEnhancers(inputDict):
-    baseLink = settings.SUB_SITE+"/querySNP/snp/"
-    xValues = []
-    yValues = []
-    numSamples = 0
-    for element in inputDict:
-        yValues.append(element.numOverlaps)
-        xValue = "<a href='"+baseLink+element.snpID+"'>"+element.snpID+"</a>"
-        xValues.append(xValue)
-        numSamples = numSamples + 1
-
-    ancho = 100+(numSamples*50)
-    
-    layout = go.Layout(width=ancho,height=400,bargap=0.1)
-    fig = go.Figure(data=[
-        go.Bar(name='Associated CpGs in Enhancers', x=xValues, y=yValues, marker_color='rgb(25, 74, 144)')],layout=layout)
-    fig.update_layout(xaxis_tickangle=-45 ,xaxis_tickfont_size=12)
-    fig.update_yaxes(title_text='<b>Count CpGs</b>')
-
-    div_obj = plot(fig, show_link=False, auto_open=False, include_plotlyjs=True, output_type = 'div')
-    return div_obj
+from .models import getMethylation,getGenotype,snpsAssociated_FDR_promotersEPD
 
 def plotTrafficLights(inputDict):
 
@@ -54,11 +32,10 @@ def plotTrafficLights(inputDict):
     div_obj = plot(fig, show_link=False, auto_open=False, include_plotlyjs=True, output_type = 'div')
     return div_obj
 
-def plotPromoter(inputID):
+def plotPromoter(inputID,snpID):
     
     div_obj = ""
-
-    inputList = snpsAssociated_FDR_promotersEPD.get_PromoterId(inputID)
+    inputList = snpsAssociated_FDR_promotersEPD.get_Promoter_SNP_Id(inputID,snpID)
 
     for element in inputList:
         try:
@@ -77,12 +54,17 @@ def plotPromoter(inputID):
     valuesPlot["methRatio"] = []
     valuesPlot["CpG ID"] = []
     valuesPlot["Sample"] = []
-    valuesPlot["Associated"] = []
+    valuesPlot["Genotype"] = []
 
     cpgs = outputList[2]    
     start = int(outputList[0])
     end = int(outputList[1])
     chrom = outputList[3]
+
+    genotypes = getGenotype.getGenotypeCpG(snpID)
+    ref = str(getattr(genotypes,"reference"))+str(getattr(genotypes,"reference"))
+    alt = str(getattr(genotypes,"alternative"))+str(getattr(genotypes,"alternative"))
+    het = str(getattr(genotypes,"reference"))+str(getattr(genotypes,"alternative"))
 
     #Gene in minus strand
     if start>end:
@@ -96,21 +78,21 @@ def plotPromoter(inputID):
             inst = inspect(methylationCpG)
             attr_names = [c_attr.key for c_attr in inst.mapper.column_attrs]
             for att in attr_names:
-                valueMeth = getattr(methylationCpG,att)
-                
+                valueMeth = getattr(methylationCpG,att)             
                 if valueMeth and not "_" in str(valueMeth):
+                    valueGenotype = str(int(getattr(genotypes,att))).replace("0",ref).replace("1",het).replace("2",alt)
                     valuesPlot["methRatio"].append(valueMeth)
-                    valuesPlot["CpG ID"].append(idElement)
                     valuesPlot["Sample"].append(att)  
+                    valuesPlot["Genotype"].append(valueGenotype)
                     try:
                         cpgs[idElement]
-                        valuesPlot["Associated"].append("YES")
+                        valuesPlot["CpG ID"].append("<b style='color:red';>"+idElement+"</b>")
                     except:
-                        valuesPlot["Associated"].append("NO")
+                        valuesPlot["CpG ID"].append(idElement)
     
     df = pd.DataFrame(data=valuesPlot)
 
-    fig = px.strip(df, 'CpG ID', 'methRatio', 'Associated', hover_data=["Sample"])
+    fig = px.strip(df, 'CpG ID', 'methRatio', 'Genotype', hover_data=["Sample"])
 
     fig.update_layout(width=1000, height=500,legend_orientation="h",xaxis_tickfont_size=14)
     fig.update_xaxes(title_text='')

@@ -8,14 +8,23 @@
           </div>
         </div>
         <div class="modal-body modalPromoterBody">
+          <div class="row ml-1">
+              Please select a promoter and a SNP ID:
+          </div>
           <div class="row">
             <div class="col-lg-3">
               <div class="form-group">
-                <label >Select promoter:</label>
                 <select class="form-control" id="promoterIDs">
-                  {% for promoter in promoterIDs %}
-                    <option> {{ promoter.promoterID }}</option>
+                  <option value = "" selected disabled>Select promoter</option>
+                  {% for promoter,value in promoterIDs.items %}
+                    <option value="{{ value }}" name="{{ promoter }}"> {{ promoter }}</option>
                   {% endfor %}
+                </select>         
+              </div>
+            </div>
+            <div class="col-lg-3">
+              <div class="form-group">
+                <select class="form-control" id="snpIDs">
                 </select>
               </div>
             </div>
@@ -26,7 +35,6 @@
               </div>
             </div>
           </div>
-          
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

@@ -12,7 +12,7 @@
     {% endif %}
 
     {%if not error %}
-    <div class="menu-hide" id="menu-hide">
+    <div class="menu-hide" id="menu-hide">        
         {% include "queryGene/summary.html" %}
     </div>
     {% endif %}
@@ -36,7 +36,6 @@
 <!-- Script for modal -->
 <script>
     $('.ajaxButtonGTEx').on('click', function (e) {
-        $("#modalGTExExpression").html("<img style='display: block;margin: 0 auto;' src='{% static 'images/wait.svg'%}'>")
         $.ajax({
         url: '{% url "ajax_gtex" %}',
         data: {
@@ -56,7 +55,8 @@
         $.ajax({
                 url: '{% url "ajax_promoter" %}',
                 data: {
-                    "promoterID" : $("#promoterIDs").val(),
+                    "promoterVal" : $("#promoterIDs").find('option:selected').attr("name"),
+                    "snpID" : $("#snpIDs").val(),
                 },
                 dataType: 'json',
                 success: function (data) {
@@ -69,11 +69,24 @@
         plotPromoter();
     });
 
+    $('#promoterIDs').on('change', function (e) {
+        var snps = this.value;
+        var snps_edited = snps.replace("[", '').replace("]","")
+        var array = snps_edited.split(",");
+        var text = "<option value='' selected disabled >Select a SNP ID </>";
+        for (i = 0; i < array.length; i++) {
+            text += "<option>" + array[i].replace("'","").replace("'","") + "</option>";
+        }
+        $("#snpIDs").html(text);
+        $("#modalPromoterPlot").html("");
+    });
 
-    $('#promoterIDs').on('change', function (e) {  
+    $('#snpIDs').on('change', function (e) {  
        plotPromoter();
     });
+
 </script>
+
 
 {% endblock %}
 

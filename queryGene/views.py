@@ -12,10 +12,10 @@ from django.urls import reverse_lazy
 import requests
 
 from queryGene.plotExpression import plotExpression
-from queryGene.plotElements import plotEnhancers, plotTrafficLights, plotPromoter
+from queryGene.plotElements import plotTrafficLights, plotPromoter
 
 from .forms import QueryGene
-from .models import snpsAssociated_FDR_promotersEPD, snpsAssociated_FDR_chrom, getGeneID, snpsAssociated_FDR_enhancers, snpsAssociated_FDR_trafficLights, getGencode,genes,topResultsGenes,getMethylation
+from .models import snpsAssociated_FDR_promotersEPD, snpsAssociated_FDR_chrom, getGeneID, snpsAssociated_FDR_enhancers, snpsAssociated_FDR_trafficLights, getGencode,genes,topResultsGenes,getMethylation,getAllPromoters
 
 class Errors(Enum):
     NO_ERROR = 0
@@ -35,11 +35,13 @@ def queryExpression(request):
 def queryPlotPromoter(request):
     dataPlot = {}
 
-    promoterID = request.GET.get('promoterID', None)
-
-    plot = plotPromoter(promoterID)
-    
-    dataPlot['plot']="<center>"+plot+"</center>"
+    promoterID = request.GET.get('promoterVal', None)
+    snpID = request.GET.get('snpID', None)
+    if promoterID:
+        plot = plotPromoter(promoterID,snpID)
+        dataPlot['plot']="<center>"+plot+"</center>"
+    else:
+        dataPlot['plot']=""
 
     return JsonResponse(dataPlot)
 
@@ -60,7 +62,7 @@ class GenesAssociated(TemplateView):
         promotersOut = []
         tLights = []
         countPromoters = ""
-        methylationPromoter = ""
+        countPromotersAssociated = ""
         geneCode = ""
         description = ""
 
@@ -75,11 +77,31 @@ class GenesAssociated(TemplateView):
 
             #GET PROMOTERS
 
-            promoterIDs = snpsAssociated_FDR_promotersEPD.get_Promoters_Gene(geneId)
-            if promoterIDs:
-                countPromoters = len(promoterIDs)
-            
+            prePromoterIDs = snpsAssociated_FDR_promotersEPD.getPromoterIDs(geneId)
+            promoterIDs = {}
+            if prePromoterIDs:
+                for element in prePromoterIDs:
+                    try:
+                        value = promoterIDs[element.promoterID]
+                    except:
+                        value = []
+                    value.append(element.snpID)
+                    promoterIDs[element.promoterID] = value
+                countPromotersAssociated = len(promoterIDs)
             promoters = snpsAssociated_FDR_promotersEPD.get_SNPs_Promoters(geneId)
+
+            ##GET ALL PROMOTERS
+            allPromoters = getAllPromoters.getAllPromoters_Gene(geneId)
+            newAllPromoters = []
+            for promoter in allPromoters:
+                try:
+                    promoterIDs[promoter.id]
+                    setattr(promoter, 'associated', True)
+                except:
+                    setattr(promoter, 'associated', False)
+                newAllPromoters.append(promoter)
+            allPromoters = newAllPromoters
+            countPromoters = len(allPromoters)  
             
             ##Proceso promotores
             if promoters:
@@ -99,10 +121,7 @@ class GenesAssociated(TemplateView):
 
             ##GET TLIGHTS
             tLights = snpsAssociated_FDR_trafficLights.get_trafficLights(geneId)
-            # # if tLights:
-            #     barPlotTLights = plotTrafficLights(tLights)
-            #     countTLights = len(tLights)
-            
+
 
             if promoters is None and tLights==None:
                 geneInDB = getGeneID.get_Genes(geneId)
@@ -172,7 +191,9 @@ class GenesAssociated(TemplateView):
             'geneId': geneId,
             'geneCode': geneCode,
             'promoterIDs':promoterIDs,
+            'allPromoters':allPromoters,
             'countPromoters':countPromoters,
+            'countPromotersAssociated':countPromotersAssociated,
             'promoters': promotersOut,
             'tLights': tLights,
             'description':description,

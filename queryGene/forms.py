@@ -1,4 +1,5 @@
 from django import forms
+from .models import snpsAssociated_FDR_promotersEPD
 # from querySNP.models import SNPinfo
 
 class QueryGene(forms.Form):
