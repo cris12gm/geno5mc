@@ -53,18 +53,26 @@ class GenesAssociated(TemplateView):
         return redirect(settings.SUB_SITE+"/query/#gene")
 
     def post(self, request):
+
         form = QueryGene(request.POST)
         error = None
         similarV = []
 
         baseLink = settings.SUB_SITE
 
-        promotersOut = []
-        tLights = []
-        countPromoters = ""
-        countPromotersAssociated = ""
+        # Variables gene 
         geneCode = ""
         description = ""
+
+        #Variables promoters
+        promotersOut = []
+        promoters = []
+        promoterIDs = []
+        allPromoters = []
+        countPromoters = ""
+        countPromotersAssociated = ""
+
+        tLights = []
 
         if form.is_valid():
             geneId = form.cleaned_data.get('GeneId')
@@ -120,7 +128,6 @@ class GenesAssociated(TemplateView):
                     
                     promotersOut[promoterID,cpg] = snps
             
-
             ##GET TLIGHTS
             tLights = snpsAssociated_FDR_trafficLights.get_trafficLights(geneId)
 
@@ -200,7 +207,6 @@ class GenesAssociated(TemplateView):
             'tLights': tLights,
             'description':description,
             'baseLink': baseLink,
-            'query_form': form,
             'error': error,
             'similar':similarV
         })   
@@ -210,25 +216,24 @@ class GenesAssociatedGET(TemplateView):
 
     def get(self, request, gene):
 
-        form = QueryGene(request.POST)
         error = None
         similarV = []
 
         baseLink = settings.SUB_SITE
 
-        promotersOut = []
-        enhancers = []
-        tLights = []
-        topResults = []
-        barPlotPromoters = ""
-        countPromoters = ""
-        methylationPromoter = ""
-        barPlotEnhancers = ""
-        countEnhancers = ""
-        barPlotTLights = ""
-        countTLights = ""
+        # Variables gene 
         geneCode = ""
         description = ""
+
+        #Variables promoters
+        promotersOut = []
+        promoters = []
+        promoterIDs = []
+        allPromoters = []
+        countPromoters = ""
+        countPromotersAssociated = ""
+
+        tLights = []
 
         geneId = gene 
 
@@ -240,27 +245,48 @@ class GenesAssociatedGET(TemplateView):
 
         #GET PROMOTERS
 
-        promoterIDs = snpsAssociated_FDR_promotersEPD.get_Promoters_Gene(geneId)
-        if promoterIDs:
-            countPromoters = len(promoterIDs)
-        
-        promoters = snpsAssociated_FDR_promotersEPD.get_SNPs_Promoters(geneId)
-        
-        ##Proceso promotores
-        if promoters:
-            promotersOut = {}
-            for element in promoters:
-                cpg = element.chromStartCpG
-                snpID = element.snpID
-                promoterID = element.promoterID
+        prePromoterIDs = snpsAssociated_FDR_promotersEPD.getPromoterIDs(geneId)
+        promoterIDs = {}
+        if prePromoterIDs:
+            for element in prePromoterIDs:
                 try:
-                    snps = promotersOut[promoterID,cpg]
-                    snps = snps+", "+snpID
+                    value = promoterIDs[element.promoterID]
                 except:
-                    snps = snpID
-                
-                promotersOut[promoterID,cpg] = snps
+                    value = []
+                value.append(element.snpID)
+                promoterIDs[element.promoterID] = value
+            countPromotersAssociated = len(promoterIDs)
         
+            promoters = snpsAssociated_FDR_promotersEPD.get_SNPs_Promoters(geneId)
+
+            ##GET ALL PROMOTERS
+            allPromoters = getAllPromoters.getAllPromoters_Gene(geneId)
+            newAllPromoters = []
+            if allPromoters:
+                for promoter in allPromoters:
+                    try:
+                        promoterIDs[promoter.id]
+                        setattr(promoter, 'associated', True)
+                    except:
+                        setattr(promoter, 'associated', False)
+                    newAllPromoters.append(promoter)
+                allPromoters = newAllPromoters
+                countPromoters = len(allPromoters)  
+            
+            ##Proceso promotores
+            if promoters:
+                promotersOut = {}
+                for element in promoters:
+                    cpg = element.chromStartCpG
+                    snpID = element.snpID
+                    promoterID = element.promoterID
+                    try:
+                        snps = promotersOut[promoterID,cpg]
+                        snps = snps+", "+snpID
+                    except:
+                        snps = snpID
+                    
+                    promotersOut[promoterID,cpg] = snps
 
         ##GET TLIGHTS
         tLights = snpsAssociated_FDR_trafficLights.get_trafficLights(geneId)
@@ -311,14 +337,13 @@ class GenesAssociatedGET(TemplateView):
             'geneId': geneId,
             'geneCode': geneCode,
             'promoterIDs':promoterIDs,
+            'allPromoters':allPromoters,
             'countPromoters':countPromoters,
+            'countPromotersAssociated':countPromotersAssociated,
             'promoters': promotersOut,
             'tLights': tLights,
-            'barPlotTLights':barPlotTLights,
-            'countTLights':countTLights,
             'description':description,
             'baseLink': baseLink,
-            'query_form': form,
             'error': error,
             'similar':similarV
         })   
