@@ -89,22 +89,22 @@ class GenesAssociated(TemplateView):
                     promoterIDs[element.promoterID] = value
                 countPromotersAssociated = len(promoterIDs)
             
-            ##GET ALL PROMOTERS
-            allPromoters = getAllPromoters.getAllPromoters_Gene(geneId)
-            newAllPromoters = []
-            if allPromoters:
-                for promoter in allPromoters:
-                    try:
-                        promoterIDs[promoter.id]
-                        setattr(promoter, 'associated', True)
-                    except:
-                        setattr(promoter, 'associated', False)
-                    newAllPromoters.append(promoter)
-                allPromoters = newAllPromoters
-                countPromoters = len(allPromoters)
-                
-            promoters = snpsAssociated_FDR_promotersEPD.get_SNPs_Promoters(geneId)
+                promoters = snpsAssociated_FDR_promotersEPD.get_SNPs_Promoters(geneId)
 
+                ##GET ALL PROMOTERS
+                allPromoters = getAllPromoters.getAllPromoters_Gene(geneId)
+                newAllPromoters = []
+                if allPromoters:
+                    for promoter in allPromoters:
+                        try:
+                            promoterIDs[promoter.id]
+                            setattr(promoter, 'associated', True)
+                        except:
+                            setattr(promoter, 'associated', False)
+                        newAllPromoters.append(promoter)
+                    allPromoters = newAllPromoters
+                    countPromoters = len(allPromoters)  
+            
             ##Proceso promotores
             if promoters:
                 promotersOut = {}
