@@ -61,6 +61,7 @@
                 dataType: 'json',
                 success: function (data) {
                     $("#modalPromoterPlot").html(data.plot);
+                    $("infoPromoterSelected").html(data.coordinates);
                     if(data.plot){
                         $("#plotNote").html('Important: CpGs highlighted in red are Associated CpGs');
                     }

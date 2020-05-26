@@ -45,11 +45,24 @@ def queryPlotPromoter(request):
     promoterID = request.GET.get('promoterVal', None)
     snpID = request.GET.get('snpID', None)
     if promoterID:
-        plot = plotPromoter(promoterID,snpID)
+        plot,coordinates = plotPromoter(promoterID,snpID)
         dataPlot['plot']="<center>"+plot+"</center>"
+        dataPlot['coordinates'] = coordinates
     else:
         dataPlot['plot']=""
 
+    return JsonResponse(dataPlot)
+
+def queryPlotTLights(request):
+    dataPlot = {}
+
+    snpID = request.GET.get('snpID', None)
+    geneID = request.GET.get('geneID', None)
+    if snpID:
+        plot = plotTrafficLights(snpID,geneID)
+        dataPlot['plot'] = "<center>"+plot+"</center>"
+    else:
+        dataPlot['plot'] = ""
     return JsonResponse(dataPlot)
 
 class GenesAssociated(TemplateView):
@@ -258,14 +271,15 @@ class GenesAssociatedGET(TemplateView):
         description = ""
 
         #Variables promoters
-        promotersOut = []
+        promotersOut = {}
         promoters = []
         promoterIDs = []
         allPromoters = []
         countPromoters = ""
         countPromotersAssociated = ""
 
-        tLights = []
+        tLights = {}
+        countTLights = ""
 
         geneId = gene 
 
@@ -320,13 +334,25 @@ class GenesAssociatedGET(TemplateView):
                     
                     promotersOut[promoterID,cpg] = snps
 
-        ##GET TLIGHTS
-        tLights = snpsAssociated_FDR_trafficLights.get_trafficLights(geneId)
-
-        # # if tLights:
-        #     barPlotTLights = plotTrafficLights(tLights)
-        #     countTLights = len(tLights)
-        
+    ##GET TLIGHTS
+        pretLights = snpsAssociated_FDR_trafficLights.get_trafficLights(geneId)
+        if pretLights:
+            for element in pretLights:
+                chrom = element.chrom
+                cpg = str(element.chromStartTL)
+                snpID = element.snpID
+                try:
+                    [snps,allsnps,button] = tLights[cpg]
+                    if button<5:
+                        snps = snps+", "+snpID
+                    allsnps = allsnps + ";" + element.snpID
+                    button = button + 1
+                except:
+                    snps = snpID
+                    allsnps = snpID
+                    button = 1
+                tLights[cpg] = [snps,allsnps,button]
+            countTLights = len(tLights)
 
         if promoters is None and tLights==None:
             geneInDB = getGeneID.get_Genes(geneId)
@@ -369,12 +395,14 @@ class GenesAssociatedGET(TemplateView):
         return render(request, self.template, {
             'geneId': geneId,
             'geneCode': geneCode,
+            'chrom':chrom,
             'promoterIDs':promoterIDs,
             'allPromoters':allPromoters,
             'countPromoters':countPromoters,
             'countPromotersAssociated':countPromotersAssociated,
             'promoters': promotersOut,
             'tLights': tLights,
+            'countTLights':countTLights,
             'description':description,
             'baseLink': baseLink,
             'error': error,
