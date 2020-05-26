@@ -92,7 +92,7 @@ def plotPromoter(inputID,snpID):
     
     df = pd.DataFrame(data=valuesPlot)
 
-    fig = px.strip(df, 'CpG ID', 'methRatio', 'Genotype', hover_data=["Sample"])
+    fig = px.strip(df, 'CpG ID', 'methRatio', 'Genotype', hover_data=["Sample"],category_orders={"Genotype":[ref,het,alt]})
 
     fig.update_layout(width=1000, height=500,legend_orientation="h",xaxis_tickfont_size=14)
     fig.update_xaxes(title_text='')
