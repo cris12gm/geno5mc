@@ -91,6 +91,34 @@
 
 </script>
 
+<!-- Script for modal of View More -->
+<script>
+    $('.ajaxButtonSNP').on('click', function (e) {
+        $.ajax({
+        url: '{% url "ajax_viewMore" %}',
+        data: {
+            "snps" : this.id
+        },
+        dataType: 'json',
+        success: function (data) {
+            $("#modalSNP-content").html(data.snps);
+        }
+        });
+    });
+    $('.ajaxButtonSNP-TL').on('click', function (e) {
+        $.ajax({
+        url: '{% url "ajax_viewMore" %}',
+        data: {
+            "snps" : this.id
+        },
+        dataType: 'json',
+        success: function (data) {
+            $("#modalSNP-TL-content").html("test");
+        }
+        });
+    });
+</script>
+
 
 {% endblock %}
 

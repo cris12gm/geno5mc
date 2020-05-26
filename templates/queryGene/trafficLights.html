@@ -1,4 +1,51 @@
 {% load staticfiles %}
 <div id="tlights" class="ml-3">
     <h3>Traffic Lights</h3>
+    <div id="contentTLights" class="ml-5">
+        <div>
+            The gene {{ geneId }} has {{ countTLights }} Traffic Lights that are also Associated CpGs.
+        </div>
+        <div style="overflow-x: auto;">
+            <a class="ajaxButtonTLights" id="buttonPlot{{ geneId }}" data-toggle="modal" data-target="#modalTLights">
+                <button class="btn btn-success btn-sm buttonPromoter">View Traffic Lights methylation</button>
+            </a>
+            {% include "queryGene/modalTLightsPlot.html" %}
+        </div>
+        <div id="resultsByCpG" class="mt-5">
+            <div class="card">
+                <div class="card-header">
+                    <b>Associated CpGs that are Traffic Lights of {{ geneId }} </b>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive tableResult">
+                        <table class="table table-bordered" id="dataTableSNPsTLights" width="100%" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <th class="titleTable">chromStart CpG</th>
+                                    <th class="titleTable">SNPs</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for key,value in tLights.items %}
+                                    <tr>
+                                        <td class="rowTable">{{ key }}</td>
+                                        <td class="rowTable">{{ value.0 }}
+                                        {% if value.2 > 5 %}
+                                            ,...
+                                            <a class="ajaxButtonSNP-TL" id="buttonSNP-TL_{{ value.1 }}" data-toggle="modal" data-target="#modalSNP-TL">
+                                                <button class="btn btn-success btn-sm buttonRegion">View more</button>
+                                            </a>
+                                            {% include "queryGene/modalSNP_TL.html" %}
+                                        {% endif %}
+                                        </td>
+
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

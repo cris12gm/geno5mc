@@ -1,8 +1,6 @@
 {% load staticfiles %}
 <div id="promoters">
-
     <h2 class="ml-3">Promoter</h2>
-
     <div id="contentPromoters" class="ml-5">
         <div>
             The gene {{ geneId }} has {{ countPromoters }} promoters, {{countPromotersAssociated}} have at least one Associated CpG (highlighted in <b>bold</b>):
@@ -13,14 +11,13 @@
                 {% else %}
                     <li class="list item">{{ prom.id }}  ({{ prom.chrom }}:{{ prom.chromStart }}-{{ prom.chromEnd }})</li>
                 {% endif %}
-                
             {% endfor %}
             </ul>
         </div>
         
         <div style="overflow-x: auto;">
             <a class="ajaxButtonPromoter" id="buttonPlot{{ geneId }}" data-toggle="modal" data-target="#modalPromoter">
-                <button class="btn btn-success btn-sm buttonPromoter">View promoters methylation</button>
+                <button class="btn btn-success btn-sm buttonPromoter">View promoter methylation</button>
             </a>
             {% include "queryGene/modalPromoterPlot.html" %}
         </div>        
@@ -46,7 +43,15 @@
                                     <tr>
                                         <td class="rowTable">{{ key.0 }}</td>
                                         <td class="rowTable">{{ key.1 }}</td>
-                                        <td class="rowTable">{{ value }}</td>
+                                        <td class="rowTable">{{ value.0 }}
+                                        {% if value.2 > 5 %}
+                                            ,...
+                                            <a class="ajaxButtonSNP" id="buttonSNP_{{ value.1 }}" data-toggle="modal" data-target="#modalSNP">
+                                                <button class="btn btn-success btn-sm buttonRegion">View more</button>
+                                            </a>
+                                        {% include "queryGene/modalSNP.html" %}
+                                        {% endif %}
+                                        </td>
                                     </tr>
                                 {% endfor %}
                             </tbody>
@@ -54,7 +59,6 @@
                     </div>
                 </div>
             </div>
-            
         </div>
     </div>
     
