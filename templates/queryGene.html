@@ -61,6 +61,9 @@
                 dataType: 'json',
                 success: function (data) {
                     $("#modalPromoterPlot").html(data.plot);
+                    if(data.plot){
+                        $("#plotNote").html('Important: CpGs highlighted in red are Associated CpGs');
+                    }
                 }
             });
     }
@@ -79,6 +82,7 @@
         }
         $("#snpIDs").html(text);
         $("#modalPromoterPlot").html("");
+        $("#plotNote").html("");
     });
 
     $('#snpIDs').on('change', function (e) {  
