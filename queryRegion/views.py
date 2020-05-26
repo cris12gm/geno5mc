@@ -83,6 +83,7 @@ class RegionAssociated(TemplateView):
                 associations[cpg] = snps,allsnps,button
             cpgs = set(cpgs)
         return render(request, self.template, {
+            'chrom':chrom,
             'region':region,
             'associations':associations,
             'cpgs':cpgs,

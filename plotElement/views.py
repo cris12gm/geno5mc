@@ -117,7 +117,7 @@ def PlotTLights(snpID,geneID):
         
     df = pd.DataFrame(data=valuesPlot)
 
-    fig = px.strip(df, 'CpG ID', 'methRatio', 'Genotype', stripmode='group', hover_data=["Sample"], width=250*numSamples)
+    fig = px.strip(df, 'CpG ID', 'methRatio', 'Genotype', stripmode='group', hover_data=["Sample"] ,category_orders={"Genotype":[ref,het,alt]}, width=250*numSamples)
 
     fig.update_layout(
         height=500,legend_orientation="h",xaxis_tickfont_size=14, legend_title='<b>Genotype</b>'
@@ -176,7 +176,7 @@ def PlotPromoters(snpID,geneID,start,end):
         
     df = pd.DataFrame(data=valuesPlot)
 
-    fig = px.strip(df, 'CpG ID', 'methRatio', 'Genotype', stripmode='group', hover_data=["Sample"])
+    fig = px.strip(df, 'CpG ID', 'methRatio', 'Genotype', stripmode='group', hover_data=["Sample"], category_orders={"Genotype":[ref,het,alt]})
 
     fig.update_layout(
         width=300*numSamples, height=500,legend_orientation="h",xaxis_tickfont_size=14, legend_title='<b>Genotype</b>'
@@ -234,7 +234,7 @@ def PlotEnhancers(snpID,enhancerID,start,end):
 
     df = pd.DataFrame(data=valuesPlot)
 
-    fig = px.strip(df, 'CpG ID', 'methRatio', 'Genotype', stripmode='group', hover_data=["Sample"])
+    fig = px.strip(df, 'CpG ID', 'methRatio', 'Genotype', stripmode='group', hover_data=["Sample"],category_orders={"Genotype":[ref,het,alt]})
     #stripmode='overlay' to group 
     fig.update_layout(
         width=300*numSamples, height=500, legend_orientation="h",legend_title='<b> Genotype </b>',xaxis_tickfont_size=14

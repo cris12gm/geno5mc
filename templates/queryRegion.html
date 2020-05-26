@@ -18,12 +18,14 @@
                 <div class="row ml-2">
                     <h2>{{ region }}</h2>
                 </div>
-                <div class="row ml-2">
+                <div class="row ml-2 mt-2">
                     <div style="overflow-x: auto;">
-                        <a class="ajaxButtonRegion" id="buttonPlot{{ region }}" data-toggle="modal" data-target="#modalRegionPlot">
-                            <button class="btn btn-success btn-sm buttonRegion">View region methylation</button>
-                        </a>
+                        <div class="btn-group btn-group-sm" data-toggle="buttons">
+                            <button type="button" id="buttonPlot{{ region}}" data-toggle="modal" data-target="#modalRegionPlot" class="btn btn-info buttonRegion ajaxButtonRegion">View region methylation</button>
+                            <button type="button"  id="buttonPlotSNP{{ region }}" data-toggle="modal" data-target="#modalRegionSNPPlot" class="btn btn-info buttonRegion ajaxButtonRegionSNP">View region methylation by SNP</button>
+                        </div>
                         {% include "queryRegion/modalRegionPlot.html" %}
+                        {% include "queryRegion/modalRegionSNPPlot.html" %}
                     </div>
                 </div>
                 <div class="row ml-2 mt-5" id="resultsByCpG">

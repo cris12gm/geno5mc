@@ -3,9 +3,15 @@
     <div class="modal-dialog modal-lg" role="document">
       <div class="modal-content">
         <div class="modal-header">
+          <div id="modal-header-RegionSNP">
+            <h3>SNPs associated with {{ chrom }}:{{ key }}</h3>
+          </div>
         </div>
         <div class="modal-body">
           <div id="modalRegionSNP-content">
+          </div>
+          <div class="mt-3">
+            <button type="button" data-dismiss="modal" id="buttonPlotSNP{{ region }}" data-toggle="modal" data-target="#modalRegionSNPPlot" class="btn btn-info btn-sm buttonRegion ajaxButtonRegionSNP">View region methylation by SNP</button>
           </div>
         </div>
         <div class="modal-footer">
