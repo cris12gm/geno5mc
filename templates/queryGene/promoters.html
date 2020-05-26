@@ -46,7 +46,7 @@
                                         <td class="rowTable">{{ value.0 }}
                                         {% if value.2 > 5 %}
                                             ,...
-                                            <a class="ajaxButtonSNP" id="buttonSNP_{{ value.1 }}" data-toggle="modal" data-target="#modalSNP">
+                                            <a class="ajaxButtonSNP" name="{{ key.1 }}" id="buttonSNP_{{ value.1 }}" data-toggle="modal" data-target="#modalSNP">
                                                 <button class="btn btn-success btn-sm buttonRegion">View more</button>
                                             </a>
                                         {% include "queryGene/modalSNP.html" %}

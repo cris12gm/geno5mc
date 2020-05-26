@@ -1,11 +1,11 @@
 {% load staticfiles %}
-<div id="tlights" class="ml-3">
-    <h3>Traffic Lights</h3>
+<div id="tlights">
+    <h2 class="ml-3">Traffic Lights</h2>
     <div id="contentTLights" class="ml-5">
-        <div>
+        <div class="mb-2">
             The gene {{ geneId }} has {{ countTLights }} Traffic Lights that are also Associated CpGs.
         </div>
-        <div style="overflow-x: auto;">
+        <div style="overflow-x: auto;" >
             <a class="ajaxButtonTLights" id="buttonPlot{{ geneId }}" data-toggle="modal" data-target="#modalTLights">
                 <button class="btn btn-success btn-sm buttonPromoter">View Traffic Lights methylation</button>
             </a>
@@ -32,7 +32,7 @@
                                         <td class="rowTable">{{ value.0 }}
                                         {% if value.2 > 5 %}
                                             ,...
-                                            <a class="ajaxButtonSNP-TL" id="buttonSNP-TL_{{ value.1 }}" data-toggle="modal" data-target="#modalSNP-TL">
+                                            <a class="ajaxButtonSNP-TL" name="{{ key }}" id="buttonSNP-TL_{{ value.1 }}" data-toggle="modal" data-target="#modalSNP-TL">
                                                 <button class="btn btn-success btn-sm buttonRegion">View more</button>
                                             </a>
                                             {% include "queryGene/modalSNP_TL.html" %}

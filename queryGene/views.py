@@ -25,7 +25,8 @@ class Errors(Enum):
 def queryMore(request):
     dataOut = {}
     dataIn = request.GET.get('snps', None).replace("buttonSNP_","").replace("buttonSNP-TL_","").replace(";",", ")
-    dataOut["snps"]=dataIn
+    dataOut["snps"] = dataIn
+    dataOut["cpg"] = "SNPs associated with "+request.GET.get('chrom',None)+":"+str(request.GET.get('cpg',None))
     return JsonResponse(dataOut)
 
 def queryExpression(request):

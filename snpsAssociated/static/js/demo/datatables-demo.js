@@ -66,6 +66,7 @@ $(document).ready(function() {
     "order":[[1,"desc"]]
   });
   $('#dataTableSNPsTLights').DataTable({
+    "pageLength" : 5,
     "order":[[1,"desc"]]
   });
   // QueryTrait
