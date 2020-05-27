@@ -83,6 +83,7 @@ class GenesAssociated(TemplateView):
         # Variables gene 
         geneCode = ""
         description = ""
+        chrom = ""
 
         #Variables promoters
         promotersOut = {}
