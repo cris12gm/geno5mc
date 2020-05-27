@@ -87,7 +87,7 @@ class GenesAssociated(TemplateView):
 
         #Variables promoters
         promotersOut = {}
-        promoters = []
+        promoters = None
         promoterIDs = []
         allPromoters = []
         countPromoters = ""
@@ -178,10 +178,10 @@ class GenesAssociated(TemplateView):
                     tLights[cpg] = [snps,allsnps,button]
                 countTLights = len(tLights)
 
+            print(promoters,tLights)
 
 
-
-            if promoters is None and tLights==None:
+            if promoters is None and pretLights==None:
                 geneInDB = getGeneID.get_Genes(geneId)
                 if geneInDB!=None:
                     error = Errors.NOT_ASSOCIATED
@@ -281,7 +281,7 @@ class GenesAssociatedGET(TemplateView):
 
         #Variables promoters
         promotersOut = {}
-        promoters = []
+        promoters = None
         promoterIDs = []
         allPromoters = []
         countPromoters = ""
@@ -365,7 +365,7 @@ class GenesAssociatedGET(TemplateView):
                 tLights[cpg] = [snps,allsnps,button]
             countTLights = len(tLights)
 
-        if promoters is None and tLights==None:
+        if promoters is None and pretLights==None:
             geneInDB = getGeneID.get_Genes(geneId)
             if geneInDB!=None:
                 error = Errors.NOT_ASSOCIATED
