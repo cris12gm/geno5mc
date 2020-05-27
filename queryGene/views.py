@@ -157,6 +157,7 @@ class GenesAssociated(TemplateView):
             
             ##GET TLIGHTS
             pretLights = snpsAssociated_FDR_trafficLights.get_trafficLights(geneId)
+            snps_select = {}
             if pretLights:
                 for element in pretLights:
                     chrom = element.chrom
@@ -172,8 +173,12 @@ class GenesAssociated(TemplateView):
                         snps = snpID
                         allsnps = snpID
                         button = 1
+                    snps_select[snpID] = ""
                     tLights[cpg] = [snps,allsnps,button]
                 countTLights = len(tLights)
+
+
+
 
             if promoters is None and tLights==None:
                 geneInDB = getGeneID.get_Genes(geneId)
@@ -250,6 +255,7 @@ class GenesAssociated(TemplateView):
             'promoters': promotersOut,
             'tLights': tLights,
             'countTLights':countTLights,
+            'snpsSelect':snps_select,
             'description':description,
             'baseLink': baseLink,
             'error': error,

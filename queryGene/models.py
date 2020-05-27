@@ -92,6 +92,12 @@ class snpsAssociated_FDR_trafficLights(Base):
         session.close()
         return data if len(data) > 0 else None
 
+    def get_trafficLights_SNP(_id,_snpid):
+        session = createSessionSQL(KEY_snpsAssociated_annotation)
+        data = session.query(snpsAssociated_FDR_trafficLights).filter_by(gene=_id).filter_by(snpID=_snpid).all()
+        session.close()
+        return data if len(data) > 0 else None
+
 class getGeneID(Base):
     __tablename__ = "geneID"
 

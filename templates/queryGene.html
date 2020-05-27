@@ -92,6 +92,33 @@
 
 </script>
 
+
+<script>
+    var plotTLights = function(e) {
+        $("#modalTLightsPlot").html("<img style='display: block;margin: 0 auto;' src='{% static 'images/wait.svg'%}'>");
+        $.ajax({
+                url: '{% url "ajax_tlights" %}',
+                data: {
+                    "snpID" : document.getElementById("snpIDSelected").value,
+                    "geneID" : "{{ geneId}}"
+                },
+                dataType: 'json',
+                success: function (data) {
+                    $("#modalTLightsPlot").html(data.plot);
+                }
+            });
+    }
+
+    $('.ajaxButtonTLights').on('click', function (e) {
+        plotTLights();
+    });
+
+    $('#snpIDSelected').on('change', function (e) {  
+       plotTLights();
+    });
+
+
+</script>
 <!-- Script for modal of View More -->
 <script>
     $('.ajaxButtonSNP').on('click', function (e) {

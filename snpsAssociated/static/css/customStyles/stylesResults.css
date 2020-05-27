@@ -40,7 +40,7 @@
 #titleBarPlotEnhancersGene{
     text-align:center;
 }
-#barPlotTLightsGene{
+.plotsOverflow{
     overflow-x: auto;
     width: 100%;
 }
