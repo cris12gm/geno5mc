@@ -268,6 +268,7 @@ class GenesAssociatedGET(TemplateView):
 
     def get(self, request, gene):
 
+        form = QueryGene(request.POST)
         error = None
         similarV = []
 
@@ -276,6 +277,7 @@ class GenesAssociatedGET(TemplateView):
         # Variables gene 
         geneCode = ""
         description = ""
+        chrom = ""
 
         #Variables promoters
         promotersOut = {}
@@ -287,7 +289,7 @@ class GenesAssociatedGET(TemplateView):
 
         tLights = {}
         countTLights = ""
-
+        
         geneId = gene 
 
         #GET GENCODE
@@ -341,8 +343,9 @@ class GenesAssociatedGET(TemplateView):
                     
                     promotersOut[promoterID,cpg] = snps
 
-    ##GET TLIGHTS
+        ##GET TLIGHTS
         pretLights = snpsAssociated_FDR_trafficLights.get_trafficLights(geneId)
+        snps_select = {}
         if pretLights:
             for element in pretLights:
                 chrom = element.chrom
@@ -358,6 +361,7 @@ class GenesAssociatedGET(TemplateView):
                     snps = snpID
                     allsnps = snpID
                     button = 1
+                snps_select[snpID] = ""
                 tLights[cpg] = [snps,allsnps,button]
             countTLights = len(tLights)
 
@@ -410,6 +414,7 @@ class GenesAssociatedGET(TemplateView):
             'promoters': promotersOut,
             'tLights': tLights,
             'countTLights':countTLights,
+            'snpsSelect':snps_select,
             'description':description,
             'baseLink': baseLink,
             'error': error,
