@@ -3,7 +3,8 @@
 
 {% block css %}
     <link href="{% static 'css/customStyles/stylesQuery.css'%}" rel="stylesheet">
-    
+    <link href="{% static 'tour/introjs.css'%}" rel="stylesheet">
+    <link href="{% static 'css/stylesIntroJs.css'%}" rel="stylesheet">
 {% endblock %}
 
 {% block content %}
@@ -11,7 +12,6 @@
 <!-- This script enables link to tabs-->
 <div class="menu-hide" id="menu-hide">
 
-    <div id="test">testing</div>
     <h1 class="titlePag"> QUERY DB</h1>
     <hr>
     <ul class="nav nav-tabs" id="tabsQuery" role="tablist">
@@ -32,7 +32,7 @@
         <div class="tab-pane fade show active" id="snp" role="tabpanel" aria-labelledby="snp-tab">
             <div class="row">
                 <div class="column">
-                    <div class="card cardQuery">
+                    <div class="card cardQuery" id="cardSNP">
                         <p class="card-header headerCardQuery" >Introduce a <b>SNP ID</b> to view its associations</p>
                         <p id="errorsFormSNP" class="text-danger text-center ml-2 mr-2 mt-2 font-weight-light"></p>
                         <form action="{% url 'querySNP' %}" method="POST"  id="formSNP" onsubmit="return checkformSNP();" class="formQuery">
@@ -40,8 +40,8 @@
                             <div class='form-group'">
                                 <input type="text" name="SNPid" maxlength="15" required id="SNPid">
                             </div>
-                            <button type="submit" id='submitSNP' class="btn btn-success btn-sm" >Submit</button>
-                            <button id="loadExSNP" class="btn btn-info btn-sm">Load Example</button>
+                            <button type="submit" id='submitSNP' class="btn btn-success btn-sm"  disabled="true">Submit</button>
+                            <button id="loadExSNP" class="btn btn-info btn-sm"  disabled="true">Load Example</button>
                         </form>
                     </div>
                 </div>
@@ -125,24 +125,63 @@
 </div>
 {% endblock %}
 {% block js %}
+<script src="{% static 'tour/intro.js' %}"></script>
 <script>
-    // Instance the tour
-    var tour = new Tour({
-    steps: [
-    {
-        element: "#test",
-        title: "Test",
-        placement: "bottom",
-        content: "Test",
-        backdrop: true,
-    }
-    ]});
+   var intro = introJs();
+    var options_before = {
+        steps: [
+            { 
+                intro: "<center><h3>Welcome to <img src='{% static 'images/title_v4.png'%}' width='180'></h3></center>DNA methylation is related to the regulation of gene expression. This database allows to explore statistically significant associations between sequence variants (SNPs) and changes in DNA methylation (CpG dinucleotides) in functionally relevant regions (promoters and enhancers). In this tour, we   illustrate this concept using <a href='https://www.ebi.ac.uk/gwas/variants/rs727563' target='_blank'>rs727563</a>, a SNP associated with inflammatory bowel disease in a Genome Wide Association Study ((Liu et al., 2015)). Although the GWAS showed a highly significant association, no mechanistic link is known between this SNP and the mentioned phenotype. Located on chromosome 22 (chr22:41471373, GRCh38.p12) this SNP is an intron variant of the gene <a href='https://www.ncbi.nlm.nih.gov/gene/50' target='_blank'>ACO2</a> which encodes for the aconitase 2 protein. <br><br><img src={% static 'images/tutorial_1.png'%} width='800px'>The <a href='https://www.ncbi.nlm.nih.gov/gene/50' target='_blank'>ACO2</a> belongs to the aconitase/IPM isomerase family, and catalyzes the interconversion of citrate to isocitrate via cis-aconitate in the second step of the TCA cycle. Diseases associated with ACO2 include Infantile Cerebellar-Retinal Degeneration and Optic Atrophy 9 (<a href='https://www.ncbi.nlm.nih.gov/pubmed/25351951' target='_blank'>Metodiev et al., 2014</a>; <a href='https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3309186/' target='_blank'>Spiegel et al., 2012</a>) so it has <u>no apparent association</u> with inflammatory bowel disease.<br><br>In the following steps we show how this SNP is statistically associated with changes in DNA methylation in promoter regions of relevant genes, and at least some of these CpGs dinucleotides were shown to correlate with gene expression levels.",
+                tooltipClass:"step1Tour"
+            },
+            { 
+                element: document.querySelector('#tabsQuery'),
+                intro: "In this section you will find the 4 different ways of querying the DB.",
+                tooltipClass:"step1Tour"
+            },
+            { 
+                element: document.querySelector('#cardSNP'),
+                intro: "In this tour we will show how it works the <i>Query SNP</i> utility",
+                tooltipClass:"step1Tour"
+            },
+            {
+                element: document.querySelector('#formSNP'),
+                intro: "To query a SNP, first, you will need to fill the search box with a SNP ID.",
+            },
+            {
+                element: document.querySelector('#submitSNP'),
+                intro: "Then just press <button class='btn btn-success btn-sm'>Submit</button> to see the results",
+                click: true,
+            },
+        ],
+        showStepNumbers:false,
+        hideNext:true,
+        disableInteraction:false,
+        tooltipClass:true,
+        doneLabel:"Next →",
+        scrollTo:"tooltip"
+    };
 
-    // Initialize the tour
-    tour.init();
+    intro.setOptions(options_before);
 
-    // Start the tour
-    tour.start();
+        intro.setOptions(options_before);
+        intro.onbeforechange(function () {
+
+        if (intro._currentStep == "4") {
+            document.getElementById("SNPid").value = "rs727563";
+            var submitB = document.getElementById("submitSNP");
+            submitB.disabled = false;
+        }
+        });
+
+        intro.oncomplete(function() {
+            var divAll = document.getElementById("menu-hide");
+            divAll.style.display="none";
+            ShowLoadingTour();
+            window.location.href = "{% url 'querySNP' %}/snp=rs727563";
+        });
+        intro.start();
 </script>
+
 {% endblock %}
 
