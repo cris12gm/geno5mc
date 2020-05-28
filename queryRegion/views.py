@@ -22,6 +22,9 @@ def queryViewMore(request):
 
     dataOut = {}
     dataIn = request.GET.get('snps', None).replace("buttonSNP_","").replace(";",", ")
+    cpg_id = "<h3>SNPs associated with "+request.GET.get('CpG_ID',None)+"</h3>"
+
+    dataOut['cpgid'] = cpg_id
     dataOut["snps"]=dataIn
 
     return JsonResponse(dataOut)

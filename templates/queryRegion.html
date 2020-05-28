@@ -51,7 +51,7 @@
                                                     {{ value.0 }}
                                                     {% if value.2 > 5 %}
                                                         ,...
-                                                        <a class="ajaxButtonRegionSNP" id="buttonSNP_{{ value.1 }}" data-toggle="modal" data-target="#modalRegionSNP">
+                                                        <a class="ajaxButtonRegionSNP" name="{{ chrom }}:{{ key }}" id="buttonSNP_{{ value.1 }}" data-toggle="modal" data-target="#modalRegionSNP">
                                                             <button class="btn btn-success btn-sm buttonRegion">View more</button>
                                                         </a>
                                                         {% include "queryRegion/modalRegionSNP.html" %}
@@ -81,10 +81,12 @@
         $.ajax({
         url: '{% url "ajax_regionViewMore" %}',
         data: {
-            "snps" : this.id
+            "snps" : this.id,
+            "CpG_ID":this.name
         },
         dataType: 'json',
         success: function (data) {
+            $("#modal-header-RegionSNP").html(data.cpgid);
             $("#modalRegionSNP-content").html(data.snps);
         }
         });
