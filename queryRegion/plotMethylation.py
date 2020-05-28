@@ -6,7 +6,7 @@ from sqlalchemy import inspect
 
 from django.conf import settings
 
-from .models import getMethylation
+from .models import getMethylation,getGenotype
 
 
 def plotRegion(inputID,associated):
@@ -60,7 +60,7 @@ def plotRegion(inputID,associated):
 
     return div_obj
 
-def plotRegionBySNP(inputID,snpID,associated):
+def plotRegionBySNP(inputID,associated,snpID):
     
     div_obj = ""
 
@@ -73,15 +73,23 @@ def plotRegionBySNP(inputID,snpID,associated):
     for key in associated:
         cpgs[int(key)]=True
 
-    # #Get meth
+    # Get genotypes
+
+    genotypes = getGenotype.getGenotypeCpG(snpID)
+    ref = str(getattr(genotypes,"reference"))+str(getattr(genotypes,"reference"))
+    alt = str(getattr(genotypes,"alternative"))+str(getattr(genotypes,"alternative"))
+    het = str(getattr(genotypes,"reference"))+str(getattr(genotypes,"alternative"))
+
+    # Get meth
 
     valuesPlot = {}
     valuesPlot["methRatio"] = []
     valuesPlot["CpG ID"] = []
     valuesPlot["Sample"] = []
-    valuesPlot["Associated"] = []
+    valuesPlot["Genotype"] = []
 
     numCpGs = 0
+    
     for i in range(start,end):
         idElement = chrom+"_"+str(i)
         methylationCpG = getMethylation.getMethCpG(idElement)
@@ -93,18 +101,19 @@ def plotRegionBySNP(inputID,snpID,associated):
                 valueMeth = getattr(methylationCpG,att)
                 
                 if valueMeth and not "_" in str(valueMeth):
+                    valueGenotype = str(int(getattr(genotypes,att))).replace("0",ref).replace("1",het).replace("2",alt)
                     valuesPlot["methRatio"].append(valueMeth)
-                    valuesPlot["CpG ID"].append(idElement)
                     valuesPlot["Sample"].append(att)  
+                    valuesPlot["Genotype"].append(valueGenotype)
                     try:
                         cpgs[i]
-                        valuesPlot["Associated"].append("YES")
+                        valuesPlot["CpG ID"].append("<b style='color:red';>"+idElement+"</b>")
                     except:
-                        valuesPlot["Associated"].append("NO")
+                        valuesPlot["CpG ID"].append(idElement)
     
     df = pd.DataFrame(data=valuesPlot)
 
-    fig = px.strip(df, 'CpG ID', 'methRatio', 'Associated', hover_data=["Sample"] )
+    fig = px.strip(df, 'CpG ID', 'methRatio', 'Genotype', hover_data=["Sample"],category_orders={"Genotype":[ref,het,alt]} )
 
     fig.update_layout(width=250*numCpGs, height=500,legend_orientation="h",xaxis_tickfont_size=14)
     fig.update_xaxes(title_text='')

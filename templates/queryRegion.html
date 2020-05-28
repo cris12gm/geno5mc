@@ -22,7 +22,7 @@
                     <div style="overflow-x: auto;">
                         <div class="btn-group btn-group-sm" data-toggle="buttons">
                             <button type="button" id="buttonPlot{{ region}}" data-toggle="modal" data-target="#modalRegionPlot" class="btn btn-info buttonRegion ajaxButtonRegion">View region methylation</button>
-                            <button type="button"  id="buttonPlotSNP{{ region }}" data-toggle="modal" data-target="#modalRegionSNPPlot" class="btn btn-info buttonRegion ajaxButtonRegionSNP">View region methylation by SNP</button>
+                            <button type="button"  id="buttonPlotSNP{{ region }}" data-toggle="modal" data-target="#modalRegionSNPPlot" class="btn btn-info buttonRegion ajaxButtonRegionMethSNP">View region methylation by SNP</button>
                         </div>
                         {% include "queryRegion/modalRegionPlot.html" %}
                         {% include "queryRegion/modalRegionSNPPlot.html" %}
@@ -107,5 +107,39 @@
         }
         });
     });
+</script>
+
+<script>
+
+    var plotRegionSNP = function(e) {
+        $("#modalRegionSNPPlot-content").html("<img style='display: block;margin: 0 auto;' src='{% static 'images/wait.svg'%}'>");
+        $.ajax({
+        url: '{% url "ajax_ButtonRegionSNP" %}',
+        data: {
+            "region" : "{{region}}",
+            "associated" : "{{ cpgs }}",
+            "snpID" : document.getElementById("snpIDSelected").value
+        },
+        dataType: 'json',
+        success: function (data) {
+            $("#modalRegionSNPPlot-content").html(data.plot);
+            if(data.plot){
+                $("#plotNote").html('Important: CpGs highlighted in red are Associated CpGs');
+            }
+        }
+        });
+    };
+
+    $('.ajaxButtonRegionMethSNP').on('click', function (e) {
+        plotRegionSNP();
+    });
+
+    $('#snpIDSelected').on('change', function (e) { 
+        $("#plotNote").html("");
+        $("#modalRegionSNPPlot-content").html("");
+        plotRegionSNP();
+    }); 
+
+
 </script>
 {% endblock %}

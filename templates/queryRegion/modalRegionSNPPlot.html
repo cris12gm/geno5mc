@@ -9,8 +9,23 @@
           </div>
         </div>
         <div class="modal-body">
-          <div id="modalRegionSNPPlot-content">
-            <img style='display: block;margin: 0 auto;' src='{% static 'images/wait.svg'%}'>
+          <div class="row font-italic ml-1 mb-2">
+            Please select a SNP ID:
+          </div>
+          <div class="row">
+            <div class="col-3">
+              <div class="form-group">
+                <select class="form-control" id="snpIDSelected">
+                  {% for snp,value in snpsSelect.items %}
+                    <option value="{{ snp }}"> {{ snp }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+            </div>
+          </div>
+          <div id="modalRegionSNPPlot-content" class="plotsOverflow">
+          </div>
+          <div id="plotNote" class="row font-italic float-right mr-1">
           </div>
         </div>
         <div class="modal-footer">

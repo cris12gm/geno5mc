@@ -120,7 +120,7 @@ def plotPromoter(inputID,snpID):
 
     fig = px.strip(df, 'CpG ID', 'methRatio', 'Genotype', hover_data=["Sample"],category_orders={"Genotype":[ref,het,alt]})
 
-    fig.update_layout(width=180*numCpGs, height=500,legend_orientation="h",xaxis_tickfont_size=14)
+    fig.update_layout(width=250*numCpGs, height=500,legend_orientation="h",xaxis_tickfont_size=14)
     fig.update_xaxes(title_text='')
     fig.update_yaxes(title_text='<b>Meth Ratio</b>')
     div_obj = plot(fig, show_link=False, auto_open=False, output_type = 'div')

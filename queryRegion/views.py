@@ -11,7 +11,7 @@ from django.http import JsonResponse
 from django.urls import reverse_lazy
 
 from .models import snpsAssociated_FDR_chr_table
-from queryRegion.plotMethylation import plotRegion
+from queryRegion.plotMethylation import plotRegion,plotRegionBySNP
 
 class Errors(Enum):
     NO_ERROR = 0
@@ -36,6 +36,17 @@ def queryPlotMeth(request):
     dataOut['plot']="<center>"+plot+"</center>"
     return JsonResponse(dataOut)
 
+def queryPlotMethSNP(request):
+    dataOut = {}
+
+    region = request.GET.get('region',None).replace("buttonPlotSNP_","").replace(" ","-")
+    associated = eval(request.GET.get('associated', None))
+    snpID = request.GET.get('snpID',None)
+    plot = plotRegionBySNP(region,associated,snpID)
+    dataOut['plot']="<center>"+plot+"</center>"
+    
+    return JsonResponse(dataOut)
+
 class RegionAssociated(TemplateView):
     template = 'queryRegion.html'
 
@@ -56,6 +67,8 @@ class RegionAssociated(TemplateView):
 
         length = abs(int(chromEnd) - int(chromStart))
         region = chrom+" "+chromStart+"-"+chromEnd
+
+        snpsSelect = {}
         ###Check length
 
         if length>10000:
@@ -70,22 +83,22 @@ class RegionAssociated(TemplateView):
                 cpgs.append(cpg)
                 try:
                     snps,allsnps,button = associations[cpg]
-                     
                     if button<5:
                         snps = snps+", "+element.snpID
                     button = button + 1 
                     allsnps = allsnps + ";"+element.snpID
-                    
                 except:
                     snps = element.snpID
                     allsnps = element.snpID
                     button = 1
                 associations[cpg] = snps,allsnps,button
+                snpsSelect[element.snpID] = ""
             cpgs = set(cpgs)
         return render(request, self.template, {
             'chrom':chrom,
             'region':region,
             'associations':associations,
             'cpgs':cpgs,
+            'snpsSelect':snpsSelect,
             'error':error
         })   
