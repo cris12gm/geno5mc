@@ -5,36 +5,37 @@
 
 <head>
 
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="author" content="Cristina Gomez-Martin">
-  <meta name="google-site-verification" content="_gSo6kOKaI0cxmom6Ms2b6mpLiNspPhuASuzBJUfwnk" />
-  <link rel="shortcut icon" type="image/png" href="{% static 'images/favicon.png'%}">
-  <title>geno5mc</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="author" content="Cristina Gomez-Martin">
+    <meta name="google-site-verification" content="_gSo6kOKaI0cxmom6Ms2b6mpLiNspPhuASuzBJUfwnk" />
+    <link rel="shortcut icon" type="image/png" href="{% static 'images/favicon.png'%}">
+    <title>geno5mc</title>
 
-  <!-- Bootstrap core CSS -->
-  <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+    <!-- Bootstrap core CSS -->
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'tour/bootstrap-tour.min.css'%}" rel="stylesheet">
 
+    <!-- Custom fonts for this template-->
+    <link href="{% static 'vendor/fontawesome-free/css/all.min.css'%}" rel="stylesheet" type="text/css">
 
-  <!-- Custom fonts for this template-->
-  <link href="{% static 'vendor/fontawesome-free/css/all.min.css'%}" rel="stylesheet" type="text/css">
+    <!-- Page level plugin CSS-->
+    <link href="{% static 'vendor/datatables/dataTables.bootstrap4.css'%}" rel="stylesheet">
 
-  <!-- Page level plugin CSS-->
-  <link href="{% static 'vendor/datatables/dataTables.bootstrap4.css'%}" rel="stylesheet">
-
-  <!-- Custom styles for this template -->
-  <link href="{% static 'css/customStyles/stylesBase.css' %}" rel="stylesheet">
-  <link href="{% static 'css/customStyles/myStyles.css' %}" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="{% static 'css/customStyles/stylesBase.css' %}" rel="stylesheet">
+    <link href="{% static 'css/customStyles/myStyles.css' %}" rel="stylesheet">
 
    <!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-130797336-2"></script>
-   <script>
-     window.dataLayer = window.dataLayer || [];
-     function gtag(){dataLayer.push(arguments);}
-     gtag('js', new Date());
-     gtag('config', 'UA-130797336-2');
-   </script>
-  {% block css %}{% endblock %}
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-130797336-2"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-130797336-2');
+    </script>
+
+{% block css %}{% endblock %}
 
 
 </head>
@@ -95,12 +96,12 @@
     </div>
 
     <!-- Bootstrap core JavaScript -->
+
     <script src="{% static 'js/popper.min.js' %}"></script>
     <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
     <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
     <script src="{% static 'js/bootstrap.min.js' %}"></script>
-
-  
+    <script src="{% static 'tour/bootstrap-tour.min.js'%}"></script>
     <!-- Menu Toggle Script -->
     <script>
       $("#menu-toggle").click(function(e) {
@@ -113,7 +114,7 @@
     <script src="{% static 'js/demo/datatables-demo.js'%}"></script>
     <script src="{% static 'vendor/datatables/jquery.dataTables.js'%}"></script>
     <script src="{% static 'vendor/datatables/dataTables.bootstrap4.js'%}"></script>
-    
+
     <script>
         function showHidenMenu(){
             document.getElementById("menu-hide").style.display= "block" ;
