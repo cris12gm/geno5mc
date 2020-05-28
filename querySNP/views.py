@@ -170,6 +170,7 @@ class SNPAssociated(TemplateView):
         })   
 
 class SNPAssociatedGET(TemplateView):
+
     template = 'querySNP.html'
         
     def get(self, request, snp):
@@ -223,12 +224,12 @@ class SNPAssociatedGET(TemplateView):
         })   
 
 class SNPAssociatedTour(TemplateView):
-    template = 'querySNP_Tour.html'
+    template = 'tour/tour_2.html'
+        
+    def get(self, request):
 
-    def get(self, request):  
-        form = QuerySNP(request.POST)
+        snpId = "rs727563"
         baseLink = settings.SUB_SITE
-        error = None
         snpInfo = {}
         associations = []
         promoters = []
@@ -240,43 +241,42 @@ class SNPAssociatedTour(TemplateView):
         barPlotPromoters = []
         barPlotEnhancers = []
         barPlotTLights = []
+        traits = ""
         error = ""
 
-        snpId = "rs727563"
+        if snpId is not '':
+            snpInfo,associations,promoters,enhancers,tLights,topResultPromoter,topResultEnhancer,linkFileAssociations,traits,error=getAllFromSNP(snpId,associations,promoters,enhancers,tLights,topResultPromoter,topResultEnhancer,snpInfo,linkFileAssociations,traits,error)
+            if promoters:
+                barPlotPromoters = plotPromoters(promoters)
+            if enhancers:
+                barPlotEnhancers = plotEnhancers(enhancers)
+            if tLights:
+                barPlotTLights = plotTrafficLights(tLights)
+                    
 
-        snpInfo,associations,promoters,enhancers,tLights,topResultPromoter,topResultEnhancer,linkFileAssociations,error=getAllFromSNP(snpId,associations,promoters,enhancers,tLights,topResultPromoter,topResultEnhancer,snpInfo,linkFileAssociations,error)
-        if promoters:
-            barPlotPromoters = plotPromoters(promoters)
-        if enhancers:
-            barPlotEnhancers = plotEnhancers(enhancers)
-        if tLights:
-            barPlotTLights = plotTrafficLights(tLights)
-            
         return render(request, self.template, {
             'snpInfo': snpInfo,
+            'traits':traits,
             'associations': associations,
             'promoters': promoters,
             'enhancers':enhancers,
             'tLights':tLights,
             'topResultPromoter':topResultPromoter,
             'topResultEnhancer':topResultEnhancer,
-            'query_form': form,
             'baseLink':baseLink,
             'linkFileAssociations':linkFileAssociations,
             'barPlotPromoters':barPlotPromoters,
             'barPlotEnhancers':barPlotEnhancers,
             'barPlotTLights':barPlotTLights,
-            'error': error
-        })
+        })   
 
+class SNPAssociatedTour_4(TemplateView):
+    template = 'tour/tour_4.html'
+        
+    def get(self, request):
 
-class SNPAssociatedTour3(TemplateView):
-    template = 'querySNP_Tour_3.html'
-
-    def get(self, request):  
-        form = QuerySNP(request.POST)
+        snpId = "rs727563"
         baseLink = settings.SUB_SITE
-        error = None
         snpInfo = {}
         associations = []
         promoters = []
@@ -288,31 +288,31 @@ class SNPAssociatedTour3(TemplateView):
         barPlotPromoters = []
         barPlotEnhancers = []
         barPlotTLights = []
+        traits = ""
         error = ""
 
-        snpId = "rs727563"
+        if snpId is not '':
+            snpInfo,associations,promoters,enhancers,tLights,topResultPromoter,topResultEnhancer,linkFileAssociations,traits,error=getAllFromSNP(snpId,associations,promoters,enhancers,tLights,topResultPromoter,topResultEnhancer,snpInfo,linkFileAssociations,traits,error)
+            if promoters:
+                barPlotPromoters = plotPromoters(promoters)
+            if enhancers:
+                barPlotEnhancers = plotEnhancers(enhancers)
+            if tLights:
+                barPlotTLights = plotTrafficLights(tLights)
+                    
 
-        snpInfo,associations,promoters,enhancers,tLights,topResultPromoter,topResultEnhancer,linkFileAssociations,error=getAllFromSNP(snpId,associations,promoters,enhancers,tLights,topResultPromoter,topResultEnhancer,snpInfo,linkFileAssociations,error)
-        if promoters:
-            barPlotPromoters = plotPromoters(promoters)
-        if enhancers:
-            barPlotEnhancers = plotEnhancers(enhancers)
-        if tLights:
-            barPlotTLights = plotTrafficLights(tLights)
-            
         return render(request, self.template, {
             'snpInfo': snpInfo,
+            'traits':traits,
             'associations': associations,
             'promoters': promoters,
             'enhancers':enhancers,
             'tLights':tLights,
             'topResultPromoter':topResultPromoter,
             'topResultEnhancer':topResultEnhancer,
-            'query_form': form,
             'baseLink':baseLink,
             'linkFileAssociations':linkFileAssociations,
             'barPlotPromoters':barPlotPromoters,
             'barPlotEnhancers':barPlotEnhancers,
             'barPlotTLights':barPlotTLights,
-            'error': error
-        })
+        })   

@@ -3,13 +3,13 @@ from django.urls import path
 from django.conf.urls import include,url
 from django.conf.urls.static import static
 from django.conf import settings
-from .views import SNPAssociated,SNPAssociatedGET,SNPAssociatedTour,SNPAssociatedTour3,queryGeneDescription,queryEnhancerDescription
+from .views import SNPAssociated,SNPAssociatedGET,SNPAssociatedTour,SNPAssociatedTour_4,queryGeneDescription,queryEnhancerDescription
 
 
 urlpatterns = [
     url(r'^ajax_gene$', queryGeneDescription, name='ajax_gene'),
     url(r'^ajax_enhancer$', queryEnhancerDescription, name='ajax_enhancer'),
-    url(r'^tour_3', SNPAssociatedTour3.as_view(), name='querySNP_Tour3'),
+    url(r'^tour_4', SNPAssociatedTour_4.as_view(), name='querySNP_Tour'),
     url(r'^tour', SNPAssociatedTour.as_view(), name='querySNP_Tour'),
     url(r'^snp/(?P<snp>[\w-]+)', SNPAssociatedGET.as_view()),
     url('', SNPAssociated.as_view(), name='querySNP'),

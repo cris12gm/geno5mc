@@ -1,0 +1,114 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block css %}
+<link href="{% static 'css/customStyles/stylesPlot.css'%}" rel="stylesheet">
+<link href="{% static 'tour/introjs.css'%}" rel="stylesheet">
+<link href="{% static 'css/stylesIntroJs.css'%}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+    <button id = "backBtn" class="btn btn-light btn-sm buttonBack" onclick="goBack()">Go Back</button>
+    <div class="row justify-content-center">
+        <div class="titlePlot" id="titlePlot">
+            {% if element == 'promoter' %}
+                <h2>Methylation of Associated CpGs in the promoter of <b>{{ name }}</b>
+                    <span class="description_tooltip" title="{{ description }}"><i class="fas fa-xs fa-info-circle"></i></span>
+                </h2>
+            {% elif element == 'tLight' %}
+                <h2>Methylation of Associated CpGs that are TLs of <b>{{ name }}</b>
+            {% elif element == 'enhancer' %}
+                <h2>Methylation of Associated CpGs in <b>{{ name }}</b>
+            {% endif %}
+        </div>
+    </div>
+    <div class="row">
+        <a class="button-download" href="{{ linkDownload }}" id="buttonDownload" download>                                                        
+            <button class="btn btn-info btn-sm font-weight-bold ml-3 mt-1 mb-1 ">Download data</button>
+        </a>
+    </div>
+    <div class="row justify-content-center">
+        <div class="plotElement" id="plotElement">
+            {{ plotElement | safe}}
+        </div>
+    </div>
+
+    {% endblock %}
+{% block js %}
+
+<!-- Demo scripts for this page-->
+<script src="{% static 'tour/intro.js' %}"></script>
+<script>
+   var intro = introJs();
+    var options_before = {
+        steps: [
+            {
+                element:document.querySelector("#titleElement"),
+                intro:"In this page you can see the methylation distribution of the 2 Associated CpGs that are TLs and are located in the promoter of <a href='https://www.ncbi.nlm.nih.gov/gene/27128' target='_blank'>CYTH4</a>",
+            },
+            { 
+                element:document.querySelector("#plotElement"),
+                intro: "This plot is the methylation distribution of our 58 samples. As we can see in the legend of the plot, samples that are homozygous for the reference allele (genotype = CC) are displayed in <b><font color = 'blue'>blue</font></b>, homozygous individuals for the alternative allele (genotype = TT) are displayed in <b><font color='red'>red</font></b> and the heterozigotes (CT) are displayed in <b><font color='green'>green</font></b>.<br> We can observe that the samples with the <b><font color='blue'>CC</font></b> genotype remain unmethylated in contrast to the samples with the genotype <b><font color='red'>TT</font></b> that are mainly methylated.<br><br>Therefore, the genotype <b><font color='blue'>CC</font></b> will be associated with hypomethylation and the genotype <b><font color='red'>TT</font></b> with hypermethylation of these CpGs.",
+                position:"bottom",
+                tooltipClass:"step2bTour"
+            },
+            {
+                element:document.querySelector("#backBtn"),
+                intro: "Press <button class='btn btn-success btn-sm'>Go Back</button> to go to the previous page"
+            }
+        ],
+        showStepNumbers:false,
+        hideNext:true,
+        disableInteraction:false,
+        tooltipClass:true,
+        doneLabel:"Next →",
+        scrollTo:"tooltip"
+    };
+
+    intro.setOptions(options_before);
+    
+    intro.oncomplete(function () {
+        var divAll = document.getElementById("plotElement");
+        var divBut = document.getElementById("backBtn");
+        var divDownload = document.getElementById("buttonDownload");
+        var title = document.getElementById("titlePlot");
+        divAll.style.display="none";
+        divBut.style.display="none";
+        divDownload.style.display="none";
+        title.style.display="none";
+        function ShowLoading(e) {
+            var div = document.createElement('div');
+            var img = document.createElement('img');
+            img.src = "{% static 'images/wait.svg'%}";
+            div.style.cssText = 'position: fixed; top: 20%; left: 40%; z-index: 5000; width: 422px; text-align: center; background: #FFFFFF;';
+
+            div.appendChild(img);
+            document.body.appendChild(div);
+            return true;
+        }
+        ShowLoading();
+        window.location.href = "{% url 'querySNP' %}tour_4";
+    });
+
+    intro.start();
+
+</script>
+    <!-- Go back button  -->
+<script>
+    function goBack() {
+      window.history.back();
+    }
+</script>
+
+<!-- Tooltip description   -->
+
+<script>
+    $(function () {
+        $('.description_tooltip').tooltip({ container:'body',placement:'bottom',html:true});
+    });
+
+</script>
+
+
+{% endblock %}
+

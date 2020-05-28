@@ -282,28 +282,39 @@ class plotElements(TemplateView):
          except:
              return render(request, templateError)
 class plotElementsTour(TemplateView):
-    template = "querySNP_Tour_2.html"
+
+    template = "tour/tour_3.html"
 
     def post(self,request):
         pass
         return render(request, self.template, {})
 
     def get(self,request):
-        valoresGet = request.GET
-        element = valoresGet['element']
-        description = ""
+         templateError = "error.html"
 
-        if element == 'promoter':
-            plotElement = PlotPromoters(valoresGet['snp'],valoresGet['name'],valoresGet['start'],valoresGet['end'])
-            description = getattr(genes.get_geneDescription(valoresGet['name']),"description").capitalize()
-        elif element == 'enhancer':
-            plotElement = PlotEnhancers(valoresGet['snp'],valoresGet['name'],valoresGet['start'],valoresGet['end'])
-        elif element== 'tLight':
-            plotElement = PlotTLights(valoresGet['snp'],valoresGet['name'])
-        return render(request, self.template, {
-            'description':description,
-            'plotElement':plotElement,
-            'plotElementDistance':plotElementDistance,
-            'snpID':valoresGet['snp'],
-            'name':valoresGet['name']
-            })
+         try:
+            valoresGet = request.GET
+            element = valoresGet['element']
+            description = ""
+            linkDownload = ""
+
+            if element == 'promoter':
+                plotElement,valuesPlot = PlotPromoters(valoresGet['snp'],valoresGet['name'],valoresGet['start'],valoresGet['end'])
+                description = getattr(genes.get_geneDescription(valoresGet['name']),"description").capitalize()
+                linkDownload = downloadMethData(valuesPlot,"promoter",valoresGet['name'],valoresGet['snp'])
+            elif element == 'enhancer':
+                plotElement,valuesPlot = PlotEnhancers(valoresGet['snp'],valoresGet['name'],valoresGet['start'],valoresGet['end'])
+                linkDownload = downloadMethData(valuesPlot,"enhancer",valoresGet['name'],valoresGet['snp'])
+            elif element== 'tLight':
+                plotElement,valuesPlot = PlotTLights(valoresGet['snp'],valoresGet['name'])
+                linkDownload = downloadMethData(valuesPlot,"tLight",valoresGet['name'],valoresGet['snp'])
+            return render(request, self.template, {
+                'description':description,
+                'element':element,
+                'plotElement':plotElement,
+                'snpID':valoresGet['snp'],
+                'linkDownload':linkDownload,
+                'name':valoresGet['name']
+                })
+         except:
+             return render(request, templateError)

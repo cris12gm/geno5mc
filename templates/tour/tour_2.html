@@ -1,0 +1,238 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block css %}
+<link href="{% static 'css/customStyles/stylesResults.css'%}" rel="stylesheet">
+<link href="{% static 'tour/introjs.css'%}" rel="stylesheet">
+<link href="{% static 'css/stylesIntroJs.css'%}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+
+    <div id="page-wrapper" class="resultsPage">
+        {% if error %}
+            {% include "querySNP/error.html" %}
+        {% endif %}
+        
+        {% if associations %}
+        <div class="menu-hide" id="menu-hide">
+            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active" id="summary-tab" data-toggle="tab" href="#summary" role="tab" aria-controls="summary" aria-selected="true"><h5>Summary</h5></a>
+                </li>
+                {% if promoters %}
+                <li class="nav-item">
+                    <a class="nav-link" id="promoters-tab" data-toggle="tab" href="#promoters" role="tab" aria-controls="promoters" aria-selected="false"><h5>Promoters</h5></a>
+                </li>
+                {% endif %}
+                {% if enhancers %}
+                <li class="nav-item">
+                    <a class="nav-link" id="enhancers-tab" data-toggle="tab" href="#enhancers" role="tab" aria-controls="enhancers" aria-selected="false"><h5>Enhancers</h5></a>
+                </li>
+                {% endif %}
+                {% if tLights %}
+                <li class="nav-item">
+                    <a class="nav-link" id="tLights-tab" data-toggle="tab" href="#tLights" role="tab" aria-controls="tLights" aria-selected="false"><h5>Traffic Lights</h5></a>
+                </li>
+                {% endif %}
+                <li class="nav-item ml-auto">
+                    <a class="nav-link" id="goBack-tab" href="{% url 'query' %}" role="tab" aria-selected="false"><h5>Back to Query</h5></a>
+                </li>
+            </ul>
+    
+            <div class="tab-content" id="myTabContent">
+                <div class="tab-pane fade show active tabResult" id="summary" role="tabpanel" aria-labelledby="summary-tab">
+                    {% include "querySNP/summary.html" %}
+                </div>
+                {% if promoters %}
+                <div class="tab-pane fade tabResult" id="promoters" role="tabpanel" aria-labelledby="promoters-tab">
+                    {% include "querySNP/promoters.html" %}
+                </div>
+                {% endif %}
+                {% if enhancers %}
+                <div class="tab-pane fade tabResult" id="enhancers" role="tabpanel" aria-labelledby="enhancers-tab">
+                    {% include "querySNP/enhancers.html" %}
+                </div>
+                {% endif %}
+                {% if tLights %}
+                <div class="tab-pane fade tabResult" id="tLights" role="tabpanel" aria-labelledby="tLights-tab">
+                    {% include "querySNP/trafficLights.html" %}
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        {% endif %}
+    </div>
+{% endblock %}
+
+{% block js %}
+
+<script src="{% static 'tour/intro.js' %}"></script>
+<script>
+   var intro = introJs();
+    var options_before = {
+        steps: [
+            {
+                element: document.querySelector('#summary-tab'),
+                intro: "You will find several tabs with the query results.<br>First we will focus on <i>Summary</i>"
+            },
+            {
+                element:document.querySelector('#infoSNP'),
+                intro:"In <i>Summary</i>, first you find the basic information of the SNP, as possition or possible alleles.<br>In our case, the SNP is located on chromosome 22 and has two possible alleles, C (reference) and T (alternative).<br> The annotated as risk allele is the reference one (C), which has been associated with <i>Inflammatory Bowel Disease </i>.",
+            },
+            {
+                element:document.querySelector("#headingTopResults"),
+                intro:"In this section you will find the most relevant results.<br>Within the <i>Top Results</i> there are two categories:<br><b>a) Associated CpGs in promoters that are also Traffic Lights</b>: In this section you can find those genes with at least one Associated CpG in its promoter region that it is also a Traffic Light<br><b>b) Associated CpGs in enhancers that are also Traffic Lights</b>: In this section you can find those enhancers with at least one Associated CpG inside that it is also a Traffic Light<br>"
+            },
+            {
+                element:document.querySelector("#cardPromoters"),
+                intro:"<center><b>Associated CpGs in promoters that are also Traffic Lights</b></center><br>In this example there are three genes that have Associated CpGs to the SNP rs727563 in its promoter.<br>The one that has the highest number of them is <a href='https://www.ncbi.nlm.nih.gov/gene/27128' target='_blank'>CYTH4</a>, so we first we will focus on it."
+            },
+            {
+                element:document.querySelector("#buttonPromotersCYTH4"),
+                intro:"<a href='https://www.ncbi.nlm.nih.gov/gene/27128' target='_blank'>CYTH4</a> encodes the Cytohesin-4 protein.<br>This protein has been <u>related to inflammatory bowel disease</u> (<a href='https://www.ncbi.nlm.nih.gov/pubmed/28892060' target='_blank'>Peters et al., 2017</a>).",
+                tooltipClass:"step1Tour"
+            },
+            {
+                element:document.querySelector("#buttonMethCYTH4"),
+                intro:"If you press the <button class='btn btn-success btn-sm'>Methylation</button> button it would take you to another page where to see the methylation distribution (in our samples) of the 3 Associated CpGs in the promoter of this gene."
+            }
+        ],
+        showStepNumbers:false,
+        hideNext:true,
+        disableInteraction:false,
+        tooltipClass:true,
+        doneLabel:"Next →",
+        scrollTo:"tooltip"
+    };
+
+    intro.setOptions(options_before);
+
+        intro.setOptions(options_before);
+        intro.oncomplete(function() {
+            var divAll = document.getElementById("menu-hide");
+            divAll.style.display="none";
+            ShowLoadingTour();
+            window.location.href = "{% url 'plotElement' %}tour/?element=promoter;snp=rs727563;name=CYTH4;start=37282458;end=37282518";
+        });
+    setTimeout(() => {intro.start(); }, 1000);
+
+</script>
+
+
+  <!-- Demo scripts for this page-->
+
+<!-- This script enables link to tabs-->
+<script>
+
+    // Javascript to enable link to tab
+    var url = document.location.toString();
+    if (url.match('#')) {
+        $('.nav-tabs a[href="#' + url.split('#')[1] + '"]').tab('show');
+    }
+    
+    // Change hash for page-reload
+    $('.nav-tabs a').on('shown.bs.tab', function (e) {
+        window.location.hash = e.target.hash;
+    })
+
+    $(document).ready(function()
+    {
+        $("#loadpage").hide();
+        $('#divPageContent').css("visibility", "visible");
+    });
+  
+</script>
+
+<!-- Plotly - relayout -->
+<script>
+    $('a[data-toggle="tab"]').on('shown.bs.tab', function(e){
+    //  alert("before");
+        $('.plotly-graph-div').each(function(i, obj) {
+     //alert("in");
+        Plotly.relayout( obj.id, { 'xaxis.autorange': true, 'yaxis.autorange': true });
+        });
+    })
+</script>
+
+<script>
+    $(function () {
+        $('.table_tooltip').tooltip({ container:'body',placement:'left',html:true});
+    });
+</script>
+
+<script>
+
+    $('.ajaxButtonGene').on('click', function (e) {
+            $.ajax({
+            url: '{% url "ajax_gene" %}',
+            data: {
+                "geneID" : this.id
+            },
+            dataType: 'json',
+            success: function (data) {
+                $("#modalLabelPromoters").html(data.geneID);
+                $("#modalPromotersDescription").html(data.geneDescription);
+            }
+            });
+    });
+    $('.ajaxButtonGeneTop').on('click', function (e) {
+            $.ajax({
+            url: '{% url "ajax_gene" %}',
+            data: {
+                "geneID" : this.id
+            },
+            dataType: 'json',
+            success: function (data) {
+                $("#modalLabelPromotersTop").html(data.geneID);
+                $("#modalPromotersDescriptionTop").html(data.geneDescription);
+            }
+            });
+    });
+    $('.ajaxButtonGeneTL').on('click', function (e) {
+            $.ajax({
+            url: '{% url "ajax_gene" %}',
+            data: {
+                "geneID" : this.id
+            },
+            dataType: 'json',
+            success: function (data) {
+                $("#modalLabelPromotersTL").html(data.geneID);
+                $("#modalPromotersDescriptionTL").html(data.geneDescription);
+            }
+            });
+    });
+
+</script>
+
+<script>
+    $('.ajaxButtonEnhancer').on('click', function (e) {
+        $.ajax({
+            url: '{% url "ajax_enhancer" %}',
+            data: {
+                "name" : this.id
+            },
+            dataType: 'json',
+            success: function (dataE) {
+                $("#modalLabelEnhancer").html(dataE.enhancerID);
+                $("#modalEnhancerDescription").html(dataE.enhancerGenes);
+            }
+        });
+    });
+    $('.ajaxButtonEnhancerTop').on('click', function (e) {
+        $.ajax({
+            url: '{% url "ajax_enhancer" %}',
+            data: {
+                "name" : this.id
+            },
+            dataType: 'json',
+            success: function (dataE) {
+                $("#modalLabelEnhancerTop").html(dataE.enhancerID);
+                $("#modalEnhancerDescriptionTop").html(dataE.enhancerGenes);
+            }
+        });
+    });
+</script>
+
+{% endblock %}
+

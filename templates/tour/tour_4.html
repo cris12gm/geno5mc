@@ -1,0 +1,160 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block css %}
+    <link href="{% static 'css/customStyles/stylesQuery.css'%}" rel="stylesheet">
+    <link href="{% static 'tour/introjs.css'%}" rel="stylesheet">
+    <link href="{% static 'css/stylesIntroJs.css'%}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+    <div id="page-wrapper" class="resultsPage">
+        {% if error %}
+            {% include "querySNP/error.html" %}
+        {% endif %}
+        
+        {% if associations %}
+        <div class="menu-hide" id="menu-hide">
+            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active" id="summary-tab" data-toggle="tab" href="#summary" role="tab" aria-controls="summary" aria-selected="true"><h5>Summary</h5></a>
+                </li>
+                {% if promoters %}
+                <li class="nav-item">
+                    <a class="nav-link" id="promoters-tab" data-toggle="tab" href="#promoters" role="tab" aria-controls="promoters" aria-selected="false"><h5>Promoters</h5></a>
+                </li>
+                {% endif %}
+                {% if enhancers %}
+                <li class="nav-item">
+                    <a class="nav-link" id="enhancers-tab" data-toggle="tab" href="#enhancers" role="tab" aria-controls="enhancers" aria-selected="false"><h5>Enhancers</h5></a>
+                </li>
+                {% endif %}
+                {% if tLights %}
+                <li class="nav-item">
+                    <a class="nav-link" id="tLights-tab" data-toggle="tab" href="#tLights" role="tab" aria-controls="tLights" aria-selected="false"><h5>Traffic Lights</h5></a>
+                </li>
+                {% endif %}
+                <li class="nav-item ml-auto">
+                    <a class="nav-link" id="goBack-tab" href="{% url 'query' %}" role="tab" aria-selected="false"><h5>Back to Query</h5></a>
+                </li>
+            </ul>
+
+            <div class="tab-content" id="myTabContent">
+                <div class="tab-pane fade show active tabResult" id="summary" role="tabpanel" aria-labelledby="summary-tab">
+                    {% include "querySNP/summary.html" %}
+                </div>
+                {% if promoters %}
+                <div class="tab-pane fade tabResult" id="promoters" role="tabpanel" aria-labelledby="promoters-tab">
+                    {% include "querySNP/promoters.html" %}
+                </div>
+                {% endif %}
+                {% if enhancers %}
+                <div class="tab-pane fade tabResult" id="enhancers" role="tabpanel" aria-labelledby="enhancers-tab">
+                    {% include "querySNP/enhancers.html" %}
+                </div>
+                {% endif %}
+                {% if tLights %}
+                <div class="tab-pane fade tabResult" id="tLights" role="tabpanel" aria-labelledby="tLights-tab">
+                    {% include "querySNP/trafficLights.html" %}
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        {% endif %}
+    </div>
+{% endblock %}
+{% block js %}
+<script src="{% static 'tour/intro.js' %}"></script>
+<script>
+   var intro = introJs();
+    var options_before = {
+        steps: [
+        {
+                element:document.querySelector("#cardPromoters"),
+                intro:"Back to <i>Top Results</i>, specifically to the Promoter table, we can see that there are two more genes apart from <a href='https://www.ncbi.nlm.nih.gov/gene/27128' target='_blank'>CYTH4</a> that are associated with our SNP by its CpGs in promoter.<br> Those genes are <a href='https://www.ncbi.nlm.nih.gov/gene/8542' target='_blank'>APOL1</a> and <a href='https://www.ncbi.nlm.nih.gov/gene/80830' target='_blank'>APOL6</a>, both of them from the apolipoprotein L gene family that have been related to inflammation."
+            },
+            {
+                element:document.querySelector("#cardEnhancers"),
+                intro:"<center><b>Associated CpGs in promoters that are also Traffic Lights</b></center><br>We also have enhancers that have Associated CpGs inside that are also Traffic Lights.<br>In our case there are 16 enhancers with this conditions."
+            },
+            {
+                element:document.querySelector("#buttonEnhancersGH22F035646"),
+                intro:"This is one the enhancers with the highest number of Associated CpGs inside, 4. As we can search in <a href='https://www.genecards.org/'>GeneCards</a> (and in our database by clicking on the enhancer name) this enhancer is regulating the expression of 3 genes:<br><img src={% static 'images/tutorial_2.png'%} width='400px'><br>As you can remember, <a href='https://www.ncbi.nlm.nih.gov/gene/80830' target='_blank'>APOL6</a> is one of the genes also associated by promoter, and it also appear another gene of the same family, <a href='https://www.ncbi.nlm.nih.gov/gene/80831' target='_blank'>APOL5</a>, that, as we have pointed out before, has been related with inflammation",
+                tooltipClass:'step2bTour'
+            },
+            {
+                element:document.querySelector('#myTab'),
+                intro:"Although the Top results are in <i>Summary</i> in the other tabs you can find useful information about all promoters, enhancers and traffic lights that overlap with the Associated CpGs."
+            },
+            {
+                element: document.querySelector("#promoters-tab"),
+                intro: "<center><b>Promoters</b></center><br>In this tab you will find all genes associated with the SNP for having Associated CpGs in its promoter region."
+            },
+            {
+                element:document.querySelector("#barPlotPromotersAll"),
+                intro: "First, in this plot you can see the number of Associated CpGs inside the promoter region of each gene.<br>In our example we can see that the gene with more Associated CpGs in its promoter region is <a href='https://www.ncbi.nlm.nih.gov/gene/6523' target='_blank'>SLC5A1</a>, that has 3 Associated CpGs in its promoter region.",
+            },
+            {
+                element:document.querySelector("#buttonPromotersSLC5A1"),
+                intro: "<a href='https://www.ncbi.nlm.nih.gov/gene/6523' target='_blank'>SLC5A1</a> encodes a member of the sodium-dependent glucose transporter (SGLT) family. The encoded integral membrane protein is the primary mediator of dietary glucose and galactose uptake from the intestinal lumen, and as it functions points out, it is mainly expressed in intestine. This gene has been <u>related with inflammatory bowel diseases</u> (<a href='https://www.ncbi.nlm.nih.gov/pubmed/23586523/' target='_blank'>Lee 2013</a>; <a href='https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5333596/' target='_blank'>Brzozowski et al. 2016</a>)."
+            },
+            {
+                element: document.querySelector("#enhancers-tab"),
+                intro: "<center><b>Enhancers</b></center><br>You can see in detail the information about all the enhancers with Associated CpGs of this SNP."
+            },
+            {
+                element: document.querySelector("#tLights-tab"),
+                intro: "<center><b>Traffic Lights</b></center><br>And also about genes regulated by Traffic Lights that are Associated CpGs."
+            },
+            {
+                intro: "<a href='https://www.ebi.ac.uk/gwas/variants/rs727563' target='_blank'>rs727563</a> allele frequencies are associated with methylation of several CpG dinucleotides. Although no functional link has previously been described between this SNP and inflammatory bowel disease, a subset of these CpGs are located in the promoter regions of different genes reported to have a role in the inflammatory processes. This analysis suggests an implication of this SNP in the regulation of gene expression in a handful of genes involved with inflammation, which could provide a functional explanation for the association discovered through the GWAS study.<br><br>Therefore <b>this database can be used to</b>:<br>1. Detect genes with expression values that might be directly influenced by a SNP (specially if the CpGs are known to correlated to the expression of this gene - <a href=https://bmcgenomics.biomedcentral.com/articles/10.1186/s12864-018-5387-1 target='_blank'> Traffic Light CpGs)</a><br>2. Detect putative functional links between sequence variants (SNPs) and phenotypes (if the SNP is known to be associated to a certain phenotype by means of GWAS studies)", 
+                tooltipClass:"step1Tour"
+            }
+        ],
+        showStepNumbers:false,
+        hideNext:true,
+        disableInteraction:false,
+        tooltipClass:true,
+        doneLabel:"Next →",
+        scrollTo:"tooltip"
+    };
+
+    intro.setOptions(options_before);
+
+        intro.setOptions(options_before);
+        intro.onbeforechange(function () {
+
+            if (intro._currentStep == "1") {
+                document.getElementById("id_SNPid").value = "rs727563";
+            }
+            if (intro._currentStep == "3") {
+                $('[href="#summary"]').tab('show');
+            }
+            if (intro._currentStep == "4") {
+            $('[href="#promoters"]').tab('show');
+            }
+            if (intro._currentStep == "6") {
+            $('[href="#promoters"]').tab('show');
+            }
+            if (intro._currentStep == "7") {
+                $('[href="#enhancers"]').tab('show');
+            }
+            if (intro._currentStep == "8") {
+                $('[href="#tLights"]').tab('show');
+                var divAll = document.getElementById("page-wrapper");
+                divAll.style.display="block";
+            }
+            if (intro._currentStep == "9") {
+                var divAll = document.getElementById("page-wrapper");
+                divAll.style.display="none";
+            }
+        }); 
+
+        intro.oncomplete(function() {
+            window.location.href = "{% url 'query' %}";
+        });
+        setTimeout(() => {intro.start(); }, 1000);
+</script>
+
+{% endblock %}
+
