@@ -2,12 +2,39 @@
 {% load staticfiles %}
 
 {% block css %}
-<link href="{% static 'css/customStyles/stylesQuery.css'%}" rel="stylesheet">
+    <link href="{% static 'css/customStyles/stylesQuery.css'%}" rel="stylesheet">
 {% endblock %}
 
 {% block content %}
 
+
+<link href="{% static 'tour/bootstrap-tour.min.css'%}" rel="stylesheet">
+<script src="{% static 'tour/bootstrap-tour.min.js'%}"></script>
+
+<script>
+    // Instance the tour
+    var tour = new Tour({
+    steps: [
+    {
+        element: "#test",
+        title: "Test",
+        placement: "bottom",
+        content: "Test",
+        orphan: true,
+        backdrop: true,
+    },
+    ]});
+
+    // Initialize the tour
+    tour.init();
+
+    // Start the tour
+    tour.start();
+</script>
+<!-- This script enables link to tabs-->
 <div class="menu-hide" id="menu-hide">
+
+    <div id="test">testing</div>
     <h1 class="titlePag"> QUERY DB</h1>
     <hr>
     <ul class="nav nav-tabs" id="tabsQuery" role="tablist">
@@ -120,113 +147,6 @@
     </div>
 </div>
 {% endblock %}
-
 {% block js %}
-<!-- This script enables link to tabs-->
-<script>
-
-    // Javascript to enable link to tab
-    var url = document.location.toString();
-    if (url.match('#')) {
-        $('.nav-tabs a[href="#' + url.split('#')[1] + '"]').tab('show');
-    }
-    
-    // Change hash for page-reload
-    $('.nav-tabs a').on('shown.bs.tab', function (e) {
-        window.location.hash = e.target.hash;
-    })
-
-    $(document).ready(function()
-    {
-        $("#loadpage").hide();
-        $('#divPageContent').css("visibility", "visible");
-    });
-  
-</script>
-
-<!-- This script charge the example on SNP tab -->
-<script>
-    $(document).ready(function(){
-
-        $('#loadExSNP').on('click', function(){
-            $('#SNPid').val("rs727563");
-            return false;
-        });
-
-        $('#loadExGene').on('click', function(){
-            $('#id_GeneId').val("CYTH4");
-            return false;
-        });
-
-        $('#loadExRegion').on('click', function(){
-            $('#chromStart').val("37282450");
-            $('#chromEnd').val("37282550");
-            document.getElementById('chrom').value='chr22_50818468';
-            // document.getElementById("chrom").setAttribute("value","chr1");
-            return false;
-        });
-
-       });
-</script>
-
-<script>
-    function changeChrom(e){
-        var chrom = document.getElementById("chrom").value;
-        var chromEnd = chrom.split("_")[1];
-        document.getElementById("chromEnd").setAttribute("max",chromEnd)
-    }
-</script>
-
-<script>
-    function checkformRegion()    {        
-        var myForm = document.formRegion;
-        if((myForm.chromEnd.value-myForm.chromStart.value)>10000){
-            var newEnd = parseInt(myForm.chromStart.value, 10) + 10000;
-            document.getElementById("errorsFormRegion").innerHTML = "Your query has more than the maximum of 10kb ("+(myForm.chromEnd.value-myForm.chromStart.value)+"pb), chromEnd has been changed to "+(newEnd);
-            myForm.chromEnd.value = newEnd
-            return false
-        }
-        else if (myForm.chromEnd.value<myForm.chromStart.value){
-            var newEnd = myForm.chromStart.value
-            myForm.chromStart.value = myForm.chromEnd.value
-            myForm.chromEnd.value = newEnd
-            document.getElementById("errorsFormRegion").innerHTML = "Your chromStart coordinate ("+myForm.chromStart.value+") is higher than the chromEnd coordinate ("+myForm.chromEnd.value+"), it has been interchanged, please submit again.";
-            return false
-        }
-        else{
-            ShowLoading();
-            $("div.menu-hide").hide();
-            return true
-        }
-        
-    }
-
-    function checkformSNP(){
-        var snpID = document.getElementById('SNPid').value;
-        var regex = new RegExp("rs[0-9]{1,15}");
-        var test = regex.test(snpID);
-        if (test == true) {
-            ShowLoading();
-            $("div.menu-hide").hide();
-            return true
-        }
-        else{
-            document.getElementById("errorsFormSNP").innerHTML="The provided ID is not a valid SNP ID, please try a new one";
-            return false
-        }
-    }
-
-    function checkformGene(){
-        ShowLoading();
-        $("div.menu-hide").hide();
-        return true
-    }
-
-    function checkformTrait(){
-        ShowLoading();
-        $("div.menu-hide").hide();
-        return true   
-    }
-</script>
-
 {% endblock %}
+
