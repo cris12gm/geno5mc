@@ -30,10 +30,12 @@ def plotRegion(inputID,associated):
     valuesPlot["Sample"] = []
     valuesPlot["Associated"] = []
 
+    numCpGs = 0
     for i in range(start,end):
         idElement = chrom+"_"+str(i)
         methylationCpG = getMethylation.getMethCpG(idElement)
         if methylationCpG:
+            numCpGs = numCpGs + 1
             inst = inspect(methylationCpG)
             attr_names = [c_attr.key for c_attr in inst.mapper.column_attrs]
             for att in attr_names:
@@ -53,7 +55,7 @@ def plotRegion(inputID,associated):
 
     fig = px.strip(df, 'CpG ID', 'methRatio', 'Associated', hover_data=["Sample"] )
 
-    fig.update_layout(width=1000, height=500,legend_orientation="h",xaxis_tickfont_size=14)
+    fig.update_layout(width=200*numCpGs, height=500,legend_orientation="h",xaxis_tickfont_size=14)
     fig.update_xaxes(title_text='')
     fig.update_yaxes(title_text='<b>Meth Ratio</b>')
     div_obj = plot(fig, show_link=False, auto_open=False, output_type = 'div')
