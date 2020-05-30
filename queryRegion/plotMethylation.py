@@ -57,7 +57,7 @@ def plotRegion(inputID,associated):
 
     fig.update_layout(width=200*numCpGs, height=500,legend_orientation="h",xaxis_tickfont_size=14)
     fig.update_xaxes(title_text='')
-    fig.update_yaxes(title_text='<b>Meth Ratio</b>')
+    fig.update_yaxes(title_text='<b>Meth Ratio</b>',range=[-0.1, 1.1])
     div_obj = plot(fig, show_link=False, auto_open=False, output_type = 'div')
 
     return div_obj
@@ -119,7 +119,7 @@ def plotRegionBySNP(inputID,associated,snpID):
 
     fig.update_layout(width=200*numCpGs, height=500,legend_orientation="h",xaxis_tickfont_size=14)
     fig.update_xaxes(title_text='')
-    fig.update_yaxes(title_text='<b>Meth Ratio</b>')
+    fig.update_yaxes(title_text='<b>Meth Ratio</b>',range=[-0.1, 1.1])
     div_obj = plot(fig, show_link=False, auto_open=False, output_type = 'div')
 
     return div_obj
