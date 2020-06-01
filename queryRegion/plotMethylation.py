@@ -53,9 +53,9 @@ def plotRegion(inputID,associated):
     
     df = pd.DataFrame(data=valuesPlot)
 
-    fig = px.strip(df, 'CpG ID', 'methRatio', 'Associated', hover_data=["Sample"] )
+    fig = px.strip(df, 'CpG ID', 'methRatio', 'Associated', hover_data=["Sample"],stripmode="overlay",width=200*numCpGs)
 
-    fig.update_layout(width=200*numCpGs, height=500,legend_orientation="h",xaxis_tickfont_size=14)
+    fig.update_layout(height=500,legend_orientation="h",xaxis_tickfont_size=14)
     fig.update_xaxes(title_text='')
     fig.update_yaxes(title_text='<b>Meth Ratio</b>',range=[-0.1, 1.1])
     div_obj = plot(fig, show_link=False, auto_open=False, output_type = 'div')
@@ -115,9 +115,9 @@ def plotRegionBySNP(inputID,associated,snpID):
     
     df = pd.DataFrame(data=valuesPlot)
 
-    fig = px.strip(df, 'CpG ID', 'methRatio', 'Genotype', hover_data=["Sample"],category_orders={"Genotype":[ref,het,alt]} )
+    fig = px.strip(df, 'CpG ID', 'methRatio', 'Genotype', hover_data=["Sample"],category_orders={"Genotype":[ref,het,alt]},width=200*numCpGs)
 
-    fig.update_layout(width=200*numCpGs, height=500,legend_orientation="h",xaxis_tickfont_size=14)
+    fig.update_layout(height=500,legend_orientation="h",xaxis_tickfont_size=14)
     fig.update_xaxes(title_text='')
     fig.update_yaxes(title_text='<b>Meth Ratio</b>',range=[-0.1, 1.1])
     div_obj = plot(fig, show_link=False, auto_open=False, output_type = 'div')
