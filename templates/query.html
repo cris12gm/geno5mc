@@ -27,7 +27,7 @@
     <div class="tab-content" id="myTabContent">
         <div class="tab-pane fade show active" id="snp" role="tabpanel" aria-labelledby="snp-tab">
             <div class="row">
-                <div class="column">
+                <div class="col-4">
                     <div class="card cardQuery">
                         <p class="card-header headerCardQuery" >Introduce a <b>SNP ID</b> to view its associations</p>
                         <p id="errorsFormSNP" class="text-danger text-center ml-2 mr-2 mt-2 font-weight-light"></p>
@@ -41,14 +41,18 @@
                         </form>
                     </div>
                 </div>
-                <div class=column>
-                    <!-- Imagen explicando busqueda por SNP -->
+                <div class="col-6 mt-2 mb-2 ml-2 mr-2">
+                    <div class="card">
+                        <div class="card-body">
+                            <img src="{% static 'images/querySNP.png'%}" class="img-fluid" alt="querySNP">
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
         <div class="tab-pane fade" id="gene" role="tabpanel" aria-labelledby="gene-tab">
             <div class="row">
-                <div class="column">
+                <div class="col-4">
                     <div class="card cardQuery">
                         <p class="card-header headerCardQuery">Introduce a <b>Gene ID</b> to view its associations</p>
                         <br>
@@ -64,14 +68,18 @@
                             </form>
                     </div>
                 </div>
-                <div class=column>
-                    <!-- Imagen explicando busqueda por Gen -->
-                </div>
+                <div class="col-6 mt-2 mb-2 mr-2 ml-2">
+                    <div class="card">
+                        <div class="card-body">
+                            <img src="{% static 'images/queryGene.png'%}" class="img-fluid">
+                        </div>
+                    </div>
+                </div>    
             </div>
         </div>
         <div class="tab-pane fade" id="trait" role="tabpanel" aria-labelledby="trait-tab">
             <div class="row">
-                <div class="col-lg-12">
+                <div class="col-lg-4">
                     <div class="card cardQuery cardTrait">
                         <p class="card-header headerCardQuery">Select a <b>trait</b> to view its associations</p>
                         <form action="{% url 'queryTrait' %}" method="post" onsubmit="return checkformTrait()" id="formTrait" class="formQuery">
@@ -84,12 +92,19 @@
                             <button type="submit" id='submitTrait' class="btn btn-success btn-sm submitTrait">Submit</button>
                         </form>  
                     </div>
-                </div>          
+                </div>    
+                <div class="col-6 mt-2 mb-2 mr-2 ml-2">
+                    <div class="card">
+                        <div class="card-body">
+                            <img src="{% static 'images/queryTrait.png'%}" class="img-fluid">
+                        </div>
+                    </div>
+                </div>      
             </div>
         </div>
         <div class="tab-pane fade" id="region" role="tabpanel" aria-labelledby="region-tab">
             <div class="row">
-                <div class="column">
+                <div class="col-4">
                     <div class="card cardQuery cardRegion">
                         <p class="card-header headerCardQuery">Introduce a <b>Genomic Region</b> to view its associations</p>
                         <p id="errorsFormRegion" class="text-danger text-center ml-2 mr-2 mt-2 font-weight-light"></p>
@@ -112,9 +127,13 @@
                         </form>
                     </div>
                 </div>
-                <div class=column>
-                    <!-- Imagen explicando busqueda por Gen -->
-                </div>
+                <div class="col-6 mt-2 mb-2 mr-2 ml-2">
+                    <div class="card">
+                        <div class="card-body">
+                            <img src="{% static 'images/queryRegion.png'%}" class="img-fluid">
+                        </div>
+                    </div>
+                </div> 
         </div>
     </div>
     </div>
