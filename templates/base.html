@@ -61,14 +61,79 @@
                     <span>Primary Data</span>
                 </a>
                 <a href="{% url 'query' %}tour" class="list-group-item list-group-item-action bg-light">
-                    <i class="fas fa-fw fa-file"></i>
+                    <i class="fas fa-fw fa-play-circle"></i>
                     <span>Tour</span>
                 </a>
-                <a href="{% url 'about' %}" class="list-group-item list-group-item-action bg-light">
+                <a href="" class="list-group-item list-group-item-action bg-light" data-toggle="modal" data-target="#modalAbout">
                     <i class="fas fa-fw fa-question"></i>
                     <span>About</span>
                 </a>
-            
+                <div class="modal fade" id="modalAbout" role="dialog">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                        <div class="modal-header">
+                          <h4 class="modal-title">
+                            About
+                          </h4>
+                        </div>
+                        <div class="modal-body">
+                            <p>geno<sup>5</sup>mC is a database and web-server to explore the associations between DNA methylation and the genotype. Using 58 publically available whole genome bisulfite sequencing datasets we determine sequence variation and methylation state at a single cytosine resolution by means of MethylExtract2. Statistically significant associations (FDR <= 0.05) are determined by means of a Fisher Exact test.</p>
+                            <p>Developed by the <a href="https://bioinfo2.ugr.es">Computational Epigenomics Group</a> at University of Granada</p>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
+                      </div>
+                      
+                    </div>
+                </div>
+                <a href="" class="list-group-item list-group-item-action bg-light" data-toggle="modal" data-target="#modalCite">
+                    <i class="fas fa-fw fa-file-signature"></i>
+                    <span>How to cite</span>
+                </a>
+                <div class="modal fade" id="modalCite" role="dialog">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                        <div class="modal-header">
+                          <h4 class="modal-title">
+                            <i class="fas fa-fw fa-file-signature"></i>
+                            How to cite
+                          </h4>
+                        </div>
+                        <div class="modal-body">
+                            <ul>
+                                <h5>If you use geno<sup>5</sup>mC please cite:</h5>
+                                <li>
+                                    geno<sup>5</sup>mC: a database to explore the association between genetic variation (SNPs) and CpG methylation in the human genome
+                                    <i>C. Gómez-Martín, E. Aparicio-Puerta, JM. Medina, Guillermo Barturen, JL. Oliver and M. Hackenberg </i>
+                                    <p><i>In preparation</i></p>
+                                    <p>Available at: <a href="https://arn.ugr.es/geno5mc">https://arn.ugr.es/geno5mc</a></p>                                
+                                </li>
+                                <h5>Please also consider citing:</h5>
+                                <li>
+                                    MethylExtract: High-Quality methylation maps and SNV calling from whole genome bisulfite sequencing data.
+                                    <i>
+                                        G. Barturen, A. Rueda, JL. Oliver and M.Hackenberg
+                                    </i>
+                                    F1000Research 2014, 2:217 (<a href="https://doi.org/10.12688/f1000research.2-217.v2">https://doi.org/10.12688/f1000research.2-217.v2</a>)
+                                </li>
+                                <li>
+                                    CpG traffic lights are markers of regulatory regions in human genome.
+                                    <i>
+                                        A. Lioznova, A. Khamis, A. Artemov, E. Besedina, V. Ramensky, VB. Bajic, IV. Kulakovskiy and YA. Medvedeva 
+                                    </i>
+                                    BMC Genomics 20, 102 (2019). (<a href="https://doi.org/10.1186/s12864-018-5387-1">https://doi.org/10.1186/s12864-018-5387-1</a>
+                                </li>
+                            </ul>
+                                
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
+                      </div>
+                      
+                    </div>
+                </div>
             </div>
             </div>
             <!-- /#sidebar-wrapper -->
