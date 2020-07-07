@@ -11,7 +11,6 @@
 
 <!-- This script enables link to tabs-->
 <div class="menu-hide" id="menu-hide">
-
     <h1 class="titlePag"> QUERY DB</h1>
     <hr>
     <ul class="nav nav-tabs" id="tabsQuery" role="tablist">
@@ -32,7 +31,7 @@
         <div class="tab-pane fade show active" id="snp" role="tabpanel" aria-labelledby="snp-tab">
             <div class="row">
                 <div class="col-lg-5">
-                    <div class="card cardQuery" id="cardSNP">
+                    <div class="card cardQuery">
                         <p class="card-header headerCardQuery" >Introduce a <b>SNP ID</b> to view its associations</p>
                         <p id="errorsFormSNP" class="text-danger text-center ml-2 mr-2 mt-2 font-weight-light"></p>
                         <form action="{% url 'querySNP' %}" method="POST"  id="formSNP" onsubmit="return checkformSNP();" class="formQuery">
@@ -40,8 +39,8 @@
                             <div class='form-group'">
                                 <input type="text" name="SNPid" maxlength="15" required id="SNPid">
                             </div>
-                            <button type="submit" id='submitSNP' class="btn btn-success btn-sm"  disabled="true">Submit</button>
-                            <button id="loadExSNP" class="btn btn-info btn-sm"  disabled="true">Load Example</button>
+                            <button type="submit" id='submitSNP' class="btn btn-success btn-sm" >Submit</button>
+                            <button id="loadExSNP" class="btn btn-info btn-sm">Load Example</button>
                         </form>
                     </div>
                 </div>
@@ -78,7 +77,7 @@
                             <img src="{% static 'images/queryGene.png'%}" class="img-fluid">
                         </div>
                     </div>
-                </div>  
+                </div>    
             </div>
         </div>
         <div class="tab-pane fade" id="trait" role="tabpanel" aria-labelledby="trait-tab">
@@ -202,5 +201,110 @@
         intro.start();
 </script>
 
+<script>
+
+    // Javascript to enable link to tab
+    var url = document.location.toString();
+    if (url.match('#')) {
+        $('.nav-tabs a[href="#' + url.split('#')[1] + '"]').tab('show');
+    }
+    
+    // Change hash for page-reload
+    $('.nav-tabs a').on('shown.bs.tab', function (e) {
+        window.location.hash = e.target.hash;
+    })
+
+    $(document).ready(function()
+    {
+        $("#loadpage").hide();
+        $('#divPageContent').css("visibility", "visible");
+    });
+  
+</script>
+
+<!-- This script charge the example on SNP tab -->
+<script>
+    $(document).ready(function(){
+
+        $('#loadExSNP').on('click', function(){
+            $('#SNPid').val("rs727563");
+            return false;
+        });
+
+        $('#loadExGene').on('click', function(){
+            $('#id_GeneId').val("CYTH4");
+            return false;
+        });
+
+        $('#loadExRegion').on('click', function(){
+            $('#chromStart').val("37282450");
+            $('#chromEnd').val("37282550");
+            document.getElementById('chrom').value='chr22_50818468';
+            // document.getElementById("chrom").setAttribute("value","chr1");
+            return false;
+        });
+
+       });
+</script>
+
+<script>
+    function changeChrom(e){
+        var chrom = document.getElementById("chrom").value;
+        var chromEnd = chrom.split("_")[1];
+        document.getElementById("chromEnd").setAttribute("max",chromEnd)
+    }
+</script>
+
+<script>
+    function checkformRegion()    {        
+        var myForm = document.formRegion;
+        if((myForm.chromEnd.value-myForm.chromStart.value)>10000){
+            var newEnd = parseInt(myForm.chromStart.value, 10) + 10000;
+            document.getElementById("errorsFormRegion").innerHTML = "Your query has more than the maximum of 10Kb ("+(myForm.chromEnd.value-myForm.chromStart.value)+"pb), chromEnd has been changed to "+(newEnd);
+            myForm.chromEnd.value = newEnd
+            return false
+        }
+        else if (myForm.chromEnd.value<myForm.chromStart.value){
+            var newEnd = myForm.chromStart.value
+            myForm.chromStart.value = myForm.chromEnd.value
+            myForm.chromEnd.value = newEnd
+            document.getElementById("errorsFormRegion").innerHTML = "Your chromStart coordinate ("+myForm.chromStart.value+") is higher than the chromEnd coordinate ("+myForm.chromEnd.value+"), it has been interchanged, please submit again.";
+            return false
+        }
+        else{
+            ShowLoading();
+            $("div.menu-hide").hide();
+            return true
+        }
+        
+    }
+
+    function checkformSNP(){
+        var snpID = document.getElementById('SNPid').value;
+        var regex = new RegExp("rs[0-9]{1,15}");
+        var test = regex.test(snpID);
+        if (test == true) {
+            ShowLoading();
+            $("div.menu-hide").hide();
+            return true
+        }
+        else{
+            document.getElementById("errorsFormSNP").innerHTML="The provided ID is not a valid SNP ID, please try a new one";
+            return false
+        }
+    }
+
+    function checkformGene(){
+        ShowLoading();
+        $("div.menu-hide").hide();
+        return true
+    }
+
+    function checkformTrait(){
+        ShowLoading();
+        $("div.menu-hide").hide();
+        return true   
+    }
+</script>
 {% endblock %}
 
