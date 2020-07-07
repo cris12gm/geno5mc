@@ -199,9 +199,9 @@
 <script>
     function checkformRegion()    {        
         var myForm = document.formRegion;
-        if((myForm.chromEnd.value-myForm.chromStart.value)>10000){
-            var newEnd = parseInt(myForm.chromStart.value, 10) + 10000;
-            document.getElementById("errorsFormRegion").innerHTML = "Your query has more than the maximum of 10kb ("+(myForm.chromEnd.value-myForm.chromStart.value)+"pb), chromEnd has been changed to "+(newEnd);
+        if((myForm.chromEnd.value-myForm.chromStart.value)>1000000){
+            var newEnd = parseInt(myForm.chromStart.value, 10) + 1000000;
+            document.getElementById("errorsFormRegion").innerHTML = "Your query has more than the maximum of 1Mb ("+(myForm.chromEnd.value-myForm.chromStart.value)+"pb), chromEnd has been changed to "+(newEnd);
             myForm.chromEnd.value = newEnd
             return false
         }
