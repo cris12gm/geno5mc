@@ -74,7 +74,7 @@ class RegionAssociated(TemplateView):
         snpsSelect = {}
         ###Check length
 
-        if length>1000000:
+        if length>10000:
             error = Errors.VERY_LONG
         elif int(chromEnd)<int(chromStart):
             error = Errors.START_END
