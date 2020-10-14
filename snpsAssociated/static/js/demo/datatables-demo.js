@@ -49,6 +49,9 @@ $(document).ready(function() {
   $('#dataTableSamples').DataTable({
     "order":[[3,"desc"]]
   });
+  $('#dataTableDumps').DataTable({
+    "order":[[1,"desc"]]
+  });
   $('#dataTableTopResults_Promoter').DataTable({
     "order":[[5,"desc"]]
   });
