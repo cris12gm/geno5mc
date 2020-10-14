@@ -16,6 +16,7 @@ urlpatterns = [
     url(r'^stats/', include ('stats.urls')),
     url(r'^primaryData/', include ('primaryData.urls')),
     url(r'^queryTrait/', include ('queryTrait.urls')),
+    url(r'^dumps/', include ('dumps.urls')),
     url(r'^query/', include ('query.urls')),
     url(r'^about/', include ('about.urls'))
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

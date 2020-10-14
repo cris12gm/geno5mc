@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block content %}
+<h1 class="titlePag">DOWNLOADS</h1>
+<hr>
+
+<div class="card mb-3">
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTableSamples" width="40%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>CHROMOSOME</th>
+                        <th>DUMP</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>chr1</td>
+                        <td><a href='/static/dumps/chr1.gz'> test</a></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>    
+    </div>
+</div>
+{% endblock %}
