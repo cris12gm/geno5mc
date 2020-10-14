@@ -23,7 +23,7 @@
                             {% for _ in range %}
                             <tr>
                                 <td><center>Chromosome {{ forloop.counter }}</center></td>
-                                <td><center><a href='/static/dumps/chr{{ forloop.counter }}.gz'><button class="btn btn-success btn-sm" >DOWNLOAD</button></a></center></td>
+                                <td><center><a href="{% static '/dumps/chr{{ forloop.counter }}.gz'%}"><button class="btn btn-success btn-sm" >DOWNLOAD</button></a></center></td>
                             </tr>
                             {% endfor %}
                         {% endwith %}
